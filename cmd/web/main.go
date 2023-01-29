@@ -53,5 +53,5 @@ func main() {
 	// init redis pubsub
 
 	// listen and serve server
-	println("yeah")
+	println("running")
 }
