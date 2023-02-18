@@ -3,10 +3,13 @@ package wamp
 import (
 	"net/http"
 	"sync"
+	"time"
 	auth "web_server/pkg/authentication"
+	"web_server/pkg/redis"
 
 	"github.com/gammazero/nexus/v3/client"
 	"github.com/gammazero/nexus/v3/router"
+	wampauth "github.com/gammazero/nexus/v3/router/auth"
 	"github.com/gammazero/nexus/v3/wamp"
 	log "github.com/sirupsen/logrus"
 )
@@ -27,15 +30,19 @@ var (
 	wmp      *Wamp
 )
 
-func InitWamp(cfg Config, authentication *auth.Authentication) (*Wamp, error) {
+func InitWamp(cfg Config, authentication *auth.Authentication, redisCli *redis.Client) (*Wamp, error) {
 	var errs error
 	onceWamp.Do(func() {
+		keystore := NewKeyStore(redisCli.Client)
+		authenticator := InitAuthenticator(keystore, 1*time.Second, authentication)
+
 		nxr, err := router.NewRouter(&router.Config{
 			RealmConfigs: []*router.RealmConfig{
 				{
 					URI:            wamp.URI(cfg.Realm),
 					AnonymousAuth:  true,
 					EnableMetaKill: true,
+					Authenticators: []wampauth.Authenticator{authenticator},
 				},
 			},
 		}, nil)

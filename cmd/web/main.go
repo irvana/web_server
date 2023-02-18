@@ -45,7 +45,7 @@ func main() {
 	}
 
 	// init wamp router
-	_, err = wamp.InitWamp(cfg.wampCfg, auth)
+	_, err = wamp.InitWamp(cfg.wampCfg, auth, redisCli)
 	if err != nil {
 		log.WithError(err).Panic("Error initiating websocket")
 	}
