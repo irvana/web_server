@@ -2,6 +2,8 @@ package main
 
 import (
 	"web_server/pkg/app"
+	"web_server/pkg/app/consumer"
+	"web_server/pkg/app/publisher"
 	"web_server/pkg/authentication"
 	commonlog "web_server/pkg/common/log"
 	"web_server/pkg/redis"
@@ -45,13 +47,24 @@ func main() {
 	}
 
 	// init wamp router
-	_, err = wamp.InitWamp(cfg.wampCfg, auth, redisCli)
+	wampWss, err := wamp.InitWamp(cfg.wampCfg, auth, redisCli)
 	if err != nil {
 		log.WithError(err).Panic("Error initiating websocket")
 	}
 
-	// init redis pubsub
+	initAndRunPublisher(wampWss, redisCli)
 
 	// listen and serve server
 	println("running")
+}
+
+func initAndRunPublisher(wampWss *wamp.Wamp, redis *redis.Client) {
+	ratesConsumer := consumer.InitRedisConsumer(redis.RatesPubSub, "rates")
+	ratesPublisher := publisher.InitPublisher(ratesConsumer, wampWss)
+	go ratesPublisher.Publish()
+
+	refConsumer := consumer.InitRedisConsumer(redis.MiscPubSub, "ref")
+	refPublisher := publisher.InitPublisher(refConsumer, wampWss)
+	go refPublisher.Publish()
+
 }

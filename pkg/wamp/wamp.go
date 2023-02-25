@@ -16,8 +16,8 @@ import (
 
 type (
 	Wamp struct {
-		wss    *router.WebsocketServer
-		client *client.Client
+		Wss    *router.WebsocketServer
+		Client *client.Client
 	}
 
 	Config struct {
