@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"web_server/pkg/app"
 	"web_server/pkg/app/consumer"
 	"web_server/pkg/app/publisher"
@@ -12,17 +13,24 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-var cfg MainConfig
+var cfg Config
 
-type MainConfig struct {
-	redis   redis.Config          `mapstructure:"redis"`
-	auth    authentication.Config `mapstructure:"authentication"`
-	wampCfg wamp.Config           `mapstructure:"wamp"`
+type Config struct {
+	Redis   redis.Config          `mapstructure:"redis"`
+	Auth    authentication.Config `mapstructure:"authentication"`
+	WampCfg wamp.Config           `mapstructure:"wamp"`
 }
 
 func init() {
-	v, _ := commonlog.InitConfig("configs", "config")
-	err := v.Unmarshal(&cfg)
+	configPath := flag.String("f", "configs", "config file path")
+	flag.Parse()
+
+	log.Info("initiating config file from", *configPath)
+	v, err := commonlog.InitConfig(*configPath, "config")
+	if err != nil {
+		log.WithError(err).Panic("Error unmarshal config file")
+	}
+	err = v.Unmarshal(&cfg)
 	if err != nil {
 		log.WithError(err).Panic("Error unmarshal config file")
 	}
@@ -31,7 +39,7 @@ func init() {
 func main() {
 	// init redis
 	log.Info("initializing redis client")
-	redisCli := redis.InitClient(cfg.redis)
+	redisCli := redis.InitClient(cfg.Redis)
 
 	// init data ref
 	log.Info("initializing reference data")
@@ -41,17 +49,20 @@ func main() {
 	}
 
 	// init auth for wamp
-	auth, err := authentication.InitAuthModule(cfg.auth, redisCli.Client)
+	log.Info("initializing authentication module data")
+	auth, err := authentication.InitAuthModule(cfg.Auth, redisCli.Client)
 	if err != nil {
 		log.WithError(err).Panic("Error initiating authentication module")
 	}
 
 	// init wamp router
-	wampWss, err := wamp.InitWamp(cfg.wampCfg, auth, redisCli)
+	log.Info("initializing WAMP router")
+	wampWss, err := wamp.InitWamp(cfg.WampCfg, auth, redisCli)
 	if err != nil {
 		log.WithError(err).Panic("Error initiating websocket")
 	}
 
+	log.Info("starting rates & ref publisher")
 	initAndRunPublisher(wampWss, redisCli)
 
 	// listen and serve server

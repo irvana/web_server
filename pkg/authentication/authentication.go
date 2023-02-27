@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"github.com/go-redis/redis"
-
 	jwt "github.com/golang-jwt/jwt/v4"
 	log "github.com/sirupsen/logrus"
 )

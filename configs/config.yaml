@@ -1,0 +1,20 @@
+authentication:
+  signMethod: "RS256"
+  param: "param"
+  secret: "mysecret"
+  privPath: "../../configs/jwt.key"
+  pubPath: "../../configs/jwt.key.pub"
+  authExp: 24h
+  refExp: 168h
+  fxIssuer: "sinarmas_fx"
+  refPref: "REFRESH-%v"
+  authPref: "AUTH-%v"
+  isPersistent: true
+
+wamp:
+  realm: "sinamas.realm"
+  protocol: "tcp"
+  address: "127.0.0.1:8092"
+  reftopic: "REF"
+  ratetopic: "RATE"
+  enablemetakill: false
