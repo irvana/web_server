@@ -56,7 +56,7 @@ func main() {
 		log.WithError(err).Panic("Error collecting REF data")
 	}
 
-	// init auth for wamp
+	// init auth module
 	log.Info("initializing authentication module data")
 	auth, err := authentication.InitAuthModule(cfg.Auth, redisCli.Client)
 	if err != nil {
@@ -71,7 +71,7 @@ func main() {
 	}
 
 	log.Info("starting rates & ref publisher")
-	initAndRunPublisher(wampWss, redisCli)
+	initAndRunPublishers(wampWss, redisCli)
 
 	router := handler.SetupHandlers(cfg.Server, wampWss.Wss)
 
@@ -103,7 +103,7 @@ func main() {
 	log.Println("Server exiting")
 }
 
-func initAndRunPublisher(wampWss *wamp.Wamp, redis *redis.Client) {
+func initAndRunPublishers(wampWss *wamp.Wamp, redis *redis.Client) {
 	ratesConsumer := consumer.InitRedisConsumer(redis.RatesPubSub, "rates")
 	ratesPublisher := publisher.InitPublisher(ratesConsumer, wampWss)
 	go ratesPublisher.Publish()
