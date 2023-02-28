@@ -1,9 +1,16 @@
 package main
 
 import (
+	"context"
 	"flag"
+	"fmt"
+	"net/http"
+	"os/signal"
+	"syscall"
+	"time"
 	"web_server/pkg/app"
 	"web_server/pkg/app/consumer"
+	"web_server/pkg/app/handler"
 	"web_server/pkg/app/publisher"
 	"web_server/pkg/authentication"
 	commonlog "web_server/pkg/common/log"
@@ -19,6 +26,7 @@ type Config struct {
 	Redis   redis.Config          `mapstructure:"redis"`
 	Auth    authentication.Config `mapstructure:"authentication"`
 	WampCfg wamp.Config           `mapstructure:"wamp"`
+	Server  handler.Config        `mapstructure:"server"`
 }
 
 func init() {
@@ -65,8 +73,34 @@ func main() {
 	log.Info("starting rates & ref publisher")
 	initAndRunPublisher(wampWss, redisCli)
 
-	// listen and serve server
-	println("running")
+	router := handler.SetupHandlers(cfg.Server, wampWss.Wss)
+
+	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer stop()
+
+	srv := &http.Server{
+		Addr:    fmt.Sprintf("%s:%d", cfg.Server.Address, cfg.Server.Port),
+		Handler: router,
+	}
+
+	go func() {
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("listen: %s\n", err)
+		}
+	}()
+
+	<-ctx.Done()
+
+	stop()
+	log.Println("shutting down gracefully, press Ctrl+C again to force")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err := srv.Shutdown(ctx); err != nil {
+		log.Fatal("Server forced to shutdown: ", err)
+	}
+
+	log.Println("Server exiting")
 }
 
 func initAndRunPublisher(wampWss *wamp.Wamp, redis *redis.Client) {

@@ -14,7 +14,10 @@ authentication:
 wamp:
   realm: "sinamas.realm"
   protocol: "tcp"
-  address: "127.0.0.1:8092"
   reftopic: "REF"
   ratetopic: "RATE"
   enablemetakill: false
+
+server:
+  address: "127.0.0.1"
+  port: 8092
