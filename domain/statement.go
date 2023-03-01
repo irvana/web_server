@@ -1,5 +1,7 @@
 package domain
 
+import "context"
+
 type StatementResponse []StatementDetails
 
 type StatementDetails struct {
@@ -15,5 +17,11 @@ type StatementDetails struct {
 	Rate      string `json:"rate"`
 	DebitAcc  string `json:"debitAcc"`
 	CreditAcc string `json:"creditAcc"`
-	X         *int64 `json:"x,omitempty"`
+}
+
+type StatementUsecase interface {
+	List(ctx context.Context, req BaseRequest) (StatementResponse, error)
+}
+type StatementRepository interface {
+	List(ctx context.Context, req BaseRequest) (StatementResponse, error)
 }

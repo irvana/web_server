@@ -1,5 +1,7 @@
 package domain
 
+import "context"
+
 type OrderResponse struct {
 	Cif         string `json:"cif"`
 	Pair        string `json:"pair"`
@@ -20,4 +22,19 @@ type OrderResponse struct {
 	Instrument  string `json:"instrument,omitempty"`
 	Status      string `json:"status,omitempty"`
 	Reason      string `json:"reason,omitempty"`
+}
+
+type OrderUsecase interface {
+	GetStatus(ctx context.Context, req BaseRequest) (OrderResponse, error)
+	Cancel(ctx context.Context, req BaseRequest) (OrderResponse, error)
+	Amend(ctx context.Context, req BaseRequest) (OrderResponse, error)
+	GetDetail(ctx context.Context, req BaseRequest) (OrderResponse, error)
+	Create(ctx context.Context, req BaseRequest) (OrderResponse, error)
+}
+type OrderRepository interface {
+	GetStatus(ctx context.Context, req BaseRequest) (OrderResponse, error)
+	Cancel(ctx context.Context, req BaseRequest) (OrderResponse, error)
+	Amend(ctx context.Context, req BaseRequest) (OrderResponse, error)
+	GetDetail(ctx context.Context, req BaseRequest) (OrderResponse, error)
+	Create(ctx context.Context, req BaseRequest) (OrderResponse, error)
 }

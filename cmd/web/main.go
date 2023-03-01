@@ -8,25 +8,30 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
-	"web_server/pkg/app"
-	"web_server/pkg/app/consumer"
-	"web_server/pkg/app/handler"
-	"web_server/pkg/app/publisher"
+	"web_server/app/consumer"
+	"web_server/app/handler"
+	"web_server/app/onboarding/handler"
+	"web_server/app/onboarding/repository/legacy"
+	"web_server/app/onboarding/usecase"
+	"web_server/app/publisher"
 	"web_server/pkg/authentication"
-	commonlog "web_server/pkg/common/log"
+	"web_server/pkg/client"
+	commonlog "web_server/pkg/log"
 	"web_server/pkg/redis"
 	"web_server/pkg/wamp"
 
+	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 )
 
 var cfg Config
 
 type Config struct {
-	Redis   redis.Config          `mapstructure:"redis"`
-	Auth    authentication.Config `mapstructure:"authentication"`
-	WampCfg wamp.Config           `mapstructure:"wamp"`
-	Server  handler.Config        `mapstructure:"server"`
+	Redis      redis.Config          `mapstructure:"redis"`
+	Auth       authentication.Config `mapstructure:"authentication"`
+	WampCfg    wamp.Config           `mapstructure:"wamp"`
+	Server     handler.Config        `mapstructure:"server"`
+	HttpClient client.Config         `mapstructure:"client"`
 }
 
 func init() {
@@ -49,12 +54,12 @@ func main() {
 	log.Info("initializing redis client")
 	redisCli := redis.InitClient(cfg.Redis)
 
-	// init data ref
-	log.Info("initializing reference data")
-	_, err := app.InitReference(redisCli)
-	if err != nil {
-		log.WithError(err).Panic("Error collecting REF data")
-	}
+	// // init data ref
+	// log.Info("initializing reference data")
+	// _, err := app.InitReference(redisCli)
+	// if err != nil {
+	// 	log.WithError(err).Panic("Error collecting REF data")
+	// }
 
 	// init auth module
 	log.Info("initializing authentication module data")
@@ -70,17 +75,24 @@ func main() {
 		log.WithError(err).Panic("Error initiating websocket")
 	}
 
-	log.Info("starting rates & ref publisher")
-	initAndRunPublishers(wampWss, redisCli)
+	httpClient := client.InitHttpClient(cfg.HttpClient)
+	gin := gin.Default()
 
-	router := handler.SetupHandlers(cfg.Server, wampWss.Wss)
+	obRepository := legacy.NewOnboardingRepository(httpClient.Client)
+	obUsecase := usecase.NewOnboardingUsecase(obRepository)
+	handler.NewOnboardingHandler(obUsecase, gin)
+
+	// log.Info("starting rates & ref publisher")
+	// initAndRunPublishers(wampWss, redisCli)
+
+	// router := handler.SetupHandlers(cfg.Server, wampWss.Wss)
 
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
 	srv := &http.Server{
 		Addr:    fmt.Sprintf("%s:%d", cfg.Server.Address, cfg.Server.Port),
-		Handler: router,
+		Handler: gin,
 	}
 
 	go func() {

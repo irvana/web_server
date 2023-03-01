@@ -1,5 +1,7 @@
 package domain
 
+import "context"
+
 type TransactionResponse struct {
 	Cif        string `json:"cif"`
 	TicketID   string `json:"ticketId"`
@@ -19,4 +21,12 @@ type TransactionResponse struct {
 	DealStatus string `json:"dealStatus"`
 	Status     string `json:"status,omitempty"`
 	Reason     string `json:"reason,omitempty"`
+}
+type TransactionUsecase interface {
+	GetDetail(ctx context.Context, req BaseRequest) (TransactionResponse, error)
+	Deal(ctx context.Context, req BaseRequest) (TransactionResponse, error)
+}
+type TransactionRepository interface {
+	GetDetail(ctx context.Context, req BaseRequest) (TransactionResponse, error)
+	Deal(ctx context.Context, req BaseRequest) (TransactionResponse, error)
 }
