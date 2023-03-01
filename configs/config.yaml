@@ -2,8 +2,8 @@ authentication:
   signMethod: "RS256"
   param: "param"
   secret: "mysecret"
-  privPath: "../../configs/jwt.key"
-  pubPath: "../../configs/jwt.key.pub"
+  privPath: "configs/jwt.key"
+  pubPath: "configs/jwt.key.pub"
   authExp: 24h
   refExp: 168h
   fxIssuer: "sinarmas_fx"

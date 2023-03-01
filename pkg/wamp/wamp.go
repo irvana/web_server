@@ -21,7 +21,8 @@ type (
 	}
 
 	Config struct {
-		Realm string
+		Realm string `mapstructure:"realm"`
+		Path  string `mapstructure:"path"`
 	}
 )
 

@@ -6,7 +6,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"time"
 
 	"github.com/go-redis/redis"
@@ -53,7 +53,7 @@ type (
 var Jwt *Authentication
 
 func InitAuthModule(cfg Config, redisCli *redis.Client) (*Authentication, error) {
-	priv, err := ioutil.ReadFile(cfg.PrivKeyPath)
+	priv, err := os.ReadFile(cfg.PrivKeyPath)
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +63,7 @@ func InitAuthModule(cfg Config, redisCli *redis.Client) (*Authentication, error)
 		return nil, err
 	}
 
-	pub, err := ioutil.ReadFile(cfg.PubKeyPath)
+	pub, err := os.ReadFile(cfg.PubKeyPath)
 	if err != nil {
 		return nil, err
 	}
@@ -75,6 +75,150 @@ func InitAuthModule(cfg Config, redisCli *redis.Client) (*Authentication, error)
 
 	Jwt = &Authentication{SignKey: SignKey, VerifyKey: VerifyKey, cfg: cfg, redisCli: redisCli}
 	return Jwt, nil
+}
+
+// GenerateNewTokens generate new tokens for user
+func (j *Authentication) GenerateNewTokens(uuid string) (*AuthDetails, error) {
+	csrf, err := j.generateRandomString()
+	if err != nil {
+		log.WithError(err).Error("Error Generate CSRF")
+		return nil, err
+	}
+	accessToken, err := j.generateAuthToken(uuid, csrf)
+	if err != nil {
+		log.WithError(err).Error("Error Generate Access Token")
+		return nil, err
+	}
+
+	refToken, err := j.generateRefreshToken(uuid, csrf)
+	if err != nil {
+		log.WithError(err).Error("Error Generate Access Token")
+		return nil, err
+	}
+
+	return &AuthDetails{
+		AuthToken:    accessToken,
+		CSRF:         csrf,
+		RefreshToken: refToken,
+	}, nil
+
+}
+
+// CheckAndRefreshTokens will be called by auth handler
+func (j *Authentication) CheckAndRefreshTokens(oldAuthTokenString string, oldRefreshTokenString string, oldCsrfSecret string) (newAuthTokenString, newRefreshTokenString, newCsrfSecret string, err error) {
+	if oldCsrfSecret == "" {
+		err = errors.New("Unauthorized")
+		log.WithError(err).Error("No CSRF token!")
+		return
+	}
+	// now, check that it matches what's in the auth token claims
+	authToken, err := jwt.ParseWithClaims(oldAuthTokenString, &JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return j.VerifyKey, nil
+	})
+	authTokenClaims, ok := authToken.Claims.(*JWTClaims)
+	if !ok {
+		return
+	}
+	if oldCsrfSecret != authTokenClaims.Csrf {
+		err = errors.New("Unauthorized")
+		log.WithError(err).Error("CSRF token doesn't match jwt!")
+		return
+	}
+
+	if authToken.Valid {
+		log.Info("Auth token is valid")
+		newCsrfSecret = authTokenClaims.Csrf
+		newRefreshTokenString, err = j.updateRefreshTokenExp(oldRefreshTokenString)
+		newAuthTokenString = oldAuthTokenString
+		return
+	} else if ve, ok := err.(*jwt.ValidationError); ok {
+		log.Info("Auth token is not valid")
+		if ve.Errors&(jwt.ValidationErrorExpired) != 0 {
+			log.Error("Auth token is expired")
+			// auth token is expired
+			newAuthTokenString, newCsrfSecret, err = j.updateAuthTokenString(oldRefreshTokenString, oldAuthTokenString)
+			if err != nil {
+				return
+			}
+
+			// update the exp of refresh token string
+			newRefreshTokenString, err = j.updateRefreshTokenExp(oldRefreshTokenString)
+			if err != nil {
+				return
+			}
+
+			// update the csrf string of the refresh token
+			newRefreshTokenString, err = j.updateRefreshTokenCsrf(newRefreshTokenString, newCsrfSecret)
+			return
+		}
+		err = fmt.Errorf("%w Error in auth token", err)
+		log.WithError(err)
+		return
+	}
+	err = fmt.Errorf("%w Unauthorized", err)
+	log.WithError(err)
+	return
+}
+
+// RevokeRefreshToken revoking refresh token
+func (j *Authentication) RevokeRefreshToken(refreshTokenString string) error {
+	refreshToken, err := jwt.ParseWithClaims(refreshTokenString, &JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return j.VerifyKey, nil
+	})
+	if err != nil {
+		return fmt.Errorf("%w Could not parse refresh token with claims", err)
+	}
+
+	refreshTokenClaims, ok := refreshToken.Claims.(*JWTClaims)
+	if !ok {
+		return fmt.Errorf("%w Could not read refresh token claims", err)
+	}
+
+	i := j.redisCli.Del(fmt.Sprintf(j.cfg.RefPrefix, refreshTokenClaims.RegisteredClaims.ID))
+	if i.Err() != nil {
+		return i.Err()
+	}
+
+	return nil
+}
+
+// CheckSimpleAuthToken will checking auth token only without affecting the refresh token
+func (j *Authentication) CheckSimpleAuthToken(oldAuthTokenString string, oldCsrfSecret string) (newAuthTokenString, newCsrfSecret string, err error) {
+	if oldCsrfSecret == "" || oldAuthTokenString == "" {
+		err = errors.New("Unauthorized")
+		log.WithError(err).Error("No CSRF or auth token!")
+		return
+	}
+	// now, check that it matches what's in the auth token claims
+	authToken, err := jwt.ParseWithClaims(oldAuthTokenString, &JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return j.VerifyKey, nil
+	})
+	authTokenClaims, ok := authToken.Claims.(*JWTClaims)
+	if !ok {
+		return
+	}
+	if oldCsrfSecret != authTokenClaims.Csrf {
+		log.WithError(err).Error("CSRF token doesn't match jwt!")
+		err = errors.New("Unauthorized")
+		return
+	}
+
+	if authToken.Valid {
+		log.Info("Auth token is valid")
+		newCsrfSecret = authTokenClaims.Csrf
+
+		newAuthTokenString = oldAuthTokenString
+		return
+	} else if ve, ok := err.(*jwt.ValidationError); ok {
+		log.Error("Auth token is not valid")
+		if ve.Errors&(jwt.ValidationErrorExpired) != 0 {
+			log.Error("Auth token is expired")
+			return
+		}
+	}
+	err = fmt.Errorf("%w Error in auth token", err)
+	log.WithError(err)
+	return
 }
 
 // generateAuthToken generate JWT for respective configuration
@@ -238,149 +382,5 @@ func (j *Authentication) updateRefreshTokenCsrf(oldRefreshTokenString string, ne
 
 	// generate the refresh token string
 	newRefreshTokenString, err = refreshJwt.SignedString(j.SignKey)
-	return
-}
-
-// GenerateNewTokens generate new tokens for user
-func (j *Authentication) GenerateNewTokens(uuid string) (*AuthDetails, error) {
-	csrf, err := j.generateRandomString()
-	if err != nil {
-		log.WithError(err).Error("Error Generate CSRF")
-		return nil, err
-	}
-	accessToken, err := j.generateAuthToken(uuid, csrf)
-	if err != nil {
-		log.WithError(err).Error("Error Generate Access Token")
-		return nil, err
-	}
-
-	refToken, err := j.generateRefreshToken(uuid, csrf)
-	if err != nil {
-		log.WithError(err).Error("Error Generate Access Token")
-		return nil, err
-	}
-
-	return &AuthDetails{
-		AuthToken:    accessToken,
-		CSRF:         csrf,
-		RefreshToken: refToken,
-	}, nil
-
-}
-
-// CheckAndRefreshTokens will be called by auth handler
-func (j *Authentication) CheckAndRefreshTokens(oldAuthTokenString string, oldRefreshTokenString string, oldCsrfSecret string) (newAuthTokenString, newRefreshTokenString, newCsrfSecret string, err error) {
-	if oldCsrfSecret == "" {
-		err = errors.New("Unauthorized")
-		log.WithError(err).Error("No CSRF token!")
-		return
-	}
-	// now, check that it matches what's in the auth token claims
-	authToken, err := jwt.ParseWithClaims(oldAuthTokenString, &JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return j.VerifyKey, nil
-	})
-	authTokenClaims, ok := authToken.Claims.(*JWTClaims)
-	if !ok {
-		return
-	}
-	if oldCsrfSecret != authTokenClaims.Csrf {
-		err = errors.New("Unauthorized")
-		log.WithError(err).Error("CSRF token doesn't match jwt!")
-		return
-	}
-
-	if authToken.Valid {
-		log.Info("Auth token is valid")
-		newCsrfSecret = authTokenClaims.Csrf
-		newRefreshTokenString, err = j.updateRefreshTokenExp(oldRefreshTokenString)
-		newAuthTokenString = oldAuthTokenString
-		return
-	} else if ve, ok := err.(*jwt.ValidationError); ok {
-		log.Info("Auth token is not valid")
-		if ve.Errors&(jwt.ValidationErrorExpired) != 0 {
-			log.Error("Auth token is expired")
-			// auth token is expired
-			newAuthTokenString, newCsrfSecret, err = j.updateAuthTokenString(oldRefreshTokenString, oldAuthTokenString)
-			if err != nil {
-				return
-			}
-
-			// update the exp of refresh token string
-			newRefreshTokenString, err = j.updateRefreshTokenExp(oldRefreshTokenString)
-			if err != nil {
-				return
-			}
-
-			// update the csrf string of the refresh token
-			newRefreshTokenString, err = j.updateRefreshTokenCsrf(newRefreshTokenString, newCsrfSecret)
-			return
-		}
-		err = fmt.Errorf("%w Error in auth token", err)
-		log.WithError(err)
-		return
-	}
-	err = fmt.Errorf("%w Unauthorized", err)
-	log.WithError(err)
-	return
-}
-
-// RevokeRefreshToken revoking refresh token
-func (j *Authentication) RevokeRefreshToken(refreshTokenString string) error {
-	refreshToken, err := jwt.ParseWithClaims(refreshTokenString, &JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return j.VerifyKey, nil
-	})
-	if err != nil {
-		return fmt.Errorf("%w Could not parse refresh token with claims", err)
-	}
-
-	refreshTokenClaims, ok := refreshToken.Claims.(*JWTClaims)
-	if !ok {
-		return fmt.Errorf("%w Could not read refresh token claims", err)
-	}
-
-	i := j.redisCli.Del(fmt.Sprintf(j.cfg.RefPrefix, refreshTokenClaims.RegisteredClaims.ID))
-	if i.Err() != nil {
-		return i.Err()
-	}
-
-	return nil
-}
-
-// CheckSimpleAuthToken will checking auth token only without affecting the refresh token
-func (j *Authentication) CheckSimpleAuthToken(oldAuthTokenString string, oldCsrfSecret string) (newAuthTokenString, newCsrfSecret string, err error) {
-	if oldCsrfSecret == "" || oldAuthTokenString == "" {
-		err = errors.New("Unauthorized")
-		log.WithError(err).Error("No CSRF or auth token!")
-		return
-	}
-	// now, check that it matches what's in the auth token claims
-	authToken, err := jwt.ParseWithClaims(oldAuthTokenString, &JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return j.VerifyKey, nil
-	})
-	authTokenClaims, ok := authToken.Claims.(*JWTClaims)
-	if !ok {
-		return
-	}
-	if oldCsrfSecret != authTokenClaims.Csrf {
-		log.WithError(err).Error("CSRF token doesn't match jwt!")
-		err = errors.New("Unauthorized")
-		return
-	}
-
-	if authToken.Valid {
-		log.Info("Auth token is valid")
-		newCsrfSecret = authTokenClaims.Csrf
-
-		newAuthTokenString = oldAuthTokenString
-		return
-	} else if ve, ok := err.(*jwt.ValidationError); ok {
-		log.Error("Auth token is not valid")
-		if ve.Errors&(jwt.ValidationErrorExpired) != 0 {
-			log.Error("Auth token is expired")
-			return
-		}
-	}
-	err = fmt.Errorf("%w Error in auth token", err)
-	log.WithError(err)
 	return
 }

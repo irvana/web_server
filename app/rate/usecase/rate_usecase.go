@@ -3,6 +3,8 @@ package usecase
 import (
 	"context"
 	"web_server/domain"
+
+	"github.com/sirupsen/logrus"
 )
 
 type rateUsecase struct {
@@ -14,7 +16,8 @@ func NewRateUsecase(rateRepo domain.RateRepository) domain.RateUsecase {
 }
 
 // PublishRate implements domain.RateUsecase
-func (r *rateUsecase) PublishRate(ctx context.Context) {
+func (r *rateUsecase) ProcessBackgroundRate(ctx context.Context) {
+	logrus.WithField("foo", ctx.Value("foo")).Info("running rate publisher")
 	for {
 		resp, err := r.rateRepo.ConsumeRate(ctx)
 		if err != nil {
@@ -24,4 +27,9 @@ func (r *rateUsecase) PublishRate(ctx context.Context) {
 		r.rateRepo.PublishRate(ctx, resp)
 	}
 
+}
+
+// PublishReference implements domain.RateUsecase
+func (*rateUsecase) ProcessBackgroundRef(ctx context.Context) {
+	panic("unimplemented")
 }

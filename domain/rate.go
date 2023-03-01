@@ -6,7 +6,8 @@ type RateResponse struct {
 }
 
 type RateUsecase interface {
-	PublishRate(ctx context.Context)
+	ProcessBackgroundRate(ctx context.Context)
+	ProcessBackgroundRef(ctx context.Context)
 }
 
 type RateRepository interface {
