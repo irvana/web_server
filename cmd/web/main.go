@@ -41,6 +41,7 @@ func init() {
 
 	log.Info("initiating config file from", *configPath)
 	v, err := commonlog.InitConfig(*configPath, "config")
+	// TODO separate log & config
 	if err != nil {
 		log.WithError(err).Panic("Error unmarshal config file")
 	}
@@ -74,6 +75,7 @@ func main() {
 
 	log.Info("attaching websocket server to webserver router")
 	router := gin.New()
+	router.Use(gin.LoggerWithWriter(log.StandardLogger().Writer())) // TODO fixing this
 	router.GET(cfg.WampCfg.Path, func(ctx *gin.Context) {
 		wampWss.Wss.ServeHTTP(ctx.Writer, ctx.Request)
 	})

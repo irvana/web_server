@@ -46,7 +46,7 @@ func InitWamp(cfg Config, authentication *auth.Authentication, redisCli *redis.C
 					Authenticators: []wampauth.Authenticator{authenticator},
 				},
 			},
-		}, nil)
+		}, log.StandardLogger())
 		if err != nil {
 			log.WithError(err).Errorln("Error initiating router")
 			wmp, errs = nil, err
