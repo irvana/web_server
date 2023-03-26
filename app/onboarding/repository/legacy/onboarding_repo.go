@@ -57,7 +57,7 @@ func (o *onboardingLegacyRepo) AtmOTP(ctx context.Context, req *domain.BaseReque
 		return nil, err
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, ATM_OTP, bytes.NewBuffer(body))
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, o.baseURL+ATM_OTP, bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
 	}
@@ -89,7 +89,7 @@ func (o *onboardingLegacyRepo) AtmPIN(ctx context.Context, req *domain.BaseReque
 		return nil, err
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, ATM_PIN, bytes.NewBuffer(body))
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, o.baseURL+ATM_PIN, bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
 	}
@@ -121,7 +121,7 @@ func (o *onboardingLegacyRepo) AtmRegister(ctx context.Context, req *domain.Base
 		return nil, err
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, ATM_REGISTER, bytes.NewBuffer(body))
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, o.baseURL+ATM_REGISTER, bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
 	}
@@ -153,7 +153,7 @@ func (o *onboardingLegacyRepo) FreshOTP(ctx context.Context, req *domain.BaseReq
 		return nil, err
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, FRESH_OTP, bytes.NewBuffer(body))
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, o.baseURL+FRESH_OTP, bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
 	}
@@ -185,7 +185,7 @@ func (o *onboardingLegacyRepo) FreshPassword(ctx context.Context, req *domain.Ba
 		return nil, err
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, FRESH_PASSWORD, bytes.NewBuffer(body))
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, o.baseURL+FRESH_PASSWORD, bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
 	}
@@ -217,7 +217,7 @@ func (o *onboardingLegacyRepo) FreshVerifyPhone(ctx context.Context, req *domain
 		return nil, err
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, FRESH_VERIFY_PHONE, bytes.NewBuffer(body))
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, o.baseURL+FRESH_VERIFY_PHONE, bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
 	}
@@ -249,7 +249,7 @@ func (o *onboardingLegacyRepo) LoginVerifyPassword(ctx context.Context, req *dom
 		return nil, err
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, LOGIN_VERIFY_PASSWORD, bytes.NewBuffer(body))
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, o.baseURL+LOGIN_VERIFY_PASSWORD, bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
 	}
@@ -281,7 +281,7 @@ func (o *onboardingLegacyRepo) NoAtmEmail(ctx context.Context, req *domain.BaseR
 		return nil, err
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, NO_ATM_EMAIL, bytes.NewBuffer(body))
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, o.baseURL+NO_ATM_EMAIL, bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
 	}
@@ -313,7 +313,7 @@ func (o *onboardingLegacyRepo) NoAtmOTP(ctx context.Context, req *domain.BaseReq
 		return nil, err
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, NO_ATM_OTP, bytes.NewBuffer(body))
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, o.baseURL+NO_ATM_OTP, bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
 	}
@@ -345,7 +345,7 @@ func (o *onboardingLegacyRepo) NoAtmRegister(ctx context.Context, req *domain.Ba
 		return nil, err
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, NO_ATM_REGISTER, bytes.NewBuffer(body))
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, o.baseURL+NO_ATM_REGISTER, bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
 	}
@@ -377,7 +377,7 @@ func (o *onboardingLegacyRepo) NoAtmVerifyUser(ctx context.Context, req *domain.
 		return nil, err
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, NO_ATM_VERIFY_USER, bytes.NewBuffer(body))
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, o.baseURL+NO_ATM_VERIFY_USER, bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
 	}
@@ -409,7 +409,7 @@ func (o *onboardingLegacyRepo) ResetOTP(ctx context.Context, req *domain.BaseReq
 		return nil, err
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, RESET_OTP, bytes.NewBuffer(body))
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, o.baseURL+RESET_OTP, bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
 	}
@@ -441,7 +441,7 @@ func (o *onboardingLegacyRepo) ResetPassword(ctx context.Context, req *domain.Ba
 		return nil, err
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, RESET_PASSWORD, bytes.NewBuffer(body))
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, o.baseURL+RESET_PASSWORD, bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
 	}
@@ -473,7 +473,7 @@ func (o *onboardingLegacyRepo) ResetVerifyPhone(ctx context.Context, req *domain
 		return nil, err
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, RESET_VERIFY_PHONE, bytes.NewBuffer(body))
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, o.baseURL+RESET_VERIFY_PHONE, bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
 	}
@@ -505,7 +505,7 @@ func (o *onboardingLegacyRepo) SimobyOTP(ctx context.Context, req *domain.BaseRe
 		return nil, err
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, SIMOBI_OTP, bytes.NewBuffer(body))
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, o.baseURL+SIMOBI_OTP, bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
 	}
@@ -537,7 +537,7 @@ func (o *onboardingLegacyRepo) SimobyRegister(ctx context.Context, req *domain.B
 		return nil, err
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, SIMOBI_REGISTER, bytes.NewBuffer(body))
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, o.baseURL+SIMOBI_REGISTER, bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
 	}
@@ -569,7 +569,7 @@ func (o *onboardingLegacyRepo) SimobyVerifyPhone(ctx context.Context, req *domai
 		return nil, err
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, SIMOBI_VERIFY_PHONE, bytes.NewBuffer(body))
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, o.baseURL+SIMOBI_VERIFY_PHONE, bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
 	}
@@ -601,7 +601,7 @@ func (o *onboardingLegacyRepo) SimobyVerifyUser(ctx context.Context, req *domain
 		return nil, err
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, SIMOBI_VERIFY_USER, bytes.NewBuffer(body))
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, o.baseURL+SIMOBI_VERIFY_USER, bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
 	}
