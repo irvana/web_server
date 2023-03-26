@@ -4,7 +4,7 @@ import (
 	"context"
 	"web_server/domain"
 
-	"github.com/sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 )
 
 type rateUsecase struct {
@@ -17,19 +17,33 @@ func NewRateUsecase(rateRepo domain.RateRepository) domain.RateUsecase {
 
 // PublishRate implements domain.RateUsecase
 func (r *rateUsecase) ProcessBackgroundRate(ctx context.Context) {
-	logrus.WithField("foo", ctx.Value("foo")).Info("running rate publisher")
+	log.WithField("foo", ctx.Value("foo")).Info("running rate publisher")
 	for {
 		resp, err := r.rateRepo.ConsumeRate(ctx)
 		if err != nil {
-			return
+			log.WithError(err).Errorln("error consuming rate")
 		}
 
-		r.rateRepo.PublishRate(ctx, resp)
+		err = r.rateRepo.PublishRate(ctx, resp)
+		if err != nil {
+			log.WithError(err).Errorln("error publishing rate")
+		}
 	}
 
 }
 
 // PublishReference implements domain.RateUsecase
-func (*rateUsecase) ProcessBackgroundRef(ctx context.Context) {
-	panic("unimplemented")
+func (r *rateUsecase) ProcessBackgroundRef(ctx context.Context) {
+	log.WithField("foo", ctx.Value("foo")).Info("running ref publisher")
+	for {
+		resp, err := r.rateRepo.ConsumeRate(ctx)
+		if err != nil {
+			log.WithError(err).Errorln("error consuming ref")
+		}
+
+		err = r.rateRepo.PublishRate(ctx, resp)
+		if err != nil {
+			log.WithError(err).Errorln("error publishing ref")
+		}
+	}
 }

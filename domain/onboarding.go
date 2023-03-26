@@ -45,56 +45,60 @@ type BaseRequest struct {
 
 type (
 	OnboardingUsecase interface {
-		SimobyVerifyUser(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		SimobyVerifyPhone(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		SimobyOTP(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		SimobyRegister(ctx context.Context, req *BaseRequest) (BaseResponse, error)
+		SimobyVerifyUser(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		SimobyVerifyPhone(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		SimobyOTP(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		SimobyRegister(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
 
-		AtmGetInfo(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		AtmOTP(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		AtmPIN(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		AtmRegister(ctx context.Context, req *BaseRequest) (BaseResponse, error)
+		AtmGetInfo(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		AtmOTP(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		AtmPIN(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		AtmRegister(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
 
-		NoAtmVerifyUser(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		NoAtmOTP(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		NoAtmEmail(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		NoAtmRegister(ctx context.Context, req *BaseRequest) (BaseResponse, error)
+		NoAtmVerifyUser(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		NoAtmOTP(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		NoAtmEmail(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		NoAtmRegister(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
 
-		FreshVerifyPhone(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		FreshOTP(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		FreshPassword(ctx context.Context, req *BaseRequest) (BaseResponse, error)
+		FreshVerifyPhone(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		FreshOTP(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		FreshPassword(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
 
-		ResetVerifyPhone(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		ResetOTP(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		ResetPassword(ctx context.Context, req *BaseRequest) (BaseResponse, error)
+		ResetVerifyPhone(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		ResetOTP(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		ResetPassword(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
 
-		LoginVerifyPassword(ctx context.Context, req *BaseRequest) (BaseResponse, error)
+		LoginVerifyPassword(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
 	}
 
 	OnboardingRepository interface {
-		SimobyVerifyUser(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		SimobyVerifyPhone(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		SimobyOTP(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		SimobyRegister(ctx context.Context, req *BaseRequest) (BaseResponse, error)
+		SimobyVerifyUser(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		SimobyVerifyPhone(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		SimobyOTP(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		SimobyRegister(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
 
-		AtmGetInfo(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		AtmOTP(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		AtmPIN(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		AtmRegister(ctx context.Context, req *BaseRequest) (BaseResponse, error)
+		AtmGetInfo(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		AtmOTP(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		AtmPIN(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		AtmRegister(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
 
-		NoAtmVerifyUser(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		NoAtmOTP(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		NoAtmEmail(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		NoAtmRegister(ctx context.Context, req *BaseRequest) (BaseResponse, error)
+		NoAtmVerifyUser(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		NoAtmOTP(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		NoAtmEmail(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		NoAtmRegister(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
 
-		FreshVerifyPhone(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		FreshOTP(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		FreshPassword(ctx context.Context, req *BaseRequest) (BaseResponse, error)
+		FreshVerifyPhone(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		FreshOTP(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		FreshPassword(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
 
-		ResetVerifyPhone(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		ResetOTP(ctx context.Context, req *BaseRequest) (BaseResponse, error)
-		ResetPassword(ctx context.Context, req *BaseRequest) (BaseResponse, error)
+		ResetVerifyPhone(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		ResetOTP(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		ResetPassword(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
 
-		LoginVerifyPassword(ctx context.Context, req *BaseRequest) (BaseResponse, error)
+		LoginVerifyPassword(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+	}
+
+	SessionRepository interface {
+		GetSessionMeta(ctx context.Context, authId string)
 	}
 )

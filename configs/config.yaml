@@ -21,3 +21,8 @@ wamp:
 server:
   address: "127.0.0.1"
   port: 8092
+  level: debug
+
+log:
+  level: DEBUG
+  format: text
