@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"net/http"
 	"web_server/domain"
 
 	"github.com/gin-gonic/gin"
@@ -42,189 +43,269 @@ func NewOnboardingHandler(obUsecase domain.OnboardingUsecase, g *gin.Engine) {
 func (ob *OnboardingHandler) Verifyuser(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.AbortWithStatus(404)
+		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	ob.ObUsecase.SimobyVerifyUser(ctx, &req)
+	res, err := ob.ObUsecase.SimobyVerifyUser(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (ob *OnboardingHandler) VerifyPhone(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.AbortWithStatus(404)
+		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	ob.ObUsecase.SimobyVerifyPhone(ctx, &req)
+	res, err := ob.ObUsecase.SimobyVerifyPhone(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (ob *OnboardingHandler) VerifyOTP(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.AbortWithStatus(404)
+		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	ob.ObUsecase.SimobyOTP(ctx, &req)
+	res, err := ob.ObUsecase.SimobyOTP(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (ob *OnboardingHandler) Register(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.AbortWithStatus(404)
+		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	ob.ObUsecase.SimobyRegister(ctx, &req)
+	res, err := ob.ObUsecase.SimobyRegister(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (ob *OnboardingHandler) Atm(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.AbortWithStatus(404)
+		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	ob.ObUsecase.AtmGetInfo(ctx, &req)
+	res, err := ob.ObUsecase.AtmGetInfo(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (ob *OnboardingHandler) AtmOTP(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.AbortWithStatus(404)
+		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	ob.ObUsecase.AtmOTP(ctx, &req)
+	res, err := ob.ObUsecase.AtmOTP(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (ob *OnboardingHandler) AtmPIN(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.AbortWithStatus(404)
+		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	ob.ObUsecase.AtmPIN(ctx, &req)
+	res, err := ob.ObUsecase.AtmPIN(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (ob *OnboardingHandler) AtmRegister(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.AbortWithStatus(404)
+		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	ob.ObUsecase.AtmRegister(ctx, &req)
+	res, err := ob.ObUsecase.AtmRegister(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (ob *OnboardingHandler) NoAtmVerifyUser(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.AbortWithStatus(404)
+		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	ob.ObUsecase.NoAtmVerifyUser(ctx, &req)
+	res, err := ob.ObUsecase.NoAtmVerifyUser(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (ob *OnboardingHandler) NoAtmOTP(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.AbortWithStatus(404)
+		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	ob.ObUsecase.NoAtmOTP(ctx, &req)
+	res, err := ob.ObUsecase.NoAtmOTP(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (ob *OnboardingHandler) NoAtmRegister(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.AbortWithStatus(404)
+		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	ob.ObUsecase.NoAtmRegister(ctx, &req)
+	res, err := ob.ObUsecase.NoAtmRegister(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (ob *OnboardingHandler) NoAtmEmail(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.AbortWithStatus(404)
+		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	ob.ObUsecase.NoAtmEmail(ctx, &req)
+	res, err := ob.ObUsecase.NoAtmEmail(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (ob *OnboardingHandler) FreshVerifyPhone(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.AbortWithStatus(404)
+		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	ob.ObUsecase.FreshVerifyPhone(ctx, &req)
+	res, err := ob.ObUsecase.FreshVerifyPhone(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (ob *OnboardingHandler) FreshOTP(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.AbortWithStatus(404)
+		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	ob.ObUsecase.FreshOTP(ctx, &req)
+	res, err := ob.ObUsecase.FreshOTP(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (ob *OnboardingHandler) FreshPassword(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.AbortWithStatus(404)
+		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	ob.ObUsecase.FreshPassword(ctx, &req)
+	res, err := ob.ObUsecase.FreshPassword(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (ob *OnboardingHandler) ResetVerifyPhone(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.AbortWithStatus(404)
+		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	ob.ObUsecase.ResetVerifyPhone(ctx, &req)
+	res, err := ob.ObUsecase.ResetVerifyPhone(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (ob *OnboardingHandler) ResetOTP(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.AbortWithStatus(404)
+		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	ob.ObUsecase.ResetOTP(ctx, &req)
+	res, err := ob.ObUsecase.ResetOTP(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (ob *OnboardingHandler) ResetPassword(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.AbortWithStatus(404)
+		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	ob.ObUsecase.SimobyVerifyUser(ctx, &req)
+	res, err := ob.ObUsecase.SimobyVerifyUser(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (ob *OnboardingHandler) VerifyPassword(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.AbortWithStatus(404)
+		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	ob.ObUsecase.LoginVerifyPassword(ctx, &req)
+	res, err := ob.ObUsecase.LoginVerifyPassword(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
 }
