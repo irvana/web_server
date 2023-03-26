@@ -11,13 +11,13 @@ type HttpClient struct {
 }
 
 type Config struct {
-	Timeout       time.Duration `mapstructure:"timeout"`
-	LegacyBaseURL string        `mapstructure:"legacyBaseUrl"`
+	OnboardingTimeout time.Duration `mapstructure:"onboardingTimeout"`
+	LegacyBaseURL     string        `mapstructure:"legacyBaseUrl"`
 }
 
 func InitHttpClient(cfg Config) *HttpClient {
 	return &HttpClient{
-		Client:  &http.Client{Timeout: cfg.Timeout},
+		Client:  &http.Client{Timeout: cfg.OnboardingTimeout},
 		BaseURL: cfg.LegacyBaseURL,
 	}
 }
