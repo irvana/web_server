@@ -6,7 +6,6 @@ import (
 )
 
 func InitConfig(path string, name string) (*viper.Viper, error) {
-	log.Info("initiating config")
 	viper.AddConfigPath(path)
 	viper.SetConfigName(name)
 	viper.SetConfigType("yaml")
@@ -17,7 +16,6 @@ func InitConfig(path string, name string) (*viper.Viper, error) {
 		log.WithError(err).Error("error loading config")
 		return nil, err
 	}
-	log.Info("initiating custom log")
 	initLog()
 	return viper.GetViper(), nil
 }
@@ -26,7 +24,8 @@ func initLog() {
 	logFormat := viper.GetString("log.format")
 	switch logFormat {
 	case "text":
-		log.SetFormatter(&log.TextFormatter{ForceColors: true, TimestampFormat: "2006-01-02 15:04:05", FullTimestamp: true})
+		// log.SetFormatter(&log.TextFormatter{ForceColors: true, TimestampFormat: "2006-01-02 15:04:05", FullTimestamp: true})
+		log.SetFormatter(&log.TextFormatter{ForceColors: true, FullTimestamp: true})
 	case "json":
 		log.SetFormatter(&log.JSONFormatter{TimestampFormat: "2006-01-02 15:04:05"})
 	default:
@@ -39,4 +38,5 @@ func initLog() {
 	} else {
 		log.SetLevel(logLvl)
 	}
+	// log.SetReportCaller(true)
 }

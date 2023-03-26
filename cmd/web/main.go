@@ -39,7 +39,7 @@ func init() {
 	configPath := flag.String("f", "configs", "config file path")
 	flag.Parse()
 
-	log.Info("initiating config file from", *configPath)
+	log.Info("initiating config file from: ", *configPath)
 	v, err := commonlog.InitConfig(*configPath, "config")
 	// TODO separate log & config
 	if err != nil {
@@ -74,14 +74,15 @@ func main() {
 	}
 
 	log.Info("attaching websocket server to webserver router")
+	gin.SetMode(cfg.Server.Level)
 	router := gin.New()
-	router.Use(gin.LoggerWithWriter(log.StandardLogger().Writer())) // TODO fixing this
+	gin.DefaultWriter = log.StandardLogger().Writer()
 	router.GET(cfg.WampCfg.Path, func(ctx *gin.Context) {
 		wampWss.Wss.ServeHTTP(ctx.Writer, ctx.Request)
 	})
 
 	httpClient := client.InitHttpClient(cfg.HttpClient)
-	obRepository := legacy.NewOnboardingRepository(httpClient.Client)
+	obRepository := legacy.NewOnboardingRepository(httpClient.Client, httpClient.BaseURL)
 	obUsecase := obusecase.NewOnboardingUsecase(obRepository)
 	obhandler.NewOnboardingHandler(obUsecase, router)
 
@@ -93,6 +94,7 @@ func main() {
 }
 
 func runServer(router *gin.Engine) {
+	log.Infof("starting webserver at %s:%d", cfg.Server.Address, cfg.Server.Port)
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 

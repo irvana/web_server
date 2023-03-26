@@ -6,15 +6,18 @@ import (
 )
 
 type HttpClient struct {
-	Client *http.Client
+	Client  *http.Client
+	BaseURL string
 }
 
 type Config struct {
-	Timeout time.Duration `mapstructure:"timeout"`
+	Timeout       time.Duration `mapstructure:"timeout"`
+	LegacyBaseURL string        `mapstructure:"legacyBaseUrl"`
 }
 
 func InitHttpClient(cfg Config) *HttpClient {
 	return &HttpClient{
-		Client: &http.Client{Timeout: cfg.Timeout},
+		Client:  &http.Client{Timeout: cfg.Timeout},
+		BaseURL: cfg.LegacyBaseURL,
 	}
 }

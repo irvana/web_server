@@ -14,96 +14,97 @@ func NewOnboardingUsecase(obRepo domain.OnboardingRepository) domain.OnboardingU
 }
 
 // AtmGetInfo implements domain.OnboardingUsecase
-func (*onboardingUsecase) AtmGetInfo(ctx context.Context, req *domain.BaseRequest) (domain.BaseResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) AtmGetInfo(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	return o.obRepo.AtmGetInfo(ctx, req)
 }
 
 // AtmOTP implements domain.OnboardingUsecase
-func (*onboardingUsecase) AtmOTP(ctx context.Context, req *domain.BaseRequest) (domain.BaseResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) AtmOTP(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	return o.obRepo.AtmOTP(ctx, req)
 }
 
 // AtmPIN implements domain.OnboardingUsecase
-func (*onboardingUsecase) AtmPIN(ctx context.Context, req *domain.BaseRequest) (domain.BaseResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) AtmPIN(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	return o.obRepo.AtmPIN(ctx, req)
 }
 
 // AtmRegister implements domain.OnboardingUsecase
-func (*onboardingUsecase) AtmRegister(ctx context.Context, req *domain.BaseRequest) (domain.BaseResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) AtmRegister(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	return o.obRepo.AtmRegister(ctx, req)
 }
 
 // FreshOTP implements domain.OnboardingUsecase
-func (*onboardingUsecase) FreshOTP(ctx context.Context, req *domain.BaseRequest) (domain.BaseResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) FreshOTP(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	return o.obRepo.FreshOTP(ctx, req)
 }
 
 // FreshPassword implements domain.OnboardingUsecase
-func (*onboardingUsecase) FreshPassword(ctx context.Context, req *domain.BaseRequest) (domain.BaseResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) FreshPassword(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	return o.obRepo.FreshPassword(ctx, req)
 }
 
 // FreshVerifyPhone implements domain.OnboardingUsecase
-func (*onboardingUsecase) FreshVerifyPhone(ctx context.Context, req *domain.BaseRequest) (domain.BaseResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) FreshVerifyPhone(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	return o.obRepo.FreshVerifyPhone(ctx, req)
 }
 
 // LoginVerifyPassword implements domain.OnboardingUsecase
-func (*onboardingUsecase) LoginVerifyPassword(ctx context.Context, req *domain.BaseRequest) (domain.BaseResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) LoginVerifyPassword(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	// TODO reassign websocket client (change topic or role for connected client)
+	return o.obRepo.LoginVerifyPassword(ctx, req)
 }
 
 // NoAtmEmail implements domain.OnboardingUsecase
-func (*onboardingUsecase) NoAtmEmail(ctx context.Context, req *domain.BaseRequest) (domain.BaseResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) NoAtmEmail(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	return o.obRepo.NoAtmEmail(ctx, req)
 }
 
 // NoAtmOTP implements domain.OnboardingUsecase
-func (*onboardingUsecase) NoAtmOTP(ctx context.Context, req *domain.BaseRequest) (domain.BaseResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) NoAtmOTP(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	return o.obRepo.NoAtmOTP(ctx, req)
 }
 
 // NoAtmRegister implements domain.OnboardingUsecase
-func (*onboardingUsecase) NoAtmRegister(ctx context.Context, req *domain.BaseRequest) (domain.BaseResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) NoAtmRegister(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	return o.obRepo.NoAtmRegister(ctx, req)
 }
 
 // NoAtmVerifyUser implements domain.OnboardingUsecase
-func (*onboardingUsecase) NoAtmVerifyUser(ctx context.Context, req *domain.BaseRequest) (domain.BaseResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) NoAtmVerifyUser(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	return o.obRepo.NoAtmVerifyUser(ctx, req)
 }
 
 // ResetOTP implements domain.OnboardingUsecase
-func (*onboardingUsecase) ResetOTP(ctx context.Context, req *domain.BaseRequest) (domain.BaseResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) ResetOTP(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	return o.obRepo.ResetOTP(ctx, req)
 }
 
 // ResetPassword implements domain.OnboardingUsecase
-func (*onboardingUsecase) ResetPassword(ctx context.Context, req *domain.BaseRequest) (domain.BaseResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) ResetPassword(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	return o.obRepo.ResetPassword(ctx, req)
 }
 
 // ResetVerifyPhone implements domain.OnboardingUsecase
-func (*onboardingUsecase) ResetVerifyPhone(ctx context.Context, req *domain.BaseRequest) (domain.BaseResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) ResetVerifyPhone(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	return o.obRepo.ResetVerifyPhone(ctx, req)
 }
 
 // SimobyOTP implements domain.OnboardingUsecase
-func (*onboardingUsecase) SimobyOTP(ctx context.Context, req *domain.BaseRequest) (domain.BaseResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) SimobyOTP(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	return o.obRepo.SimobyOTP(ctx, req)
 }
 
 // SimobyRegister implements domain.OnboardingUsecase
-func (*onboardingUsecase) SimobyRegister(ctx context.Context, req *domain.BaseRequest) (domain.BaseResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) SimobyRegister(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	return o.obRepo.SimobyRegister(ctx, req)
 }
 
 // SimobyVerifyPhone implements domain.OnboardingUsecase
-func (*onboardingUsecase) SimobyVerifyPhone(ctx context.Context, req *domain.BaseRequest) (domain.BaseResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) SimobyVerifyPhone(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	return o.obRepo.SimobyVerifyPhone(ctx, req)
 }
 
 // SimobyVerifyUser implements domain.OnboardingUsecase
-func (*onboardingUsecase) SimobyVerifyUser(ctx context.Context, req *domain.BaseRequest) (domain.BaseResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) SimobyVerifyUser(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	return o.obRepo.SimobyVerifyUser(ctx, req)
 }
