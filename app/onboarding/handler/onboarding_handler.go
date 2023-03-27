@@ -14,12 +14,12 @@ type OnboardingHandler struct {
 func NewOnboardingHandler(obUsecase domain.OnboardingUsecase, g *gin.Engine) {
 	obHandler := &OnboardingHandler{obUsecase}
 
-	g.POST(SIMOBI_VERIFY_USER, obHandler.Verifyuser)
-	g.POST(SIMOBI_VERIFY_PHONE, obHandler.VerifyPhone)
-	g.POST(SIMOBI_OTP, obHandler.VerifyOTP)
-	g.POST(SIMOBI_REGISTER, obHandler.Register)
+	g.POST(SIMOBI_VERIFY_USER, obHandler.SimobiVerifyUser)
+	g.POST(SIMOBI_VERIFY_PHONE, obHandler.SimobiVerifyPhone)
+	g.POST(SIMOBI_OTP, obHandler.SimobiVerifyOTP)
+	g.POST(SIMOBI_REGISTER, obHandler.SimobiRegister)
 
-	g.POST(ATM_CARD, obHandler.Atm)
+	g.POST(ATM_CARD, obHandler.AtmGetInfo)
 	g.POST(ATM_OTP, obHandler.AtmOTP)
 	g.POST(ATM_PIN, obHandler.AtmPIN)
 	g.POST(ATM_REGISTER, obHandler.AtmRegister)
@@ -40,63 +40,63 @@ func NewOnboardingHandler(obUsecase domain.OnboardingUsecase, g *gin.Engine) {
 	g.POST(LOGIN_VERIFY_PASSWORD, obHandler.VerifyPassword)
 }
 
-func (ob *OnboardingHandler) Verifyuser(ctx *gin.Context) {
+func (ob *OnboardingHandler) SimobiVerifyUser(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
 		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	res, err := ob.ObUsecase.SimobyVerifyUser(ctx, &req)
+	res, err := ob.ObUsecase.SimobiVerifyUser(ctx, &req)
 	if err != nil {
 		ctx.AbortWithStatus(http.StatusInternalServerError)
 	}
 	ctx.JSON(http.StatusOK, res)
 }
 
-func (ob *OnboardingHandler) VerifyPhone(ctx *gin.Context) {
+func (ob *OnboardingHandler) SimobiVerifyPhone(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
 		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	res, err := ob.ObUsecase.SimobyVerifyPhone(ctx, &req)
+	res, err := ob.ObUsecase.SimobiVerifyPhone(ctx, &req)
 	if err != nil {
 		ctx.AbortWithStatus(http.StatusInternalServerError)
 	}
 	ctx.JSON(http.StatusOK, res)
 }
 
-func (ob *OnboardingHandler) VerifyOTP(ctx *gin.Context) {
+func (ob *OnboardingHandler) SimobiVerifyOTP(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
 		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	res, err := ob.ObUsecase.SimobyOTP(ctx, &req)
+	res, err := ob.ObUsecase.SimobiOTP(ctx, &req)
 	if err != nil {
 		ctx.AbortWithStatus(http.StatusInternalServerError)
 	}
 	ctx.JSON(http.StatusOK, res)
 }
 
-func (ob *OnboardingHandler) Register(ctx *gin.Context) {
+func (ob *OnboardingHandler) SimobiRegister(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
 		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	res, err := ob.ObUsecase.SimobyRegister(ctx, &req)
+	res, err := ob.ObUsecase.SimobiRegister(ctx, &req)
 	if err != nil {
 		ctx.AbortWithStatus(http.StatusInternalServerError)
 	}
 	ctx.JSON(http.StatusOK, res)
 }
 
-func (ob *OnboardingHandler) Atm(ctx *gin.Context) {
+func (ob *OnboardingHandler) AtmGetInfo(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
 		ctx.AbortWithStatus(http.StatusBadRequest)
@@ -289,7 +289,7 @@ func (ob *OnboardingHandler) ResetPassword(ctx *gin.Context) {
 		return
 	}
 
-	res, err := ob.ObUsecase.SimobyVerifyUser(ctx, &req)
+	res, err := ob.ObUsecase.ResetPassword(ctx, &req)
 	if err != nil {
 		ctx.AbortWithStatus(http.StatusInternalServerError)
 	}

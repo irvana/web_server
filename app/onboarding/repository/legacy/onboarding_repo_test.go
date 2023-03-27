@@ -39,7 +39,7 @@ func TestOnboardingLegacyRepo_AtmGetInfo(t *testing.T) {
 	assert.Equal(t, mockResp, result)
 }
 
-func TestOnboardingLegacyRepo_SimobyVerifyUser(t *testing.T) {
+func TestOnboardingLegacyRepo_SimobiVerifyUser(t *testing.T) {
 	// Create sample request
 	req := &domain.BaseRequest{}
 
@@ -55,17 +55,17 @@ func TestOnboardingLegacyRepo_SimobyVerifyUser(t *testing.T) {
 
 	defer mockServer.Close()
 
-	// Create SimobyVerifyUser function with mocked HTTP client pointing to our mocked server
+	// Create SimobiVerifyUser function with mocked HTTP client pointing to our mocked server
 	repo := &onboardingLegacyRepo{client: &http.Client{Transport: &http.Transport{Proxy: func(req *http.Request) (*url.URL, error) {
 		return url.Parse(mockServer.URL)
 	}}}, baseURL: mockServer.URL}
 
 	// Call function and assert result matches expected value
-	result, err := repo.SimobyVerifyUser(context.Background(), req)
+	result, err := repo.SimobiVerifyUser(context.Background(), req)
 	assert.NoError(t, err)
 	assert.Equal(t, mockResp, result)
 }
-func TestOnboardingLegacyRepo_SimobyVerifyPhone(t *testing.T) {
+func TestOnboardingLegacyRepo_SimobiVerifyPhone(t *testing.T) {
 	// Create sample request
 	req := &domain.BaseRequest{}
 
@@ -81,17 +81,17 @@ func TestOnboardingLegacyRepo_SimobyVerifyPhone(t *testing.T) {
 
 	defer mockServer.Close()
 
-	// Create SimobyVerifyPhone function with mocked HTTP client pointing to our mocked server
+	// Create SimobiVerifyPhone function with mocked HTTP client pointing to our mocked server
 	repo := &onboardingLegacyRepo{client: &http.Client{Transport: &http.Transport{Proxy: func(req *http.Request) (*url.URL, error) {
 		return url.Parse(mockServer.URL)
 	}}}, baseURL: mockServer.URL}
 
 	// Call function and assert result matches expected value
-	result, err := repo.SimobyVerifyPhone(context.Background(), req)
+	result, err := repo.SimobiVerifyPhone(context.Background(), req)
 	assert.NoError(t, err)
 	assert.Equal(t, mockResp, result)
 }
-func TestOnboardingLegacyRepo_SimobyOTP(t *testing.T) {
+func TestOnboardingLegacyRepo_SimobiOTP(t *testing.T) {
 	// Create sample request
 	req := &domain.BaseRequest{}
 
@@ -107,17 +107,17 @@ func TestOnboardingLegacyRepo_SimobyOTP(t *testing.T) {
 
 	defer mockServer.Close()
 
-	// Create SimobyOTP function with mocked HTTP client pointing to our mocked server
+	// Create SimobiOTP function with mocked HTTP client pointing to our mocked server
 	repo := &onboardingLegacyRepo{client: &http.Client{Transport: &http.Transport{Proxy: func(req *http.Request) (*url.URL, error) {
 		return url.Parse(mockServer.URL)
 	}}}, baseURL: mockServer.URL}
 
 	// Call function and assert result matches expected value
-	result, err := repo.SimobyOTP(context.Background(), req)
+	result, err := repo.SimobiOTP(context.Background(), req)
 	assert.NoError(t, err)
 	assert.Equal(t, mockResp, result)
 }
-func TestOnboardingLegacyRepo_SimobyRegister(t *testing.T) {
+func TestOnboardingLegacyRepo_SimobiRegister(t *testing.T) {
 	// Create sample request
 	req := &domain.BaseRequest{}
 
@@ -133,13 +133,13 @@ func TestOnboardingLegacyRepo_SimobyRegister(t *testing.T) {
 
 	defer mockServer.Close()
 
-	// Create SimobyRegister function with mocked HTTP client pointing to our mocked server
+	// Create SimobiRegister function with mocked HTTP client pointing to our mocked server
 	repo := &onboardingLegacyRepo{client: &http.Client{Transport: &http.Transport{Proxy: func(req *http.Request) (*url.URL, error) {
 		return url.Parse(mockServer.URL)
 	}}}, baseURL: mockServer.URL}
 
 	// Call function and assert result matches expected value
-	result, err := repo.SimobyRegister(context.Background(), req)
+	result, err := repo.SimobiRegister(context.Background(), req)
 	assert.NoError(t, err)
 	assert.Equal(t, mockResp, result)
 }

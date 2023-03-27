@@ -89,22 +89,22 @@ func (o *onboardingUsecase) ResetVerifyPhone(ctx context.Context, req *domain.Ba
 	return o.obRepo.ResetVerifyPhone(ctx, req)
 }
 
-// SimobyOTP implements domain.OnboardingUsecase
-func (o *onboardingUsecase) SimobyOTP(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
-	return o.obRepo.SimobyOTP(ctx, req)
+// SimobiOTP implements domain.OnboardingUsecase
+func (o *onboardingUsecase) SimobiOTP(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	return o.obRepo.SimobiOTP(ctx, req)
 }
 
-// SimobyRegister implements domain.OnboardingUsecase
-func (o *onboardingUsecase) SimobyRegister(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
-	return o.obRepo.SimobyRegister(ctx, req)
+// SimobiRegister implements domain.OnboardingUsecase
+func (o *onboardingUsecase) SimobiRegister(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	return o.obRepo.SimobiRegister(ctx, req)
 }
 
-// SimobyVerifyPhone implements domain.OnboardingUsecase
-func (o *onboardingUsecase) SimobyVerifyPhone(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
-	return o.obRepo.SimobyVerifyPhone(ctx, req)
+// SimobiVerifyPhone implements domain.OnboardingUsecase
+func (o *onboardingUsecase) SimobiVerifyPhone(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	return o.obRepo.SimobiVerifyPhone(ctx, req)
 }
 
-// SimobyVerifyUser implements domain.OnboardingUsecase
-func (o *onboardingUsecase) SimobyVerifyUser(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
-	return o.obRepo.SimobyVerifyUser(ctx, req)
+// SimobiVerifyUser implements domain.OnboardingUsecase
+func (o *onboardingUsecase) SimobiVerifyUser(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+	return o.obRepo.SimobiVerifyUser(ctx, req)
 }
