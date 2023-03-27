@@ -404,8 +404,8 @@ func (_m *OnboardingRepository) ResetVerifyPhone(ctx context.Context, req *domai
 	return r0, r1
 }
 
-// SimobyOTP provides a mock function with given fields: ctx, req
-func (_m *OnboardingRepository) SimobyOTP(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+// SimobiOTP provides a mock function with given fields: ctx, req
+func (_m *OnboardingRepository) SimobiOTP(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
 	ret := _m.Called(ctx, req)
 
 	var r0 *domain.BaseResponse
@@ -430,8 +430,8 @@ func (_m *OnboardingRepository) SimobyOTP(ctx context.Context, req *domain.BaseR
 	return r0, r1
 }
 
-// SimobyRegister provides a mock function with given fields: ctx, req
-func (_m *OnboardingRepository) SimobyRegister(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+// SimobiRegister provides a mock function with given fields: ctx, req
+func (_m *OnboardingRepository) SimobiRegister(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
 	ret := _m.Called(ctx, req)
 
 	var r0 *domain.BaseResponse
@@ -456,8 +456,8 @@ func (_m *OnboardingRepository) SimobyRegister(ctx context.Context, req *domain.
 	return r0, r1
 }
 
-// SimobyVerifyPhone provides a mock function with given fields: ctx, req
-func (_m *OnboardingRepository) SimobyVerifyPhone(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+// SimobiVerifyPhone provides a mock function with given fields: ctx, req
+func (_m *OnboardingRepository) SimobiVerifyPhone(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
 	ret := _m.Called(ctx, req)
 
 	var r0 *domain.BaseResponse
@@ -482,8 +482,8 @@ func (_m *OnboardingRepository) SimobyVerifyPhone(ctx context.Context, req *doma
 	return r0, r1
 }
 
-// SimobyVerifyUser provides a mock function with given fields: ctx, req
-func (_m *OnboardingRepository) SimobyVerifyUser(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+// SimobiVerifyUser provides a mock function with given fields: ctx, req
+func (_m *OnboardingRepository) SimobiVerifyUser(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
 	ret := _m.Called(ctx, req)
 
 	var r0 *domain.BaseResponse

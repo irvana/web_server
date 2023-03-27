@@ -498,8 +498,8 @@ func (o *onboardingLegacyRepo) ResetVerifyPhone(ctx context.Context, req *domain
 	return &result, nil
 }
 
-// SimobyOTP implements domain.OnboardingRepository
-func (o *onboardingLegacyRepo) SimobyOTP(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+// SimobiOTP implements domain.OnboardingRepository
+func (o *onboardingLegacyRepo) SimobiOTP(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
 	body, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
@@ -530,8 +530,8 @@ func (o *onboardingLegacyRepo) SimobyOTP(ctx context.Context, req *domain.BaseRe
 	return &result, nil
 }
 
-// SimobyRegister implements domain.OnboardingRepository
-func (o *onboardingLegacyRepo) SimobyRegister(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+// SimobiRegister implements domain.OnboardingRepository
+func (o *onboardingLegacyRepo) SimobiRegister(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
 	body, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
@@ -562,8 +562,8 @@ func (o *onboardingLegacyRepo) SimobyRegister(ctx context.Context, req *domain.B
 	return &result, nil
 }
 
-// SimobyVerifyPhone implements domain.OnboardingRepository
-func (o *onboardingLegacyRepo) SimobyVerifyPhone(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+// SimobiVerifyPhone implements domain.OnboardingRepository
+func (o *onboardingLegacyRepo) SimobiVerifyPhone(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
 	body, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
@@ -594,8 +594,8 @@ func (o *onboardingLegacyRepo) SimobyVerifyPhone(ctx context.Context, req *domai
 	return &result, nil
 }
 
-// SimobyVerifyUser implements domain.OnboardingRepository
-func (o *onboardingLegacyRepo) SimobyVerifyUser(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+// SimobiVerifyUser implements domain.OnboardingRepository
+func (o *onboardingLegacyRepo) SimobiVerifyUser(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
 	body, err := json.Marshal(req)
 	if err != nil {
 		return nil, err

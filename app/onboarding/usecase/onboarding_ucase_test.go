@@ -290,7 +290,7 @@ func TestOnboardingUsecase_ResetVerifyPhone(t *testing.T) {
 	assert.Equal(t, expectedResult, result)
 }
 
-func TestOnboardingUsecase_SimobyOTP(t *testing.T) {
+func TestOnboardingUsecase_SimobiOTP(t *testing.T) {
 	// Set up sample request
 	req := &domain.BaseRequest{}
 
@@ -300,15 +300,15 @@ func TestOnboardingUsecase_SimobyOTP(t *testing.T) {
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.BaseResponse{}
-	obRepo.On("SimobyOTP", context.Background(), req).Return(expectedResult, nil)
+	obRepo.On("SimobiOTP", context.Background(), req).Return(expectedResult, nil)
 
 	// Call function and assert result matches expected value
-	result, err := u.SimobyOTP(context.Background(), req)
+	result, err := u.SimobiOTP(context.Background(), req)
 	assert.NoError(t, err)
 	assert.Equal(t, expectedResult, result)
 }
 
-func TestOnboardingUsecase_SimobyRegister(t *testing.T) {
+func TestOnboardingUsecase_SimobiRegister(t *testing.T) {
 	// Set up sample request
 	req := &domain.BaseRequest{}
 
@@ -318,15 +318,15 @@ func TestOnboardingUsecase_SimobyRegister(t *testing.T) {
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.BaseResponse{}
-	obRepo.On("SimobyRegister", context.Background(), req).Return(expectedResult, nil)
+	obRepo.On("SimobiRegister", context.Background(), req).Return(expectedResult, nil)
 
 	// Call function and assert result matches expected value
-	result, err := u.SimobyRegister(context.Background(), req)
+	result, err := u.SimobiRegister(context.Background(), req)
 	assert.NoError(t, err)
 	assert.Equal(t, expectedResult, result)
 }
 
-func TestOnboardingUsecase_SimobyVerifyPhone(t *testing.T) {
+func TestOnboardingUsecase_SimobiVerifyPhone(t *testing.T) {
 	// Set up sample request
 	req := &domain.BaseRequest{}
 
@@ -336,15 +336,15 @@ func TestOnboardingUsecase_SimobyVerifyPhone(t *testing.T) {
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.BaseResponse{}
-	obRepo.On("SimobyVerifyPhone", context.Background(), req).Return(expectedResult, nil)
+	obRepo.On("SimobiVerifyPhone", context.Background(), req).Return(expectedResult, nil)
 
 	// Call function and assert result matches expected value
-	result, err := u.SimobyVerifyPhone(context.Background(), req)
+	result, err := u.SimobiVerifyPhone(context.Background(), req)
 	assert.NoError(t, err)
 	assert.Equal(t, expectedResult, result)
 }
 
-func TestOnboardingUsecase_SimobyVerifyUser(t *testing.T) {
+func TestOnboardingUsecase_SimobiVerifyUser(t *testing.T) {
 	// Set up sample request
 	req := &domain.BaseRequest{}
 
@@ -354,10 +354,10 @@ func TestOnboardingUsecase_SimobyVerifyUser(t *testing.T) {
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.BaseResponse{}
-	obRepo.On("SimobyVerifyUser", context.Background(), req).Return(expectedResult, nil)
+	obRepo.On("SimobiVerifyUser", context.Background(), req).Return(expectedResult, nil)
 
 	// Call function and assert result matches expected value
-	result, err := u.SimobyVerifyUser(context.Background(), req)
+	result, err := u.SimobiVerifyUser(context.Background(), req)
 	assert.NoError(t, err)
 	assert.Equal(t, expectedResult, result)
 }

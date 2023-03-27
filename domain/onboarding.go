@@ -45,10 +45,10 @@ type BaseRequest struct {
 
 type (
 	OnboardingUsecase interface {
-		SimobyVerifyUser(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
-		SimobyVerifyPhone(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
-		SimobyOTP(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
-		SimobyRegister(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		SimobiVerifyUser(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		SimobiVerifyPhone(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		SimobiOTP(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		SimobiRegister(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
 
 		AtmGetInfo(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
 		AtmOTP(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
@@ -72,10 +72,10 @@ type (
 	}
 
 	OnboardingRepository interface {
-		SimobyVerifyUser(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
-		SimobyVerifyPhone(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
-		SimobyOTP(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
-		SimobyRegister(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		SimobiVerifyUser(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		SimobiVerifyPhone(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		SimobiOTP(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		SimobiRegister(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
 
 		AtmGetInfo(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
 		AtmOTP(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
