@@ -6,33 +6,34 @@ import (
 )
 
 type onboardingUsecase struct {
+	ob domain.OrderRepository
+}
+
+func NewOrderUsecase(ob domain.OrderRepository) domain.OrderUsecase {
+	return &onboardingUsecase{ob}
 }
 
 // Amend implements domain.OrderUsecase
-func (*onboardingUsecase) Amend(ctx context.Context, req domain.BaseRequest) (domain.OrderResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) Amend(ctx context.Context, req *domain.BaseRequest) (*domain.OrderResponse, error) {
+	return o.ob.Amend(ctx, req)
 }
 
 // Cancel implements domain.OrderUsecase
-func (*onboardingUsecase) Cancel(ctx context.Context, req domain.BaseRequest) (domain.OrderResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) Cancel(ctx context.Context, req *domain.BaseRequest) (*domain.OrderResponse, error) {
+	return o.ob.Cancel(ctx, req)
 }
 
 // Create implements domain.OrderUsecase
-func (*onboardingUsecase) Create(ctx context.Context, req domain.BaseRequest) (domain.OrderResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) Create(ctx context.Context, req *domain.BaseRequest) (*domain.OrderResponse, error) {
+	return o.ob.Create(ctx, req)
 }
 
 // GetDetail implements domain.OrderUsecase
-func (*onboardingUsecase) GetDetail(ctx context.Context, req domain.BaseRequest) (domain.OrderResponse, error) {
-	panic("unimplemented")
+func (o *onboardingUsecase) GetDetail(ctx context.Context, req *domain.BaseRequest) (*domain.OrderResponse, error) {
+	return o.ob.GetDetail(ctx, req)
 }
 
 // GetStatus implements domain.OrderUsecase
-func (*onboardingUsecase) GetStatus(ctx context.Context, req domain.BaseRequest) (domain.OrderResponse, error) {
-	panic("unimplemented")
-}
-
-func NewOrderUsecase(obRepo domain.OrderRepository) domain.OrderUsecase {
-	return &onboardingUsecase{}
+func (o *onboardingUsecase) GetStatus(ctx context.Context, req *domain.BaseRequest) (*domain.OrderResponse, error) {
+	return o.ob.GetStatus(ctx, req)
 }

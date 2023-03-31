@@ -25,16 +25,16 @@ type OrderResponse struct {
 }
 
 type OrderUsecase interface {
-	GetStatus(ctx context.Context, req BaseRequest) (OrderResponse, error)
-	Cancel(ctx context.Context, req BaseRequest) (OrderResponse, error)
-	Amend(ctx context.Context, req BaseRequest) (OrderResponse, error)
-	GetDetail(ctx context.Context, req BaseRequest) (OrderResponse, error)
-	Create(ctx context.Context, req BaseRequest) (OrderResponse, error)
+	GetStatus(ctx context.Context, req *BaseRequest) (*OrderResponse, error)
+	Cancel(ctx context.Context, req *BaseRequest) (*OrderResponse, error)
+	Amend(ctx context.Context, req *BaseRequest) (*OrderResponse, error)
+	GetDetail(ctx context.Context, req *BaseRequest) (*OrderResponse, error)
+	Create(ctx context.Context, req *BaseRequest) (*OrderResponse, error)
 }
 type OrderRepository interface {
-	GetStatus(ctx context.Context, req BaseRequest) (OrderResponse, error)
-	Cancel(ctx context.Context, req BaseRequest) (OrderResponse, error)
-	Amend(ctx context.Context, req BaseRequest) (OrderResponse, error)
-	GetDetail(ctx context.Context, req BaseRequest) (OrderResponse, error)
-	Create(ctx context.Context, req BaseRequest) (OrderResponse, error)
+	GetStatus(ctx context.Context, req *BaseRequest) (*OrderResponse, error)
+	Cancel(ctx context.Context, req *BaseRequest) (*OrderResponse, error)
+	Amend(ctx context.Context, req *BaseRequest) (*OrderResponse, error)
+	GetDetail(ctx context.Context, req *BaseRequest) (*OrderResponse, error)
+	Create(ctx context.Context, req *BaseRequest) (*OrderResponse, error)
 }
