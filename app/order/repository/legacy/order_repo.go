@@ -15,7 +15,7 @@ type onboardingLegacyRepo struct {
 }
 
 func NewOnboardingRepository(client *http.Client, baseURL string) domain.OrderRepository {
-	return &onboardingLegacyRepo{}
+	return &onboardingLegacyRepo{client: client, baseURL: baseURL}
 }
 
 // Amend implements domain.OrderRepository
