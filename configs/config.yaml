@@ -12,7 +12,10 @@ authentication:
   isPersistent: true
 
 wamp:
-  realm: "sinamas.realm"
+  realm: "sinarmas.realm"
+  authenticatedRealm: "sinarmas.auth.realm"
+  path: "/ws/"
+  authPath: "/authWs/"
   protocol: "tcp"
   reftopic: "REF"
   ratetopic: "RATE"
@@ -26,6 +29,12 @@ server:
 client:
   onboardingTimeoutMillis: 1000
   legacyBaseUrl: http://localhost:3003/
+
+redis:
+  address: localhost:6381
+  timeout: 30
+  ratesChannel: rates
+  miscChannel: misc
 
 log:
   level: DEBUG

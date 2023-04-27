@@ -56,6 +56,12 @@ func main() {
 	log.Info("initializing redis client")
 	redisCli := redis.InitClient(cfg.Redis)
 
+	log.Info("initializing redis timeseries client")
+	redisTsCli, err := redis.InitTimeSeriesClient(cfg.Redis)
+	if err != nil {
+		log.WithError(err).Panic("error initiating authentication module")
+	}
+
 	// TODO: data ref from redis usecase
 
 	// init auth module
@@ -80,13 +86,16 @@ func main() {
 	router.GET(cfg.WampCfg.Path, func(ctx *gin.Context) {
 		wampWss.Wss.ServeHTTP(ctx.Writer, ctx.Request)
 	})
+	router.GET(cfg.WampCfg.AuthPath, func(ctx *gin.Context) {
+		wampWss.AuthWss.ServeHTTP(ctx.Writer, ctx.Request)
+	})
 
 	httpClient := client.InitHttpClient(cfg.HttpClient)
 	obRepository := legacy.NewOnboardingRepository(httpClient.Client, httpClient.BaseURL)
 	obUsecase := obusecase.NewOnboardingUsecase(obRepository)
 	obhandler.NewOnboardingHandler(obUsecase, router)
 
-	rateRepo := repository.NewRateRepository(redisCli.Client, wampWss.Client)
+	rateRepo := repository.NewRateRepository(redisCli.Client, wampWss.Client, redisTsCli)
 	rateUsecase := rateusecase.NewRateUsecase(rateRepo)
 	ratehandler.RunRateHandlers(rateUsecase)
 

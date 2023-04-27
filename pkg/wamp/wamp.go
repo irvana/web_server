@@ -16,13 +16,17 @@ import (
 
 type (
 	Wamp struct {
-		Wss    *router.WebsocketServer
-		Client *client.Client
+		Wss        *router.WebsocketServer
+		AuthWss    *router.WebsocketServer
+		Client     *client.Client
+		AuthClient *client.Client
 	}
 
 	Config struct {
-		Realm string `mapstructure:"realm"`
-		Path  string `mapstructure:"path"`
+		Realm              string `mapstructure:"realm"`
+		AuthenticatedRealm string `mapstructure:"authenticatedRealm"`
+		Path               string `mapstructure:"path"`
+		AuthPath           string `mapstructure:"authPath"`
 	}
 )
 
@@ -31,44 +35,58 @@ var (
 	wmp      *Wamp
 )
 
-func InitWamp(cfg Config, authentication *auth.Authentication, redisCli *redis.Client) (*Wamp, error) {
-	var errs error
+func InitWamp(cfg Config, authentication *auth.Authentication, redisCli *redis.Client) (wmp *Wamp, errs error) {
 	onceWamp.Do(func() {
-		keystore := NewKeyStore(redisCli.Client)
-		authenticator := InitAuthenticator(keystore, 1*time.Second, authentication)
-
-		nxr, err := router.NewRouter(&router.Config{
-			RealmConfigs: []*router.RealmConfig{
-				{
-					URI:            wamp.URI(cfg.Realm),
-					AnonymousAuth:  true,
-					EnableMetaKill: true,
-					Authenticators: []wampauth.Authenticator{authenticator},
-				},
-			},
-		}, log.StandardLogger())
-		if err != nil {
-			log.WithError(err).Errorln("Error initiating router")
-			wmp, errs = nil, err
+		authWss, authCli, errs := initModules(authentication, redisCli, true, cfg.AuthenticatedRealm)
+		if errs != nil {
 			return
 		}
 
-		wss := router.NewWebsocketServer(nxr)
-		wss.Upgrader.CheckOrigin = func(req *http.Request) bool {
-			return true
-		}
-
-		cli, err := initClient(nxr, cfg.Realm)
-		if err != nil {
-			log.WithError(err).Errorln("Error initiating router")
-			wmp, errs = nil, err
+		wss, cli, errs := initModules(nil, nil, false, cfg.Realm)
+		if errs != nil {
 			return
 		}
-
-		wmp = &Wamp{wss, cli}
+		wmp = &Wamp{Wss: wss, Client: cli, AuthWss: authWss, AuthClient: authCli}
 	})
 
 	return wmp, errs
+}
+
+func initModules(authentication *auth.Authentication, redisCli *redis.Client, withAuth bool, realm string) (*router.WebsocketServer, *client.Client, error) {
+	var authenticators []wampauth.Authenticator
+	if withAuth {
+		keystore := NewKeyStore(redisCli.Client)
+		authenticator := InitAuthenticator(keystore, 1*time.Second, authentication)
+		authenticators = append(authenticators, authenticator)
+	}
+
+	nxr, err := router.NewRouter(&router.Config{
+		RealmConfigs: []*router.RealmConfig{
+			{
+				URI:            wamp.URI(realm),
+				AnonymousAuth:  true,
+				EnableMetaKill: true,
+				Authenticators: authenticators,
+			},
+		},
+	}, log.StandardLogger())
+	if err != nil {
+		log.WithError(err).Errorln("Error initiating router")
+		return nil, nil, err
+
+	}
+
+	wss := router.NewWebsocketServer(nxr)
+	wss.Upgrader.CheckOrigin = func(req *http.Request) bool {
+		return true
+	}
+
+	cli, err := initClient(nxr, realm)
+	if err != nil {
+		log.WithError(err).Errorln("Error initiating client")
+		return nil, nil, err
+	}
+	return wss, cli, nil
 }
 
 func initClient(router router.Router, realm string) (*client.Client, error) {

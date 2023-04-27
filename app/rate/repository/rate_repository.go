@@ -6,15 +6,17 @@ import (
 
 	"github.com/gammazero/nexus/v3/client"
 	"github.com/go-redis/redis"
+	"github.com/rueian/rueidis"
 )
 
 type rateRepository struct {
-	redisCli *redis.Client
-	wampCli  *client.Client
+	redisCli   *redis.Client
+	wampCli    *client.Client
+	redisTsCli *rueidis.Client
 }
 
-func NewRateRepository(redisCli *redis.Client, wampCli *client.Client) domain.RateRepository {
-	return &rateRepository{redisCli, wampCli}
+func NewRateRepository(redisCli *redis.Client, wampCli *client.Client, redisTsCli *rueidis.Client) domain.RateRepository {
+	return &rateRepository{redisCli, wampCli, redisTsCli}
 }
 
 // ConsumeRate implements domain.RateRepository
