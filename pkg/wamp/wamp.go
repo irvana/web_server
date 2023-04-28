@@ -32,7 +32,6 @@ type (
 
 var (
 	onceWamp sync.Once
-	wmp      *Wamp
 )
 
 func InitWamp(cfg Config, authentication *auth.Authentication, redisCli *redis.Client) (wmp *Wamp, errs error) {
@@ -97,5 +96,50 @@ func initClient(router router.Router, realm string) (*client.Client, error) {
 		return nil, err
 	}
 
+	subscribeMetaOnJoin(cli, log.StandardLogger())
+	subscribeMetaOnLeave(cli, log.StandardLogger())
+
 	return cli, err
+}
+
+func subscribeMetaOnJoin(subscriber *client.Client, logger *log.Logger) {
+	// Define function to handle on_join events received.
+	onJoin := func(event *wamp.Event) {
+		if len(event.Arguments) != 0 {
+			if details, ok := wamp.AsDict(event.Arguments[0]); ok {
+				onJoinID, _ := wamp.AsID(details["session"])
+				authid, _ := wamp.AsString(details["authid"])
+				logger.Printf("Client %v joined realm (authid=%s)\n", onJoinID, authid)
+				return
+			}
+		}
+		logger.Println("Client joined realm - no data provided")
+	}
+
+	// Subscribe to on_join topic.
+	err := subscriber.Subscribe(string(wamp.MetaEventSessionOnJoin), onJoin, nil)
+	if err != nil {
+		logger.Fatal("subscribe error:", err)
+	}
+	logger.Println("Subscribed to", string(wamp.MetaEventSessionOnJoin))
+}
+
+func subscribeMetaOnLeave(subscriber *client.Client, logger *log.Logger) {
+	// Define function to handle on_leave events received.
+	onLeave := func(event *wamp.Event) {
+		if len(event.Arguments) != 0 {
+			if id, ok := wamp.AsID(event.Arguments[0]); ok {
+				logger.Println("Client", id, "left realm")
+				return
+			}
+		}
+		logger.Println("A client left the realm")
+	}
+
+	// Subscribe to on_leave topic.
+	err := subscriber.Subscribe(string(wamp.MetaEventSessionOnLeave), onLeave, nil)
+	if err != nil {
+		logger.Fatal("subscribe error:", err)
+	}
+	logger.Println("Subscribed to", string(wamp.MetaEventSessionOnLeave))
 }

@@ -14,8 +14,8 @@ authentication:
 wamp:
   realm: "sinarmas.realm"
   authenticatedRealm: "sinarmas.auth.realm"
-  path: "/ws/"
-  authPath: "/authWs/"
+  path: "/ws"
+  authPath: "/authWs"
   protocol: "tcp"
   reftopic: "REF"
   ratetopic: "RATE"
@@ -23,7 +23,7 @@ wamp:
 
 server:
   address: "127.0.0.1"
-  port: 8092
+  port: 8080
   level: debug
 
 client:

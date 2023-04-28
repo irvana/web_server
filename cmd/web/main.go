@@ -21,6 +21,7 @@ import (
 	"web_server/pkg/redis"
 	"web_server/pkg/wamp"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 )
@@ -83,12 +84,6 @@ func main() {
 	gin.SetMode(cfg.Server.Level)
 	router := gin.New()
 	gin.DefaultWriter = log.StandardLogger().Writer()
-	router.GET(cfg.WampCfg.Path, func(ctx *gin.Context) {
-		wampWss.Wss.ServeHTTP(ctx.Writer, ctx.Request)
-	})
-	router.GET(cfg.WampCfg.AuthPath, func(ctx *gin.Context) {
-		wampWss.AuthWss.ServeHTTP(ctx.Writer, ctx.Request)
-	})
 
 	httpClient := client.InitHttpClient(cfg.HttpClient)
 	obRepository := legacy.NewOnboardingRepository(httpClient.Client, httpClient.BaseURL)
@@ -98,6 +93,19 @@ func main() {
 	rateRepo := repository.NewRateRepository(redisCli.Client, wampWss.Client, redisTsCli)
 	rateUsecase := rateusecase.NewRateUsecase(rateRepo)
 	ratehandler.RunRateHandlers(rateUsecase)
+
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:  []string{"*"},
+		AllowMethods:  []string{"GET", "POST", "PUT", "HEAD", "OPTIONS"},
+		AllowHeaders:  []string{"X-Requested-With", "Content-Type", "Authorization"},
+		ExposeHeaders: []string{"*"},
+	}))
+	router.GET(cfg.WampCfg.Path, func(c *gin.Context) {
+		wampWss.Wss.ServeHTTP(c.Writer, c.Request)
+	})
+	router.GET(cfg.WampCfg.AuthPath, func(ctx *gin.Context) {
+		wampWss.AuthWss.ServeHTTP(ctx.Writer, ctx.Request)
+	})
 
 	runServer(router)
 }
