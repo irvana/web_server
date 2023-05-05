@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+  web:
+    image: web_server
+    container_name: web_server
+    ports:
+      - 9090:9090
+    build: .
+    volumes:
+      - ./config.json:/app/config.json
