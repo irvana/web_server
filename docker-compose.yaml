@@ -1,10 +1,14 @@
 version: "3.7"
 services:
-  web:
-    image: web_server
-    container_name: web_server
+  webserver:
+    image: webserver:latest
+    container_name: webserver
     ports:
-      - 9090:9090
+      - 8080:8080
     build: .
-    volumes:
-      - ./config.json:/app/config.json
+    environment:
+      - SINARMAS_REDIS.ADDRESS=host.docker.internal:6381
+      - SINARMAS_SERVER.ADDRESS=127.0.0.1
+      - SINARMAS_SERVER.PORT=8080
+      - SINARMAS_AUTHENTICATION.PRIVPATH=configs/jwt.key
+      - SINARMAS_AUTHENTICATION.PUBPATH=configs/jwt.key.pub

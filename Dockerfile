@@ -15,12 +15,19 @@ FROM alpine:latest
 
 RUN apk update && apk upgrade && \
     apk --update --no-cache add tzdata && \
-    mkdir -p /app
+    mkdir -p /app/configs
 
 WORKDIR /app
 
-EXPOSE 9090
+EXPOSE 8080
 
 COPY --from=builder /webserver/engine /app
+COPY ./configs/ /app/configs/
 
-CMD /app/engine
+ENV SINARMAS_REDIS.ADDRESS="host.docker.internal:6381" \
+    SINARMAS_SERVER.ADDRESS="127.0.0.1" \
+    SINARMAS_SERVER.PORT=8080 \
+    SINARMAS_AUTHENTICATION.PRIVPATH="configs/jwt.key" \
+    SINARMAS_AUTHENTICATION.PUBPATH="configs/jwt.key.pub"
+
+cmd /app/engine
