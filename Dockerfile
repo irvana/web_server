@@ -8,19 +8,19 @@ WORKDIR /webserver
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o app ./cmd/web/
+RUN CGO_ENABLED=0 GOOS=linux go build -o engine ./cmd/web/
 
 # Distribution
 FROM alpine:latest
 
 RUN apk update && apk upgrade && \
     apk --update --no-cache add tzdata && \
-    mkdir -p /webserver
+    mkdir -p /app
 
-WORKDIR /webserver
+WORKDIR /app
 
 EXPOSE 9090
 
-COPY --from=builder /webserver/app /webserver
+COPY --from=builder /webserver/engine /app
 
-CMD /webserver/app
+CMD /app/engine
