@@ -28,7 +28,7 @@ server:
 
 client:
   onboardingTimeoutMillis: 1000
-  legacyBaseUrl: http://localhost:3003/
+  legacyBaseUrl: http://localhost:3001/
 
 redis:
   address: localhost:6381

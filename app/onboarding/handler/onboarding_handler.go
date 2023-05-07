@@ -122,10 +122,6 @@ func (ob *OnboardingHandler) AtmOTP(ctx *gin.Context) {
 		ctx.AbortWithStatus(http.StatusInternalServerError)
 	}
 	ctx.JSON(http.StatusOK, res)
-	if err != nil {
-		ctx.AbortWithStatus(http.StatusInternalServerError)
-	}
-	ctx.JSON(http.StatusOK, res)
 }
 
 func (ob *OnboardingHandler) AtmPIN(ctx *gin.Context) {

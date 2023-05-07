@@ -1,32 +1,94 @@
 package handler
 
-import "web_server/domain"
+import (
+	"net/http"
+	"web_server/domain"
 
-type onboardingHandler struct {
-}
-
-const (
-	ACCOUNT_LIST = "/account/list"
-	ACCOUNT_OPEN = "/account/open"
-
-	STATEMENT_LIST = "/statement/list"
-
-	ORDER_STATUS = "/order/status"
-	ORDER_CANCEL = "/order/cancel"
-	ORDER_AMEND  = "/order/amend"
-	ORDER_DETAIL = "/order/detail"
-	ORDER_CREATE = "/order/create"
-
-	TRANSACTION_DETAIL = "/transaction/detail"
-	TRANSACTION_DEAL   = "/transaction/deal"
-	REF_ALL            = "/ref/all"
-	REF_CCY            = "/ref/ccy"
-	REF_PAIR           = "/ref/pair"
-	REF_NEWS           = "/ref/news"
-
-	WEBSOCKET_SERVER = "/wss/rates"
+	"github.com/gin-gonic/gin"
 )
 
-func NewOnboardingHandler(obUsecase domain.OrderUsecase) {
+type OrderHandler struct {
+	OrderUsecase domain.OrderUsecase
+}
 
+func NewOrderHandler(orderUc domain.OrderUsecase, g *gin.Engine) {
+	orderHandler := OrderHandler{orderUc}
+
+	g.POST(ORDER_STATUS, orderHandler.GetStatus)
+	g.POST(ORDER_CANCEL, orderHandler.Cancel)
+	g.POST(ORDER_AMEND, orderHandler.Amend)
+	g.POST(ORDER_DETAIL, orderHandler.GetDetail)
+	g.POST(ORDER_CREATE, orderHandler.Create)
+
+}
+
+func (oh *OrderHandler) GetStatus(ctx *gin.Context) {
+	var req domain.BaseRequest
+	if err := ctx.BindJSON(&req); err != nil {
+		ctx.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+	res, err := oh.OrderUsecase.GetStatus(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
+
+}
+
+func (oh *OrderHandler) Cancel(ctx *gin.Context) {
+	var req domain.BaseRequest
+	if err := ctx.BindJSON(&req); err != nil {
+		ctx.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+	res, err := oh.OrderUsecase.Cancel(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (oh *OrderHandler) Amend(ctx *gin.Context) {
+	var req domain.BaseRequest
+	if err := ctx.BindJSON(&req); err != nil {
+		ctx.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+	res, err := oh.OrderUsecase.Amend(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (oh *OrderHandler) GetDetail(ctx *gin.Context) {
+	var req domain.BaseRequest
+	if err := ctx.BindJSON(&req); err != nil {
+		ctx.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+	res, err := oh.OrderUsecase.GetDetail(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (oh *OrderHandler) Create(ctx *gin.Context) {
+	var req domain.BaseRequest
+	if err := ctx.BindJSON(&req); err != nil {
+		ctx.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+	res, err := oh.OrderUsecase.Create(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
 }

@@ -15,18 +15,20 @@ type AccountRepository struct {
 }
 
 // GetList provides a mock function with given fields: ctx, req
-func (_m *AccountRepository) GetList(ctx context.Context, req domain.BaseRequest) (domain.AccountResponse, error) {
+func (_m *AccountRepository) GetList(ctx context.Context, req *domain.BaseRequest) ([]domain.AccountResponse, error) {
 	ret := _m.Called(ctx, req)
 
-	var r0 domain.AccountResponse
-	if rf, ok := ret.Get(0).(func(context.Context, domain.BaseRequest) domain.AccountResponse); ok {
+	var r0 []domain.AccountResponse
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) []domain.AccountResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
-		r0 = ret.Get(0).(domain.AccountResponse)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]domain.AccountResponse)
+		}
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, domain.BaseRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.BaseRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)
@@ -36,18 +38,20 @@ func (_m *AccountRepository) GetList(ctx context.Context, req domain.BaseRequest
 }
 
 // Open provides a mock function with given fields: ctx, req
-func (_m *AccountRepository) Open(ctx context.Context, req domain.BaseRequest) (domain.AccountResponse, error) {
+func (_m *AccountRepository) Open(ctx context.Context, req *domain.BaseRequest) (*domain.AccountOpenResponse, error) {
 	ret := _m.Called(ctx, req)
 
-	var r0 domain.AccountResponse
-	if rf, ok := ret.Get(0).(func(context.Context, domain.BaseRequest) domain.AccountResponse); ok {
+	var r0 *domain.AccountOpenResponse
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) *domain.AccountOpenResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
-		r0 = ret.Get(0).(domain.AccountResponse)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*domain.AccountOpenResponse)
+		}
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, domain.BaseRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.BaseRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)

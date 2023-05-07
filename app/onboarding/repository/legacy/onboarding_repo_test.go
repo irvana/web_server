@@ -486,7 +486,7 @@ func TestOnboardingLegacyRepo_LoginVerifyPassword(t *testing.T) {
 	req := &domain.BaseRequest{}
 
 	// Define mock response
-	mockResp := &domain.BaseResponse{Status: "success"}
+	mockResp := &domain.VerifyPassword{BaseResponse: domain.BaseResponse{Status: "OK"}}
 	respBody, _ := json.Marshal(mockResp)
 
 	// Create mocked server to return response

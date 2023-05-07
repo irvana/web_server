@@ -14,7 +14,7 @@ type onboardingLegacyRepo struct {
 	baseURL string
 }
 
-func NewOnboardingRepository(client *http.Client, baseURL string) domain.OrderRepository {
+func NewOrderRepository(client *http.Client, baseURL string) domain.OrderRepository {
 	return &onboardingLegacyRepo{client: client, baseURL: baseURL}
 }
 

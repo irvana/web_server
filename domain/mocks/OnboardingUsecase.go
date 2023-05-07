@@ -176,15 +176,15 @@ func (_m *OnboardingUsecase) FreshVerifyPhone(ctx context.Context, req *domain.B
 }
 
 // LoginVerifyPassword provides a mock function with given fields: ctx, req
-func (_m *OnboardingUsecase) LoginVerifyPassword(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+func (_m *OnboardingUsecase) LoginVerifyPassword(ctx context.Context, req *domain.BaseRequest) (*domain.VerifyPassword, error) {
 	ret := _m.Called(ctx, req)
 
-	var r0 *domain.BaseResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) *domain.BaseResponse); ok {
+	var r0 *domain.VerifyPassword
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) *domain.VerifyPassword); ok {
 		r0 = rf(ctx, req)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*domain.BaseResponse)
+			r0 = ret.Get(0).(*domain.VerifyPassword)
 		}
 	}
 

@@ -1,4 +1,4 @@
-package legacy
+package handler
 
 const (
 	STATEMENT_LIST = "/statement/list"

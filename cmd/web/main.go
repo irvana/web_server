@@ -8,9 +8,15 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+	acchandler "web_server/app/account/handler"
+	accRepo "web_server/app/account/repository/legacy"
+	accusecase "web_server/app/account/usecase"
 	obhandler "web_server/app/onboarding/handler"
-	"web_server/app/onboarding/repository/legacy"
+	obRepo "web_server/app/onboarding/repository/legacy"
 	obusecase "web_server/app/onboarding/usecase"
+	"web_server/app/order/handler"
+	orrepo "web_server/app/order/repository/legacy"
+	orusecase "web_server/app/order/usecase"
 	ratehandler "web_server/app/rate/handler"
 	"web_server/app/rate/repository"
 	rateusecase "web_server/app/rate/usecase"
@@ -23,6 +29,7 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/rueian/rueidis"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -84,16 +91,6 @@ func main() {
 	gin.SetMode(cfg.Server.Level)
 	router := gin.New()
 	gin.DefaultWriter = log.StandardLogger().Writer()
-
-	httpClient := client.InitHttpClient(cfg.HttpClient)
-	obRepository := legacy.NewOnboardingRepository(httpClient.Client, httpClient.BaseURL)
-	obUsecase := obusecase.NewOnboardingUsecase(obRepository)
-	obhandler.NewOnboardingHandler(obUsecase, router)
-
-	rateRepo := repository.NewRateRepository(redisCli.Client, wampWss.Client, redisTsCli)
-	rateUsecase := rateusecase.NewRateUsecase(rateRepo)
-	ratehandler.RunRateHandlers(rateUsecase)
-
 	router.Use(cors.New(cors.Config{
 		AllowOrigins:  []string{"*"},
 		AllowMethods:  []string{"GET", "POST", "PUT", "HEAD", "OPTIONS"},
@@ -107,7 +104,27 @@ func main() {
 		wampWss.AuthWss.ServeHTTP(ctx.Writer, ctx.Request)
 	})
 
+	initHandlers(router, redisCli, redisTsCli, *wampWss)
 	runServer(router)
+}
+
+func initHandlers(router *gin.Engine, redisCli *redis.Client, redisTsCli *rueidis.Client, wampWss wamp.Wamp) {
+	httpClient := client.InitHttpClient(cfg.HttpClient)
+	obRepository := obRepo.NewOnboardingRepository(httpClient.Client, httpClient.BaseURL)
+	obUsecase := obusecase.NewOnboardingUsecase(obRepository)
+	obhandler.NewOnboardingHandler(obUsecase, router)
+
+	accRepository := accRepo.NewOnboardingRepository(httpClient.Client, httpClient.BaseURL)
+	acUsecase := accusecase.NewAccountUsecase(accRepository)
+	acchandler.NewAccountHandler(acUsecase, router)
+
+	orderRepo := orrepo.NewOrderRepository(httpClient.Client, httpClient.BaseURL)
+	orUsecase := orusecase.NewOrderUsecase(orderRepo)
+	handler.NewOrderHandler(orUsecase, router)
+
+	rateRepo := repository.NewRateRepository(redisCli.Client, wampWss.Client, redisTsCli)
+	rateUsecase := rateusecase.NewRateUsecase(rateRepo)
+	ratehandler.RunRateHandlers(rateUsecase)
 }
 
 func runServer(router *gin.Engine) {

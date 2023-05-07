@@ -49,7 +49,7 @@ func (o *onboardingUsecase) FreshVerifyPhone(ctx context.Context, req *domain.Ba
 }
 
 // LoginVerifyPassword implements domain.OnboardingUsecase
-func (o *onboardingUsecase) LoginVerifyPassword(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+func (o *onboardingUsecase) LoginVerifyPassword(ctx context.Context, req *domain.BaseRequest) (*domain.VerifyPassword, error) {
 	// TODO reassign websocket client (change topic or role for connected client)
 	return o.obRepo.LoginVerifyPassword(ctx, req)
 }

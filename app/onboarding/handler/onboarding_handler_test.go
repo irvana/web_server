@@ -541,7 +541,7 @@ func TestOnboardingHandler_ResetPassword(t *testing.T) {
 	onboardingUc.AssertExpectations(t)
 }
 func TestOnboardingHandler_VerifyPassword(t *testing.T) {
-	var resp domain.BaseResponse
+	var resp domain.VerifyPassword
 	faker.FakeData(&resp)
 	var bodyObj domain.BaseRequest
 	faker.FakeData(&bodyObj)

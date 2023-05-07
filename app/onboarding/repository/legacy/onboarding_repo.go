@@ -243,7 +243,7 @@ func (o *onboardingLegacyRepo) FreshVerifyPhone(ctx context.Context, req *domain
 }
 
 // LoginVerifyPassword implements domain.OnboardingRepository
-func (o *onboardingLegacyRepo) LoginVerifyPassword(ctx context.Context, req *domain.BaseRequest) (*domain.BaseResponse, error) {
+func (o *onboardingLegacyRepo) LoginVerifyPassword(ctx context.Context, req *domain.BaseRequest) (*domain.VerifyPassword, error) {
 	body, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
@@ -265,7 +265,7 @@ func (o *onboardingLegacyRepo) LoginVerifyPassword(ctx context.Context, req *dom
 	}
 	defer resp.Body.Close()
 
-	var result domain.BaseResponse
+	var result domain.VerifyPassword
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
 		return nil, err

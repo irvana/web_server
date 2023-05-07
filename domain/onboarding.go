@@ -22,10 +22,11 @@ type UserInfo struct {
 }
 
 type BaseResponse struct {
-	Status string `json:"status"`
-	Ph     string `json:"ph,omitempty"`
-	UUID   string `json:"uuid,omitempty"`
-	Mail   string `json:"mail,omitempty"`
+	Status      string `json:"status"`
+	Ph          string `json:"ph,omitempty"`
+	UUID        string `json:"uuid,omitempty"`
+	Mail        string `json:"mail,omitempty"`
+	IsUserExist string `json:"isUserExist,omitempty"`
 }
 
 type BaseRequest struct {
@@ -68,7 +69,7 @@ type (
 		ResetOTP(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
 		ResetPassword(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
 
-		LoginVerifyPassword(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		LoginVerifyPassword(ctx context.Context, req *BaseRequest) (*VerifyPassword, error)
 	}
 
 	OnboardingRepository interface {
@@ -95,7 +96,7 @@ type (
 		ResetOTP(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
 		ResetPassword(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
 
-		LoginVerifyPassword(ctx context.Context, req *BaseRequest) (*BaseResponse, error)
+		LoginVerifyPassword(ctx context.Context, req *BaseRequest) (*VerifyPassword, error)
 	}
 
 	SessionRepository interface {

@@ -152,7 +152,7 @@ func TestOnboardingUsecase_LoginVerifyPassword(t *testing.T) {
 	u := NewOnboardingUsecase(obRepo)
 
 	// Mock ATM Get Info method to return expected result
-	expectedResult := &domain.BaseResponse{}
+	expectedResult := &domain.VerifyPassword{}
 	obRepo.On("LoginVerifyPassword", context.Background(), req).Return(expectedResult, nil)
 
 	// Call function and assert result matches expected value
