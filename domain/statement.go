@@ -2,26 +2,16 @@ package domain
 
 import "context"
 
-type StatementResponse []StatementDetails
-
-type StatementDetails struct {
-	Cif       string `json:"cif"`
-	TicketID  string `json:"ticketId"`
-	DealDate  string `json:"dealDate"`
-	ValueDate string `json:"valueDate"`
-	Pair      string `json:"pair"`
-	BaseQuote string `json:"baseQuote"`
-	BidAsk    string `json:"bidAsk"`
-	BaseAmt   string `json:"baseAmt"`
-	CtrAmt    string `json:"ctrAmt"`
-	Rate      string `json:"rate"`
-	DebitAcc  string `json:"debitAcc"`
-	CreditAcc string `json:"creditAcc"`
+type StatementResponse struct {
+	StatementID  string `json:"statementId,omitempty"`
+	RefNo        string `json:"refNo,omitempty"`
+	DebitAmount  string `json:"debitAmount,omitempty"`
+	CreditAmount string `json:"creditAmount,omitempty"`
+	Balance      string `json:"balance,omitempty"`
+	PostDate     string `json:"postDate,omitempty"`
+	ValueDate    string `json:"valueDate,omitempty"`
 }
 
-type StatementUsecase interface {
-	List(ctx context.Context, req BaseRequest) (StatementResponse, error)
-}
 type StatementRepository interface {
-	List(ctx context.Context, req BaseRequest) (StatementResponse, error)
+	List(ctx context.Context, req *BaseRequest) ([]StatementResponse, error)
 }

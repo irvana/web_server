@@ -83,6 +83,29 @@ func (_m *OrderUsecase) Create(ctx context.Context, req *domain.BaseRequest) (*d
 	return r0, r1
 }
 
+// Deal provides a mock function with given fields: ctx, req
+func (_m *OrderUsecase) Deal(ctx context.Context, req *domain.BaseRequest) (*domain.TransactionResponse, error) {
+	ret := _m.Called(ctx, req)
+
+	var r0 *domain.TransactionResponse
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) *domain.TransactionResponse); ok {
+		r0 = rf(ctx, req)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*domain.TransactionResponse)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.BaseRequest) error); ok {
+		r1 = rf(ctx, req)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetDetail provides a mock function with given fields: ctx, req
 func (_m *OrderUsecase) GetDetail(ctx context.Context, req *domain.BaseRequest) (*domain.OrderResponse, error) {
 	ret := _m.Called(ctx, req)
@@ -106,16 +129,62 @@ func (_m *OrderUsecase) GetDetail(ctx context.Context, req *domain.BaseRequest) 
 	return r0, r1
 }
 
-// GetStatus provides a mock function with given fields: ctx, req
-func (_m *OrderUsecase) GetStatus(ctx context.Context, req *domain.BaseRequest) (*domain.OrderResponse, error) {
+// GetStatementList provides a mock function with given fields: ctx, req
+func (_m *OrderUsecase) GetStatementList(ctx context.Context, req *domain.BaseRequest) ([]domain.StatementResponse, error) {
 	ret := _m.Called(ctx, req)
 
-	var r0 *domain.OrderResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) *domain.OrderResponse); ok {
+	var r0 []domain.StatementResponse
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) []domain.StatementResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*domain.OrderResponse)
+			r0 = ret.Get(0).([]domain.StatementResponse)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.BaseRequest) error); ok {
+		r1 = rf(ctx, req)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetStatus provides a mock function with given fields: ctx, req
+func (_m *OrderUsecase) GetStatus(ctx context.Context, req *domain.BaseRequest) ([]domain.OrderResponse, error) {
+	ret := _m.Called(ctx, req)
+
+	var r0 []domain.OrderResponse
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) []domain.OrderResponse); ok {
+		r0 = rf(ctx, req)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]domain.OrderResponse)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.BaseRequest) error); ok {
+		r1 = rf(ctx, req)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetTransactionDetail provides a mock function with given fields: ctx, req
+func (_m *OrderUsecase) GetTransactionDetail(ctx context.Context, req *domain.BaseRequest) (*domain.TransactionResponse, error) {
+	ret := _m.Called(ctx, req)
+
+	var r0 *domain.TransactionResponse
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) *domain.TransactionResponse); ok {
+		r0 = rf(ctx, req)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*domain.TransactionResponse)
 		}
 	}
 

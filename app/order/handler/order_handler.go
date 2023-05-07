@@ -20,6 +20,10 @@ func NewOrderHandler(orderUc domain.OrderUsecase, g *gin.Engine) {
 	g.POST(ORDER_DETAIL, orderHandler.GetDetail)
 	g.POST(ORDER_CREATE, orderHandler.Create)
 
+	g.POST(STATEMENT_LIST, orderHandler.StatementList)
+	g.POST(TRANSACTION_DEAL, orderHandler.Deal)
+	g.POST(TRANSACTION_DETAIL, orderHandler.TransactionDetail)
+
 }
 
 func (oh *OrderHandler) GetStatus(ctx *gin.Context) {
@@ -87,6 +91,48 @@ func (oh *OrderHandler) Create(ctx *gin.Context) {
 	}
 
 	res, err := oh.OrderUsecase.Create(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (oh *OrderHandler) StatementList(ctx *gin.Context) {
+	var req domain.BaseRequest
+	if err := ctx.BindJSON(&req); err != nil {
+		ctx.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+	res, err := oh.OrderUsecase.GetStatementList(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (oh *OrderHandler) TransactionDetail(ctx *gin.Context) {
+	var req domain.BaseRequest
+	if err := ctx.BindJSON(&req); err != nil {
+		ctx.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+	res, err := oh.OrderUsecase.GetTransactionDetail(ctx, &req)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+	}
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (oh *OrderHandler) Deal(ctx *gin.Context) {
+	var req domain.BaseRequest
+	if err := ctx.BindJSON(&req); err != nil {
+		ctx.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+	res, err := oh.OrderUsecase.Deal(ctx, &req)
 	if err != nil {
 		ctx.AbortWithStatus(http.StatusInternalServerError)
 	}

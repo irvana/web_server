@@ -130,7 +130,7 @@ func Test_OrderRepo_GetStatus(t *testing.T) {
 	req := &domain.BaseRequest{}
 
 	// Define mock response
-	mockResp := &domain.OrderResponse{Status: "success"}
+	mockResp := []domain.OrderResponse{}
 	respBody, _ := json.Marshal(mockResp)
 
 	// Create mocked server to return response

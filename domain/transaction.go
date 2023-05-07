@@ -22,11 +22,8 @@ type TransactionResponse struct {
 	Status     string `json:"status,omitempty"`
 	Reason     string `json:"reason,omitempty"`
 }
-type TransactionUsecase interface {
-	GetDetail(ctx context.Context, req BaseRequest) (TransactionResponse, error)
-	Deal(ctx context.Context, req BaseRequest) (TransactionResponse, error)
-}
+
 type TransactionRepository interface {
-	GetDetail(ctx context.Context, req BaseRequest) (TransactionResponse, error)
-	Deal(ctx context.Context, req BaseRequest) (TransactionResponse, error)
+	GetDetail(ctx context.Context, req *BaseRequest) (*TransactionResponse, error)
+	Deal(ctx context.Context, req *BaseRequest) (*TransactionResponse, error)
 }

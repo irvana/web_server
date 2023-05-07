@@ -6,11 +6,13 @@ import (
 )
 
 type onboardingUsecase struct {
-	ob domain.OrderRepository
+	ob      domain.OrderRepository
+	stmRepo domain.StatementRepository
+	trRepo  domain.TransactionRepository
 }
 
-func NewOrderUsecase(ob domain.OrderRepository) domain.OrderUsecase {
-	return &onboardingUsecase{ob}
+func NewOrderUsecase(ob domain.OrderRepository, stmRepo domain.StatementRepository, trRepo domain.TransactionRepository) domain.OrderUsecase {
+	return &onboardingUsecase{ob, stmRepo, trRepo}
 }
 
 // Amend implements domain.OrderUsecase
@@ -34,6 +36,18 @@ func (o *onboardingUsecase) GetDetail(ctx context.Context, req *domain.BaseReque
 }
 
 // GetStatus implements domain.OrderUsecase
-func (o *onboardingUsecase) GetStatus(ctx context.Context, req *domain.BaseRequest) (*domain.OrderResponse, error) {
+func (o *onboardingUsecase) GetStatus(ctx context.Context, req *domain.BaseRequest) ([]domain.OrderResponse, error) {
 	return o.ob.GetStatus(ctx, req)
+}
+
+func (o *onboardingUsecase) GetStatementList(ctx context.Context, req *domain.BaseRequest) ([]domain.StatementResponse, error) {
+	return o.stmRepo.List(ctx, req)
+}
+
+func (o *onboardingUsecase) GetTransactionDetail(ctx context.Context, req *domain.BaseRequest) (*domain.TransactionResponse, error) {
+	return o.trRepo.GetDetail(ctx, req)
+}
+
+func (o *onboardingUsecase) Deal(ctx context.Context, req *domain.BaseRequest) (*domain.TransactionResponse, error) {
+	return o.trRepo.Deal(ctx, req)
 }

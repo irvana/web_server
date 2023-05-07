@@ -19,7 +19,7 @@ import (
 
 func TestAccountHandler_GetList(t *testing.T) {
 	var resp []domain.AccountResponse
-	faker.FakeData(resp)
+	faker.FakeData(&resp)
 	var bodyObj domain.BaseRequest
 	faker.FakeData(&bodyObj)
 
@@ -27,7 +27,7 @@ func TestAccountHandler_GetList(t *testing.T) {
 	assert.NoError(t, err)
 
 	accountUc := new(mocks.AccountUsecase)
-	accountUc.On("GetList", mock.Anything, &bodyObj).Return(&resp, nil)
+	accountUc.On("GetList", mock.Anything, &bodyObj).Return(resp, nil)
 
 	req, err := http.NewRequestWithContext(context.TODO(), http.MethodPost, ACCOUNT_LIST, bytes.NewBuffer(body))
 	assert.NoError(t, err)
@@ -42,7 +42,7 @@ func TestAccountHandler_GetList(t *testing.T) {
 	assert.Equal(t, http.StatusOK, rec.Code)
 	respBody, err := io.ReadAll(rec.Body)
 	assert.NoError(t, err)
-	assert.Contains(t, string(respBody), "[]")
+	assert.Greater(t, len(string(respBody)), 10)
 
 	accountUc.AssertExpectations(t)
 }

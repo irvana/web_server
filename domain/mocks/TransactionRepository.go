@@ -15,18 +15,20 @@ type TransactionRepository struct {
 }
 
 // Deal provides a mock function with given fields: ctx, req
-func (_m *TransactionRepository) Deal(ctx context.Context, req domain.BaseRequest) (domain.TransactionResponse, error) {
+func (_m *TransactionRepository) Deal(ctx context.Context, req *domain.BaseRequest) (*domain.TransactionResponse, error) {
 	ret := _m.Called(ctx, req)
 
-	var r0 domain.TransactionResponse
-	if rf, ok := ret.Get(0).(func(context.Context, domain.BaseRequest) domain.TransactionResponse); ok {
+	var r0 *domain.TransactionResponse
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) *domain.TransactionResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
-		r0 = ret.Get(0).(domain.TransactionResponse)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*domain.TransactionResponse)
+		}
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, domain.BaseRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.BaseRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)
@@ -36,18 +38,20 @@ func (_m *TransactionRepository) Deal(ctx context.Context, req domain.BaseReques
 }
 
 // GetDetail provides a mock function with given fields: ctx, req
-func (_m *TransactionRepository) GetDetail(ctx context.Context, req domain.BaseRequest) (domain.TransactionResponse, error) {
+func (_m *TransactionRepository) GetDetail(ctx context.Context, req *domain.BaseRequest) (*domain.TransactionResponse, error) {
 	ret := _m.Called(ctx, req)
 
-	var r0 domain.TransactionResponse
-	if rf, ok := ret.Get(0).(func(context.Context, domain.BaseRequest) domain.TransactionResponse); ok {
+	var r0 *domain.TransactionResponse
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) *domain.TransactionResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
-		r0 = ret.Get(0).(domain.TransactionResponse)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*domain.TransactionResponse)
+		}
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, domain.BaseRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.BaseRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)

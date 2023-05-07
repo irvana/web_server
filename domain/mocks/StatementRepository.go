@@ -15,20 +15,20 @@ type StatementRepository struct {
 }
 
 // List provides a mock function with given fields: ctx, req
-func (_m *StatementRepository) List(ctx context.Context, req domain.BaseRequest) (domain.StatementResponse, error) {
+func (_m *StatementRepository) List(ctx context.Context, req *domain.BaseRequest) ([]domain.StatementResponse, error) {
 	ret := _m.Called(ctx, req)
 
-	var r0 domain.StatementResponse
-	if rf, ok := ret.Get(0).(func(context.Context, domain.BaseRequest) domain.StatementResponse); ok {
+	var r0 []domain.StatementResponse
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) []domain.StatementResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(domain.StatementResponse)
+			r0 = ret.Get(0).([]domain.StatementResponse)
 		}
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, domain.BaseRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.BaseRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)

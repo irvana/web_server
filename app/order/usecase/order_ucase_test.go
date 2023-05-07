@@ -15,7 +15,7 @@ func TestOrderUsecase_Amend(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OrderRepository)
-	u := NewOrderUsecase(obRepo)
+	u := NewOrderUsecase(obRepo, nil, nil)
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.OrderResponse{}
@@ -33,7 +33,7 @@ func TestOrderUsecase_Cancel(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OrderRepository)
-	u := NewOrderUsecase(obRepo)
+	u := NewOrderUsecase(obRepo, nil, nil)
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.OrderResponse{}
@@ -50,7 +50,7 @@ func TestOrderUsecase_Create(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OrderRepository)
-	u := NewOrderUsecase(obRepo)
+	u := NewOrderUsecase(obRepo, nil, nil)
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.OrderResponse{}
@@ -67,7 +67,7 @@ func TestOrderUsecase_GetDetail(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OrderRepository)
-	u := NewOrderUsecase(obRepo)
+	u := NewOrderUsecase(obRepo, nil, nil)
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.OrderResponse{}
@@ -84,14 +84,66 @@ func TestOrderUsecase_GetStatus(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OrderRepository)
-	u := NewOrderUsecase(obRepo)
+	u := NewOrderUsecase(obRepo, nil, nil)
 
 	// Mock ATM Get Info method to return expected result
-	expectedResult := &domain.OrderResponse{}
+	expectedResult := []domain.OrderResponse{}
 	obRepo.On("GetStatus", context.Background(), req).Return(expectedResult, nil)
 
 	// Call function and assert result matches expected value
 	result, err := u.GetStatus(context.Background(), req)
+	assert.NoError(t, err)
+	assert.Equal(t, expectedResult, result)
+}
+
+func Test_onboardingUsecase_GetStatementList(t *testing.T) {
+	// Set up sample request
+	req := &domain.BaseRequest{}
+
+	// Create onboarding usecase with mocked repository
+	stmRepo := new(mocks.StatementRepository)
+	u := NewOrderUsecase(nil, stmRepo, nil)
+
+	// Mock ATM Get Info method to return expected result
+	expectedResult := []domain.StatementResponse{}
+	stmRepo.On("List", context.Background(), req).Return(expectedResult, nil)
+
+	// Call function and assert result matches expected value
+	result, err := u.GetStatementList(context.Background(), req)
+	assert.NoError(t, err)
+	assert.Equal(t, expectedResult, result)
+}
+
+func Test_onboardingUsecase_GetTransactionDetail(t *testing.T) {
+	req := &domain.BaseRequest{}
+
+	// Create onboarding usecase with mocked repository
+	trxRepo := new(mocks.TransactionRepository)
+	u := NewOrderUsecase(nil, nil, trxRepo)
+
+	// Mock ATM Get Info method to return expected result
+	expectedResult := &domain.TransactionResponse{}
+	trxRepo.On("GetDetail", context.Background(), req).Return(expectedResult, nil)
+
+	// Call function and assert result matches expected value
+	result, err := u.GetTransactionDetail(context.Background(), req)
+	assert.NoError(t, err)
+	assert.Equal(t, expectedResult, result)
+}
+
+func Test_onboardingUsecase_Deal(t *testing.T) {
+	req := &domain.BaseRequest{}
+
+	// Create onboarding usecase with mocked repository
+	trxRepo := new(mocks.TransactionRepository)
+	u := NewOrderUsecase(nil, nil, trxRepo)
+
+	// Mock ATM Get Info method to return expected result
+	expectedResult := &domain.TransactionResponse{}
+	trxRepo.On("Deal", context.Background(), req).Return(expectedResult, nil)
+
+	// Call function and assert result matches expected value
+	result, err := u.Deal(context.Background(), req)
 	assert.NoError(t, err)
 	assert.Equal(t, expectedResult, result)
 }

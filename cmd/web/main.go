@@ -20,6 +20,8 @@ import (
 	ratehandler "web_server/app/rate/handler"
 	"web_server/app/rate/repository"
 	rateusecase "web_server/app/rate/usecase"
+	stmrepo "web_server/app/statement/repository/legacy"
+	"web_server/app/transaction/repository/legacy"
 	"web_server/configs"
 	"web_server/pkg/authentication"
 	"web_server/pkg/client"
@@ -119,7 +121,9 @@ func initHandlers(router *gin.Engine, redisCli *redis.Client, redisTsCli *rueidi
 	acchandler.NewAccountHandler(acUsecase, router)
 
 	orderRepo := orrepo.NewOrderRepository(httpClient.Client, httpClient.BaseURL)
-	orUsecase := orusecase.NewOrderUsecase(orderRepo)
+	stmRepo := stmrepo.NewStatementRepository(httpClient.Client, httpClient.BaseURL)
+	trxRepo := legacy.NewTrxRepository(httpClient.Client, httpClient.BaseURL)
+	orUsecase := orusecase.NewOrderUsecase(orderRepo, stmRepo, trxRepo)
 	handler.NewOrderHandler(orUsecase, router)
 
 	rateRepo := repository.NewRateRepository(redisCli.Client, wampWss.Client, redisTsCli)

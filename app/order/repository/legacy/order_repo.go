@@ -147,7 +147,7 @@ func (o *onboardingLegacyRepo) GetDetail(ctx context.Context, req *domain.BaseRe
 }
 
 // GetStatus implements domain.OrderRepository
-func (o *onboardingLegacyRepo) GetStatus(ctx context.Context, req *domain.BaseRequest) (*domain.OrderResponse, error) {
+func (o *onboardingLegacyRepo) GetStatus(ctx context.Context, req *domain.BaseRequest) ([]domain.OrderResponse, error) {
 	body, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
@@ -169,11 +169,11 @@ func (o *onboardingLegacyRepo) GetStatus(ctx context.Context, req *domain.BaseRe
 	}
 	defer resp.Body.Close()
 
-	var result domain.OrderResponse
+	var result []domain.OrderResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
 		return nil, err
 	}
 
-	return &result, nil
+	return result, nil
 }

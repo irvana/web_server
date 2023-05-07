@@ -107,15 +107,15 @@ func (_m *OrderRepository) GetDetail(ctx context.Context, req *domain.BaseReques
 }
 
 // GetStatus provides a mock function with given fields: ctx, req
-func (_m *OrderRepository) GetStatus(ctx context.Context, req *domain.BaseRequest) (*domain.OrderResponse, error) {
+func (_m *OrderRepository) GetStatus(ctx context.Context, req *domain.BaseRequest) ([]domain.OrderResponse, error) {
 	ret := _m.Called(ctx, req)
 
-	var r0 *domain.OrderResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) *domain.OrderResponse); ok {
+	var r0 []domain.OrderResponse
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) []domain.OrderResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*domain.OrderResponse)
+			r0 = ret.Get(0).([]domain.OrderResponse)
 		}
 	}
 

@@ -17,7 +17,7 @@ func Test_accountLegacyRepo_GetList(t *testing.T) {
 	req := &domain.BaseRequest{}
 
 	// Define mock response
-	mockResp := &domain.AccountResponse{}
+	mockResp := []domain.AccountResponse{}
 	respBody, _ := json.Marshal(mockResp)
 
 	// Create mocked server to return response
@@ -42,7 +42,7 @@ func Test_accountLegacyRepo_Open(t *testing.T) {
 	req := &domain.BaseRequest{}
 
 	// Define mock response
-	mockResp := &domain.AccountResponse{}
+	mockResp := &domain.AccountOpenResponse{}
 	respBody, _ := json.Marshal(mockResp)
 
 	// Create mocked server to return response
