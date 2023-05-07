@@ -14,14 +14,17 @@ import (
 	obhandler "web_server/app/onboarding/handler"
 	obRepo "web_server/app/onboarding/repository/legacy"
 	obusecase "web_server/app/onboarding/usecase"
-	"web_server/app/order/handler"
+	orhandler "web_server/app/order/handler"
 	orrepo "web_server/app/order/repository/legacy"
 	orusecase "web_server/app/order/usecase"
 	ratehandler "web_server/app/rate/handler"
 	"web_server/app/rate/repository"
 	rateusecase "web_server/app/rate/usecase"
+	refhandler "web_server/app/ref/handler"
+	refrepo "web_server/app/ref/repository/legacy"
+	"web_server/app/ref/usecase"
 	stmrepo "web_server/app/statement/repository/legacy"
-	"web_server/app/transaction/repository/legacy"
+	trxrepo "web_server/app/transaction/repository/legacy"
 	"web_server/configs"
 	"web_server/pkg/authentication"
 	"web_server/pkg/client"
@@ -122,9 +125,13 @@ func initHandlers(router *gin.Engine, redisCli *redis.Client, redisTsCli *rueidi
 
 	orderRepo := orrepo.NewOrderRepository(httpClient.Client, httpClient.BaseURL)
 	stmRepo := stmrepo.NewStatementRepository(httpClient.Client, httpClient.BaseURL)
-	trxRepo := legacy.NewTrxRepository(httpClient.Client, httpClient.BaseURL)
+	trxRepo := trxrepo.NewTrxRepository(httpClient.Client, httpClient.BaseURL)
 	orUsecase := orusecase.NewOrderUsecase(orderRepo, stmRepo, trxRepo)
-	handler.NewOrderHandler(orUsecase, router)
+	orhandler.NewOrderHandler(orUsecase, router)
+
+	refRepo := refrepo.NewRefRepository(httpClient.Client, httpClient.BaseURL)
+	refUsecase := usecase.NewRefUsecase(refRepo)
+	refhandler.NewRefHandler(refUsecase, router)
 
 	rateRepo := repository.NewRateRepository(redisCli.Client, wampWss.Client, redisTsCli)
 	rateUsecase := rateusecase.NewRateUsecase(rateRepo)

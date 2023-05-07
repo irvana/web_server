@@ -15,18 +15,20 @@ type RefRepository struct {
 }
 
 // GetAll provides a mock function with given fields: ctx, req
-func (_m *RefRepository) GetAll(ctx context.Context, req domain.RefRequest) (domain.RefResponse, error) {
+func (_m *RefRepository) GetAll(ctx context.Context, req *domain.RefRequest) ([]domain.RefResponse, error) {
 	ret := _m.Called(ctx, req)
 
-	var r0 domain.RefResponse
-	if rf, ok := ret.Get(0).(func(context.Context, domain.RefRequest) domain.RefResponse); ok {
+	var r0 []domain.RefResponse
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.RefRequest) []domain.RefResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
-		r0 = ret.Get(0).(domain.RefResponse)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]domain.RefResponse)
+		}
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, domain.RefRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.RefRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)
@@ -36,18 +38,20 @@ func (_m *RefRepository) GetAll(ctx context.Context, req domain.RefRequest) (dom
 }
 
 // GetConfig provides a mock function with given fields: ctx, req
-func (_m *RefRepository) GetConfig(ctx context.Context, req domain.RefRequest) (domain.Config, error) {
+func (_m *RefRepository) GetConfig(ctx context.Context, req *domain.RefRequest) (*domain.Config, error) {
 	ret := _m.Called(ctx, req)
 
-	var r0 domain.Config
-	if rf, ok := ret.Get(0).(func(context.Context, domain.RefRequest) domain.Config); ok {
+	var r0 *domain.Config
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.RefRequest) *domain.Config); ok {
 		r0 = rf(ctx, req)
 	} else {
-		r0 = ret.Get(0).(domain.Config)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*domain.Config)
+		}
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, domain.RefRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.RefRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)
@@ -57,18 +61,20 @@ func (_m *RefRepository) GetConfig(ctx context.Context, req domain.RefRequest) (
 }
 
 // GetCurrency provides a mock function with given fields: ctx, req
-func (_m *RefRepository) GetCurrency(ctx context.Context, req domain.RefRequest) (domain.Currency, error) {
+func (_m *RefRepository) GetCurrency(ctx context.Context, req *domain.RefRequest) ([]domain.Currency, error) {
 	ret := _m.Called(ctx, req)
 
-	var r0 domain.Currency
-	if rf, ok := ret.Get(0).(func(context.Context, domain.RefRequest) domain.Currency); ok {
+	var r0 []domain.Currency
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.RefRequest) []domain.Currency); ok {
 		r0 = rf(ctx, req)
 	} else {
-		r0 = ret.Get(0).(domain.Currency)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]domain.Currency)
+		}
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, domain.RefRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.RefRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)
@@ -78,18 +84,20 @@ func (_m *RefRepository) GetCurrency(ctx context.Context, req domain.RefRequest)
 }
 
 // GetNews provides a mock function with given fields: ctx, req
-func (_m *RefRepository) GetNews(ctx context.Context, req domain.RefRequest) (domain.News, error) {
+func (_m *RefRepository) GetNews(ctx context.Context, req *domain.RefRequest) ([]domain.News, error) {
 	ret := _m.Called(ctx, req)
 
-	var r0 domain.News
-	if rf, ok := ret.Get(0).(func(context.Context, domain.RefRequest) domain.News); ok {
+	var r0 []domain.News
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.RefRequest) []domain.News); ok {
 		r0 = rf(ctx, req)
 	} else {
-		r0 = ret.Get(0).(domain.News)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]domain.News)
+		}
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, domain.RefRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.RefRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)
@@ -99,18 +107,20 @@ func (_m *RefRepository) GetNews(ctx context.Context, req domain.RefRequest) (do
 }
 
 // GetPair provides a mock function with given fields: ctx, req
-func (_m *RefRepository) GetPair(ctx context.Context, req domain.RefRequest) (domain.Pair, error) {
+func (_m *RefRepository) GetPair(ctx context.Context, req *domain.RefRequest) ([]domain.Pair, error) {
 	ret := _m.Called(ctx, req)
 
-	var r0 domain.Pair
-	if rf, ok := ret.Get(0).(func(context.Context, domain.RefRequest) domain.Pair); ok {
+	var r0 []domain.Pair
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.RefRequest) []domain.Pair); ok {
 		r0 = rf(ctx, req)
 	} else {
-		r0 = ret.Get(0).(domain.Pair)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]domain.Pair)
+		}
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, domain.RefRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.RefRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)

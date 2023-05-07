@@ -11,6 +11,14 @@ type RefHandler struct {
 	RefUsecase domain.RefUsecase
 }
 
+const (
+	REF_ALL  = "/ref/all"
+	REF_CCY  = "/ref/ccy"
+	REF_PAIR = "/ref/pair"
+	REF_NEWS = "/ref/news"
+	REF_CFG  = "/ref/cfg"
+)
+
 func NewRefHandler(refUsecase domain.RefUsecase, g *gin.Engine) {
 	refHandler := &RefHandler{refUsecase}
 
@@ -28,7 +36,7 @@ func (ref *RefHandler) GetCurrency(ctx *gin.Context) {
 		return
 	}
 
-	res, err := ref.RefUsecase.GetCurrency(ctx, req)
+	res, err := ref.RefUsecase.GetCurrency(ctx, &req)
 	if err != nil {
 		ctx.AbortWithStatus(http.StatusInternalServerError)
 	}
@@ -42,7 +50,7 @@ func (ref *RefHandler) GetAll(ctx *gin.Context) {
 		return
 	}
 
-	res, err := ref.RefUsecase.GetAll(ctx, req)
+	res, err := ref.RefUsecase.GetAll(ctx, &req)
 	if err != nil {
 		ctx.AbortWithStatus(http.StatusInternalServerError)
 	}
@@ -56,7 +64,7 @@ func (ref *RefHandler) GetNews(ctx *gin.Context) {
 		return
 	}
 
-	res, err := ref.RefUsecase.GetNews(ctx, req)
+	res, err := ref.RefUsecase.GetNews(ctx, &req)
 	if err != nil {
 		ctx.AbortWithStatus(http.StatusInternalServerError)
 	}
@@ -70,7 +78,7 @@ func (ref *RefHandler) GetPair(ctx *gin.Context) {
 		return
 	}
 
-	res, err := ref.RefUsecase.GetPair(ctx, req)
+	res, err := ref.RefUsecase.GetPair(ctx, &req)
 	if err != nil {
 		ctx.AbortWithStatus(http.StatusInternalServerError)
 	}
@@ -84,7 +92,7 @@ func (ref *RefHandler) GetConfig(ctx *gin.Context) {
 		return
 	}
 
-	res, err := ref.RefUsecase.GetConfig(ctx, req)
+	res, err := ref.RefUsecase.GetConfig(ctx, &req)
 	if err != nil {
 		ctx.AbortWithStatus(http.StatusInternalServerError)
 	}
