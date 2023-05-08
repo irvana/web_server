@@ -1,0 +1,7 @@
+steps:
+#build steps
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-t', 'gcr.io/sinarmas/webserver:$SHORT_SHA', '-t', 'gcr.io/sinarmas/webserver:latest', '.' ]
+
+images:
+- 'gcr.io/sinarmas/webserver'
