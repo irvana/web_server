@@ -7,7 +7,7 @@ services:
       - 8080:8080
     build: .
     environment:
-      - SINARMAS_REDIS.ADDRESS=host.docker.internal:6381
+      - SINARMAS_REDIS.ADDRESS=127.0.0.1:6379
       - SINARMAS_SERVER.ADDRESS=127.0.0.1
       - SINARMAS_SERVER.PORT=8080
       - SINARMAS_AUTHENTICATION.PRIVPATH=configs/jwt.key

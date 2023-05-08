@@ -24,7 +24,7 @@ EXPOSE 8080
 COPY --from=builder /webserver/engine /app
 COPY ./configs/ /app/configs/
 
-ENV SINARMAS_REDIS.ADDRESS="host.docker.internal:6381" \
+ENV SINARMAS_REDIS.ADDRESS="127.0.0.1:6379" \
     SINARMAS_SERVER.ADDRESS="127.0.0.1" \
     SINARMAS_SERVER.PORT=8080 \
     SINARMAS_AUTHENTICATION.PRIVPATH="configs/jwt.key" \
