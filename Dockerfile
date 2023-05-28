@@ -30,4 +30,4 @@ ENV SINARMAS_REDIS.ADDRESS="127.0.0.1:6379" \
     SINARMAS_AUTHENTICATION.PRIVPATH="configs/jwt.key" \
     SINARMAS_AUTHENTICATION.PUBPATH="configs/jwt.key.pub"
 
-cmd /app/engine
+CMD /app/engine

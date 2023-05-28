@@ -39,6 +39,7 @@ func (r *rateUsecase) ProcessBackgroundRef(ctx context.Context) {
 		resp, err := r.rateRepo.ConsumeRate(ctx)
 		if err != nil {
 			log.WithError(err).Errorln("error consuming ref")
+
 		}
 
 		err = r.rateRepo.PublishRate(ctx, resp)
@@ -46,4 +47,8 @@ func (r *rateUsecase) ProcessBackgroundRef(ctx context.Context) {
 			log.WithError(err).Errorln("error publishing ref")
 		}
 	}
+}
+
+func (r *rateUsecase) GetChart(ctx context.Context, req *domain.HistoricRateRequest) ([]domain.RateResponse, error) {
+	panic("not implemented") // TODO: Implement
 }

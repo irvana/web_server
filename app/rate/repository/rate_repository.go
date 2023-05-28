@@ -12,10 +12,10 @@ import (
 type rateRepository struct {
 	redisCli   *redis.Client
 	wampCli    *client.Client
-	redisTsCli *rueidis.Client
+	redisTsCli rueidis.Client
 }
 
-func NewRateRepository(redisCli *redis.Client, wampCli *client.Client, redisTsCli *rueidis.Client) domain.RateRepository {
+func NewRateRepository(redisCli *redis.Client, wampCli *client.Client, redisTsCli rueidis.Client) domain.RateRepository {
 	return &rateRepository{redisCli, wampCli, redisTsCli}
 }
 

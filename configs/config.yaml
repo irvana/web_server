@@ -35,6 +35,10 @@ redis:
   timeout: 30
   ratesChannel: rates
   miscChannel: misc
+  refPair: refs:pair
+  refCcy: refs:currency
+  refCfg: refs:configuration
+  refNews: refs:mobilenewsitem
 
 log:
   level: DEBUG

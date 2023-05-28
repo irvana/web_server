@@ -22,6 +22,7 @@ import (
 	rateusecase "web_server/app/rate/usecase"
 	refhandler "web_server/app/ref/handler"
 	refrepo "web_server/app/ref/repository/legacy"
+	redis_repo "web_server/app/ref/repository/redis"
 	"web_server/app/ref/usecase"
 	stmrepo "web_server/app/statement/repository/legacy"
 	trxrepo "web_server/app/transaction/repository/legacy"
@@ -113,7 +114,7 @@ func main() {
 	runServer(router)
 }
 
-func initHandlers(router *gin.Engine, redisCli *redis.Client, redisTsCli *rueidis.Client, wampWss wamp.Wamp) {
+func initHandlers(router *gin.Engine, redisCli *redis.Client, redisTsCli rueidis.Client, wampWss wamp.Wamp) {
 	httpClient := client.InitHttpClient(cfg.HttpClient)
 	obRepository := obRepo.NewOnboardingRepository(httpClient.Client, httpClient.BaseURL)
 	obUsecase := obusecase.NewOnboardingUsecase(obRepository)
@@ -130,10 +131,15 @@ func initHandlers(router *gin.Engine, redisCli *redis.Client, redisTsCli *rueidi
 	orhandler.NewOrderHandler(orUsecase, router)
 
 	refRepo := refrepo.NewRefRepository(httpClient.Client, httpClient.BaseURL)
-	refUsecase := usecase.NewRefUsecase(refRepo)
+	refRedisRepo := redis_repo.NewRefRedisRepository(redisCli.Client, cfg.Redis)
+	refUsecase, err := usecase.NewRefUsecase(refRepo, refRedisRepo)
+	if err != nil {
+		log.WithError(err).Panic("error initiating ref usecase config")
+	}
 	refhandler.NewRefHandler(refUsecase, router)
 
 	rateRepo := repository.NewRateRepository(redisCli.Client, wampWss.Client, redisTsCli)
+
 	rateUsecase := rateusecase.NewRateUsecase(rateRepo)
 	ratehandler.RunRateHandlers(rateUsecase)
 }

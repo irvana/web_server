@@ -12,6 +12,11 @@ type (
 		DialTimeout  int    `mapstructure:"timeout"`
 		RatesChannel string `mapstructure:"ratesChannel"`
 		MiscChannel  string `mapstructure:"miscChannel"`
+		ConfigKey    string `mapstructure:"configKey"`
+		PairKey      string `mapstructure:"refPair"`
+		CcyKey       string `mapstructure:"refCcy"`
+		CfgKey       string `mapstructure:"refCfg"`
+		NewsKey      string `mapstructure:"refNews"`
 	}
 
 	// Client do we need this?

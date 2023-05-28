@@ -25,6 +25,7 @@ const (
 func NewRefRepository(client *http.Client, baseURL string) domain.RefRepository {
 	return &refLegacyRepo{client: client, baseURL: baseURL}
 }
+
 func (r *refLegacyRepo) GetAll(ctx context.Context, req *domain.RefRequest) ([]domain.RefResponse, error) {
 	body, err := json.Marshal(req)
 	if err != nil {

@@ -1,7 +1,3 @@
 .vscode
 
 vendor
-
-jwt*
-
-config/jwt*key*

@@ -1,6 +1,10 @@
 package domain
 
-import "context"
+import (
+	"context"
+
+	"github.com/go-redis/redis"
+)
 
 type Currency struct {
 	ID      string `json:"id,omitempty"`
@@ -53,6 +57,7 @@ type RefDetails struct {
 	Content    string `json:"content,omitempty"`
 	StartDate  string `json:"startDate,omitempty"`
 	EndDate    string `json:"endDate,omitempty"`
+	AutoLocked string `json:"autoLocked,omitempty"`
 }
 type Config struct {
 	ID         string `json:"id,omitempty"`
@@ -65,6 +70,7 @@ type RefUsecase interface {
 	GetPair(ctx context.Context, req *RefRequest) ([]Pair, error)
 	GetNews(ctx context.Context, req *RefRequest) ([]News, error)
 	GetConfig(ctx context.Context, req *RefRequest) (*Config, error)
+	UpdateConfig()
 }
 
 type RefRepository interface {
@@ -73,4 +79,9 @@ type RefRepository interface {
 	GetPair(ctx context.Context, req *RefRequest) ([]Pair, error)
 	GetNews(ctx context.Context, req *RefRequest) ([]News, error)
 	GetConfig(ctx context.Context, req *RefRequest) (*Config, error)
+}
+
+type RefSubscriberRepository interface {
+	Consume(channel string) <-chan *redis.Message
+	GetAll() ([]RefResponse, error)
 }
