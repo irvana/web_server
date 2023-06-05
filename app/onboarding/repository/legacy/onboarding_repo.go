@@ -7,6 +7,9 @@ import (
 	"io"
 	"net/http"
 	"web_server/domain"
+
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 type onboardingLegacyRepo struct {
@@ -30,6 +33,9 @@ func (o *onboardingLegacyRepo) AtmGetInfo(ctx context.Context, req *domain.BaseR
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -44,6 +50,7 @@ func (o *onboardingLegacyRepo) AtmGetInfo(ctx context.Context, req *domain.BaseR
 	var result domain.BaseResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
@@ -62,6 +69,9 @@ func (o *onboardingLegacyRepo) AtmOTP(ctx context.Context, req *domain.BaseReque
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -76,6 +86,7 @@ func (o *onboardingLegacyRepo) AtmOTP(ctx context.Context, req *domain.BaseReque
 	var result domain.BaseResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
@@ -94,6 +105,9 @@ func (o *onboardingLegacyRepo) AtmPIN(ctx context.Context, req *domain.BaseReque
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -108,6 +122,7 @@ func (o *onboardingLegacyRepo) AtmPIN(ctx context.Context, req *domain.BaseReque
 	var result domain.BaseResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
@@ -126,6 +141,9 @@ func (o *onboardingLegacyRepo) AtmRegister(ctx context.Context, req *domain.Base
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -140,6 +158,7 @@ func (o *onboardingLegacyRepo) AtmRegister(ctx context.Context, req *domain.Base
 	var result domain.BaseResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
@@ -158,6 +177,9 @@ func (o *onboardingLegacyRepo) FreshOTP(ctx context.Context, req *domain.BaseReq
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -172,6 +194,7 @@ func (o *onboardingLegacyRepo) FreshOTP(ctx context.Context, req *domain.BaseReq
 	var result domain.BaseResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
@@ -190,6 +213,9 @@ func (o *onboardingLegacyRepo) FreshPassword(ctx context.Context, req *domain.Ba
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -204,6 +230,7 @@ func (o *onboardingLegacyRepo) FreshPassword(ctx context.Context, req *domain.Ba
 	var result domain.BaseResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
@@ -222,6 +249,9 @@ func (o *onboardingLegacyRepo) FreshVerifyPhone(ctx context.Context, req *domain
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -236,6 +266,7 @@ func (o *onboardingLegacyRepo) FreshVerifyPhone(ctx context.Context, req *domain
 	var result domain.BaseResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
@@ -254,6 +285,9 @@ func (o *onboardingLegacyRepo) LoginVerifyPassword(ctx context.Context, req *dom
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -268,6 +302,7 @@ func (o *onboardingLegacyRepo) LoginVerifyPassword(ctx context.Context, req *dom
 	var result domain.VerifyPassword
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
@@ -286,6 +321,9 @@ func (o *onboardingLegacyRepo) NoAtmEmail(ctx context.Context, req *domain.BaseR
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -300,6 +338,7 @@ func (o *onboardingLegacyRepo) NoAtmEmail(ctx context.Context, req *domain.BaseR
 	var result domain.BaseResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
@@ -318,6 +357,9 @@ func (o *onboardingLegacyRepo) NoAtmOTP(ctx context.Context, req *domain.BaseReq
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -332,6 +374,7 @@ func (o *onboardingLegacyRepo) NoAtmOTP(ctx context.Context, req *domain.BaseReq
 	var result domain.BaseResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
@@ -350,6 +393,9 @@ func (o *onboardingLegacyRepo) NoAtmRegister(ctx context.Context, req *domain.Ba
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -364,6 +410,7 @@ func (o *onboardingLegacyRepo) NoAtmRegister(ctx context.Context, req *domain.Ba
 	var result domain.BaseResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
@@ -382,6 +429,9 @@ func (o *onboardingLegacyRepo) NoAtmVerifyUser(ctx context.Context, req *domain.
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -396,6 +446,7 @@ func (o *onboardingLegacyRepo) NoAtmVerifyUser(ctx context.Context, req *domain.
 	var result domain.BaseResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
@@ -414,6 +465,9 @@ func (o *onboardingLegacyRepo) ResetOTP(ctx context.Context, req *domain.BaseReq
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -428,6 +482,7 @@ func (o *onboardingLegacyRepo) ResetOTP(ctx context.Context, req *domain.BaseReq
 	var result domain.BaseResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
@@ -446,6 +501,9 @@ func (o *onboardingLegacyRepo) ResetPassword(ctx context.Context, req *domain.Ba
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -460,6 +518,7 @@ func (o *onboardingLegacyRepo) ResetPassword(ctx context.Context, req *domain.Ba
 	var result domain.BaseResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
@@ -478,6 +537,9 @@ func (o *onboardingLegacyRepo) ResetVerifyPhone(ctx context.Context, req *domain
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -492,6 +554,7 @@ func (o *onboardingLegacyRepo) ResetVerifyPhone(ctx context.Context, req *domain
 	var result domain.BaseResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
@@ -510,6 +573,9 @@ func (o *onboardingLegacyRepo) SimobiOTP(ctx context.Context, req *domain.BaseRe
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -524,6 +590,7 @@ func (o *onboardingLegacyRepo) SimobiOTP(ctx context.Context, req *domain.BaseRe
 	var result domain.BaseResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
@@ -542,6 +609,9 @@ func (o *onboardingLegacyRepo) SimobiRegister(ctx context.Context, req *domain.B
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -556,6 +626,7 @@ func (o *onboardingLegacyRepo) SimobiRegister(ctx context.Context, req *domain.B
 	var result domain.BaseResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
@@ -574,6 +645,9 @@ func (o *onboardingLegacyRepo) SimobiVerifyPhone(ctx context.Context, req *domai
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -588,6 +662,7 @@ func (o *onboardingLegacyRepo) SimobiVerifyPhone(ctx context.Context, req *domai
 	var result domain.BaseResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
@@ -606,6 +681,9 @@ func (o *onboardingLegacyRepo) SimobiVerifyUser(ctx context.Context, req *domain
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -620,6 +698,7 @@ func (o *onboardingLegacyRepo) SimobiVerifyUser(ctx context.Context, req *domain
 	var result domain.BaseResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 

@@ -7,6 +7,9 @@ import (
 	"io"
 	"net/http"
 	"web_server/domain"
+
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 type onboardingLegacyRepo struct {
@@ -30,6 +33,9 @@ func (o *onboardingLegacyRepo) Amend(ctx context.Context, req *domain.BaseReques
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -44,6 +50,7 @@ func (o *onboardingLegacyRepo) Amend(ctx context.Context, req *domain.BaseReques
 	var result domain.OrderResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
@@ -62,6 +69,9 @@ func (o *onboardingLegacyRepo) Cancel(ctx context.Context, req *domain.BaseReque
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -76,6 +86,7 @@ func (o *onboardingLegacyRepo) Cancel(ctx context.Context, req *domain.BaseReque
 	var result domain.OrderResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
@@ -94,6 +105,9 @@ func (o *onboardingLegacyRepo) Create(ctx context.Context, req *domain.BaseReque
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -108,6 +122,7 @@ func (o *onboardingLegacyRepo) Create(ctx context.Context, req *domain.BaseReque
 	var result domain.OrderResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
@@ -126,6 +141,9 @@ func (o *onboardingLegacyRepo) GetDetail(ctx context.Context, req *domain.BaseRe
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -140,6 +158,7 @@ func (o *onboardingLegacyRepo) GetDetail(ctx context.Context, req *domain.BaseRe
 	var result domain.OrderResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
@@ -158,6 +177,9 @@ func (o *onboardingLegacyRepo) GetStatus(ctx context.Context, req *domain.BaseRe
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := o.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -172,6 +194,7 @@ func (o *onboardingLegacyRepo) GetStatus(ctx context.Context, req *domain.BaseRe
 	var result []domain.OrderResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
