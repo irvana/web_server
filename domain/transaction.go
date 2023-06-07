@@ -23,7 +23,24 @@ type TransactionResponse struct {
 	Reason     string `json:"reason,omitempty"`
 }
 
+type TransactionRequest struct {
+	Cif         string `json:"cif"`
+	StatementID string `json:"statementId,omitempty"`
+	RefNo       string `json:"refNo,omitempty"`
+	Name        string `json:"name,omitempty"`
+	PairID      string `json:"pairId,omitempty"`
+	BaseQuote   string `json:"baseQuote,omitempty"`
+	BidAsk      string `json:"bidAsk,omitempty"`
+	Amt         string `json:"amt,omitempty"`
+	Rate        string `json:"rate,omitempty"`
+	DebitAcc    string `json:"debitAcc,omitempty"`
+	CreditAcc   string `json:"creditAcc,omitempty"`
+	TakeProfit  string `json:"takeProfit,omitempty"`
+	StopLoss    string `json:"stopLoss,omitempty"`
+	UUIDStamp   string `json:"uuidStamp,omitempty"`
+}
+
 type TransactionRepository interface {
-	GetDetail(ctx context.Context, req *BaseRequest) (*TransactionResponse, error)
-	Deal(ctx context.Context, req *BaseRequest) (*TransactionResponse, error)
+	GetDetail(ctx context.Context, req *TransactionRequest) (*TransactionResponse, error)
+	Deal(ctx context.Context, req *TransactionRequest) (*TransactionResponse, error)
 }

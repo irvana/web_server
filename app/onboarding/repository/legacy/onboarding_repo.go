@@ -28,7 +28,7 @@ func (o *onboardingLegacyRepo) AtmGetInfo(ctx context.Context, req *domain.BaseR
 		return nil, err
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, o.baseURL+ATM_OTP, bytes.NewBuffer(body))
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, o.baseURL+ATM_CARD, bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
 	}

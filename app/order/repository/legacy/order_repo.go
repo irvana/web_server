@@ -22,7 +22,7 @@ func NewOrderRepository(client *http.Client, baseURL string) domain.OrderReposit
 }
 
 // Amend implements domain.OrderRepository
-func (o *onboardingLegacyRepo) Amend(ctx context.Context, req *domain.BaseRequest) (*domain.OrderResponse, error) {
+func (o *onboardingLegacyRepo) Amend(ctx context.Context, req *domain.OrderRequest) (*domain.OrderResponse, error) {
 	body, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
@@ -58,7 +58,7 @@ func (o *onboardingLegacyRepo) Amend(ctx context.Context, req *domain.BaseReques
 }
 
 // Cancel implements domain.OrderRepository
-func (o *onboardingLegacyRepo) Cancel(ctx context.Context, req *domain.BaseRequest) (*domain.OrderResponse, error) {
+func (o *onboardingLegacyRepo) Cancel(ctx context.Context, req *domain.OrderRequest) (*domain.OrderResponse, error) {
 	body, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
@@ -94,7 +94,7 @@ func (o *onboardingLegacyRepo) Cancel(ctx context.Context, req *domain.BaseReque
 }
 
 // Create implements domain.OrderRepository
-func (o *onboardingLegacyRepo) Create(ctx context.Context, req *domain.BaseRequest) (*domain.OrderResponse, error) {
+func (o *onboardingLegacyRepo) Create(ctx context.Context, req *domain.OrderRequest) (*domain.OrderResponse, error) {
 	body, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
@@ -130,7 +130,7 @@ func (o *onboardingLegacyRepo) Create(ctx context.Context, req *domain.BaseReque
 }
 
 // GetDetail implements domain.OrderRepository
-func (o *onboardingLegacyRepo) GetDetail(ctx context.Context, req *domain.BaseRequest) (*domain.OrderResponse, error) {
+func (o *onboardingLegacyRepo) GetDetail(ctx context.Context, req *domain.OrderRequest) (*domain.OrderResponse, error) {
 	body, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
@@ -166,7 +166,7 @@ func (o *onboardingLegacyRepo) GetDetail(ctx context.Context, req *domain.BaseRe
 }
 
 // GetStatus implements domain.OrderRepository
-func (o *onboardingLegacyRepo) GetStatus(ctx context.Context, req *domain.BaseRequest) ([]domain.OrderResponse, error) {
+func (o *onboardingLegacyRepo) GetStatus(ctx context.Context, req *domain.OrderRequest) ([]domain.OrderResponse, error) {
 	body, err := json.Marshal(req)
 	if err != nil {
 		return nil, err

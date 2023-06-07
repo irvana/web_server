@@ -129,6 +129,11 @@ func (_m *RefUsecase) GetPair(ctx context.Context, req *domain.RefRequest) ([]do
 	return r0, r1
 }
 
+// UpdateConfig provides a mock function with given fields:
+func (_m *RefUsecase) UpdateConfig() {
+	_m.Called()
+}
+
 type mockConstructorTestingTNewRefUsecase interface {
 	mock.TestingT
 	Cleanup(func())

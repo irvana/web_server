@@ -27,7 +27,7 @@ func NewOrderHandler(orderUc domain.OrderUsecase, g *gin.Engine) {
 }
 
 func (oh *OrderHandler) GetStatus(ctx *gin.Context) {
-	var req domain.BaseRequest
+	var req domain.OrderRequest
 	if err := ctx.BindJSON(&req); err != nil {
 		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
@@ -42,7 +42,7 @@ func (oh *OrderHandler) GetStatus(ctx *gin.Context) {
 }
 
 func (oh *OrderHandler) Cancel(ctx *gin.Context) {
-	var req domain.BaseRequest
+	var req domain.OrderRequest
 	if err := ctx.BindJSON(&req); err != nil {
 		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
@@ -56,7 +56,7 @@ func (oh *OrderHandler) Cancel(ctx *gin.Context) {
 }
 
 func (oh *OrderHandler) Amend(ctx *gin.Context) {
-	var req domain.BaseRequest
+	var req domain.OrderRequest
 	if err := ctx.BindJSON(&req); err != nil {
 		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
@@ -70,7 +70,7 @@ func (oh *OrderHandler) Amend(ctx *gin.Context) {
 }
 
 func (oh *OrderHandler) GetDetail(ctx *gin.Context) {
-	var req domain.BaseRequest
+	var req domain.OrderRequest
 	if err := ctx.BindJSON(&req); err != nil {
 		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
@@ -84,7 +84,7 @@ func (oh *OrderHandler) GetDetail(ctx *gin.Context) {
 }
 
 func (oh *OrderHandler) Create(ctx *gin.Context) {
-	var req domain.BaseRequest
+	var req domain.OrderRequest
 	if err := ctx.BindJSON(&req); err != nil {
 		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
@@ -98,7 +98,7 @@ func (oh *OrderHandler) Create(ctx *gin.Context) {
 }
 
 func (oh *OrderHandler) StatementList(ctx *gin.Context) {
-	var req domain.BaseRequest
+	var req domain.StatementRequest
 	if err := ctx.BindJSON(&req); err != nil {
 		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
@@ -112,7 +112,7 @@ func (oh *OrderHandler) StatementList(ctx *gin.Context) {
 }
 
 func (oh *OrderHandler) TransactionDetail(ctx *gin.Context) {
-	var req domain.BaseRequest
+	var req domain.TransactionRequest
 	if err := ctx.BindJSON(&req); err != nil {
 		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
@@ -126,7 +126,7 @@ func (oh *OrderHandler) TransactionDetail(ctx *gin.Context) {
 }
 
 func (oh *OrderHandler) Deal(ctx *gin.Context) {
-	var req domain.BaseRequest
+	var req domain.TransactionRequest
 	if err := ctx.BindJSON(&req); err != nil {
 		ctx.AbortWithStatus(http.StatusBadRequest)
 		return

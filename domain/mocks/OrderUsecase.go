@@ -15,11 +15,11 @@ type OrderUsecase struct {
 }
 
 // Amend provides a mock function with given fields: ctx, req
-func (_m *OrderUsecase) Amend(ctx context.Context, req *domain.BaseRequest) (*domain.OrderResponse, error) {
+func (_m *OrderUsecase) Amend(ctx context.Context, req *domain.OrderRequest) (*domain.OrderResponse, error) {
 	ret := _m.Called(ctx, req)
 
 	var r0 *domain.OrderResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) *domain.OrderResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.OrderRequest) *domain.OrderResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
 		if ret.Get(0) != nil {
@@ -28,7 +28,7 @@ func (_m *OrderUsecase) Amend(ctx context.Context, req *domain.BaseRequest) (*do
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *domain.BaseRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.OrderRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)
@@ -38,11 +38,11 @@ func (_m *OrderUsecase) Amend(ctx context.Context, req *domain.BaseRequest) (*do
 }
 
 // Cancel provides a mock function with given fields: ctx, req
-func (_m *OrderUsecase) Cancel(ctx context.Context, req *domain.BaseRequest) (*domain.OrderResponse, error) {
+func (_m *OrderUsecase) Cancel(ctx context.Context, req *domain.OrderRequest) (*domain.OrderResponse, error) {
 	ret := _m.Called(ctx, req)
 
 	var r0 *domain.OrderResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) *domain.OrderResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.OrderRequest) *domain.OrderResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
 		if ret.Get(0) != nil {
@@ -51,7 +51,7 @@ func (_m *OrderUsecase) Cancel(ctx context.Context, req *domain.BaseRequest) (*d
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *domain.BaseRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.OrderRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)
@@ -61,11 +61,11 @@ func (_m *OrderUsecase) Cancel(ctx context.Context, req *domain.BaseRequest) (*d
 }
 
 // Create provides a mock function with given fields: ctx, req
-func (_m *OrderUsecase) Create(ctx context.Context, req *domain.BaseRequest) (*domain.OrderResponse, error) {
+func (_m *OrderUsecase) Create(ctx context.Context, req *domain.OrderRequest) (*domain.OrderResponse, error) {
 	ret := _m.Called(ctx, req)
 
 	var r0 *domain.OrderResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) *domain.OrderResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.OrderRequest) *domain.OrderResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
 		if ret.Get(0) != nil {
@@ -74,7 +74,7 @@ func (_m *OrderUsecase) Create(ctx context.Context, req *domain.BaseRequest) (*d
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *domain.BaseRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.OrderRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)
@@ -84,11 +84,11 @@ func (_m *OrderUsecase) Create(ctx context.Context, req *domain.BaseRequest) (*d
 }
 
 // Deal provides a mock function with given fields: ctx, req
-func (_m *OrderUsecase) Deal(ctx context.Context, req *domain.BaseRequest) (*domain.TransactionResponse, error) {
+func (_m *OrderUsecase) Deal(ctx context.Context, req *domain.TransactionRequest) (*domain.TransactionResponse, error) {
 	ret := _m.Called(ctx, req)
 
 	var r0 *domain.TransactionResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) *domain.TransactionResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.TransactionRequest) *domain.TransactionResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
 		if ret.Get(0) != nil {
@@ -97,7 +97,7 @@ func (_m *OrderUsecase) Deal(ctx context.Context, req *domain.BaseRequest) (*dom
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *domain.BaseRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.TransactionRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)
@@ -107,11 +107,11 @@ func (_m *OrderUsecase) Deal(ctx context.Context, req *domain.BaseRequest) (*dom
 }
 
 // GetDetail provides a mock function with given fields: ctx, req
-func (_m *OrderUsecase) GetDetail(ctx context.Context, req *domain.BaseRequest) (*domain.OrderResponse, error) {
+func (_m *OrderUsecase) GetDetail(ctx context.Context, req *domain.OrderRequest) (*domain.OrderResponse, error) {
 	ret := _m.Called(ctx, req)
 
 	var r0 *domain.OrderResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) *domain.OrderResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.OrderRequest) *domain.OrderResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
 		if ret.Get(0) != nil {
@@ -120,7 +120,7 @@ func (_m *OrderUsecase) GetDetail(ctx context.Context, req *domain.BaseRequest) 
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *domain.BaseRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.OrderRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)
@@ -130,11 +130,11 @@ func (_m *OrderUsecase) GetDetail(ctx context.Context, req *domain.BaseRequest) 
 }
 
 // GetStatementList provides a mock function with given fields: ctx, req
-func (_m *OrderUsecase) GetStatementList(ctx context.Context, req *domain.BaseRequest) ([]domain.StatementResponse, error) {
+func (_m *OrderUsecase) GetStatementList(ctx context.Context, req *domain.StatementRequest) ([]domain.StatementResponse, error) {
 	ret := _m.Called(ctx, req)
 
 	var r0 []domain.StatementResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) []domain.StatementResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.StatementRequest) []domain.StatementResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
 		if ret.Get(0) != nil {
@@ -143,7 +143,7 @@ func (_m *OrderUsecase) GetStatementList(ctx context.Context, req *domain.BaseRe
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *domain.BaseRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.StatementRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)
@@ -153,11 +153,11 @@ func (_m *OrderUsecase) GetStatementList(ctx context.Context, req *domain.BaseRe
 }
 
 // GetStatus provides a mock function with given fields: ctx, req
-func (_m *OrderUsecase) GetStatus(ctx context.Context, req *domain.BaseRequest) ([]domain.OrderResponse, error) {
+func (_m *OrderUsecase) GetStatus(ctx context.Context, req *domain.OrderRequest) ([]domain.OrderResponse, error) {
 	ret := _m.Called(ctx, req)
 
 	var r0 []domain.OrderResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) []domain.OrderResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.OrderRequest) []domain.OrderResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
 		if ret.Get(0) != nil {
@@ -166,7 +166,7 @@ func (_m *OrderUsecase) GetStatus(ctx context.Context, req *domain.BaseRequest) 
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *domain.BaseRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.OrderRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)
@@ -176,11 +176,11 @@ func (_m *OrderUsecase) GetStatus(ctx context.Context, req *domain.BaseRequest) 
 }
 
 // GetTransactionDetail provides a mock function with given fields: ctx, req
-func (_m *OrderUsecase) GetTransactionDetail(ctx context.Context, req *domain.BaseRequest) (*domain.TransactionResponse, error) {
+func (_m *OrderUsecase) GetTransactionDetail(ctx context.Context, req *domain.TransactionRequest) (*domain.TransactionResponse, error) {
 	ret := _m.Called(ctx, req)
 
 	var r0 *domain.TransactionResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) *domain.TransactionResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.TransactionRequest) *domain.TransactionResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
 		if ret.Get(0) != nil {
@@ -189,7 +189,7 @@ func (_m *OrderUsecase) GetTransactionDetail(ctx context.Context, req *domain.Ba
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *domain.BaseRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.TransactionRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)

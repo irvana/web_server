@@ -30,18 +30,21 @@ type BaseResponse struct {
 }
 
 type BaseRequest struct {
-	Ph    string `json:"ph,omitempty"`
-	Otp   string `json:"otp,omitempty"`
-	Cif   string `json:"cif,omitempty"`
-	Pwd   string `json:"pwd,omitempty"`
-	UUID  string `json:"uuid,omitempty"`
-	ATM   string `json:"atm,omitempty"`
-	Pin   string `json:"pin,omitempty"`
-	Acc   string `json:"acc,omitempty"`
-	Ktp   string `json:"ktp,omitempty"`
-	Dob   string `json:"dob,omitempty"`
-	Mail  string `json:"mail,omitempty"`
-	Token string `json:"token,omitempty"`
+	Ph          string `json:"ph,omitempty"`
+	Otp         string `json:"otp,omitempty"`
+	Cif         string `json:"cif,omitempty"`
+	Pwd         string `json:"pwd,omitempty"`
+	UUID        string `json:"uuid,omitempty"`
+	ATM         string `json:"atm,omitempty"`
+	Pin         string `json:"pin,omitempty"`
+	Acc         string `json:"acc,omitempty"`
+	Ktp         string `json:"ktp,omitempty"`
+	Dob         string `json:"dob,omitempty"`
+	Mail        string `json:"mail,omitempty"`
+	Token       string `json:"token,omitempty"`
+	Name        string `json:"name,omitempty"`
+	AccountType string `json:"accountType,omitempty"`
+	Currency    string `json:"currency,omitempty"`
 }
 
 type (

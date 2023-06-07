@@ -15,7 +15,7 @@ import (
 func Test_OrderRepo_Amend(t *testing.T) {
 
 	// Create sample request
-	req := &domain.BaseRequest{}
+	req := &domain.OrderRequest{}
 
 	// Define mock response
 	mockResp := &domain.OrderResponse{Status: "success"}
@@ -43,7 +43,7 @@ func Test_OrderRepo_Amend(t *testing.T) {
 func Test_OrderRepo_Cancel(t *testing.T) {
 
 	// Create sample request
-	req := &domain.BaseRequest{}
+	req := &domain.OrderRequest{}
 
 	// Define mock response
 	mockResp := &domain.OrderResponse{Status: "success"}
@@ -71,7 +71,7 @@ func Test_OrderRepo_Cancel(t *testing.T) {
 func Test_OrderRepo_Create(t *testing.T) {
 
 	// Create sample request
-	req := &domain.BaseRequest{}
+	req := &domain.OrderRequest{}
 
 	// Define mock response
 	mockResp := &domain.OrderResponse{Status: "success"}
@@ -99,7 +99,7 @@ func Test_OrderRepo_Create(t *testing.T) {
 func Test_OrderRepo_GetDetail(t *testing.T) {
 
 	// Create sample request
-	req := &domain.BaseRequest{}
+	req := &domain.OrderRequest{}
 
 	// Define mock response
 	mockResp := &domain.OrderResponse{Status: "success"}
@@ -127,7 +127,7 @@ func Test_OrderRepo_GetDetail(t *testing.T) {
 func Test_OrderRepo_GetStatus(t *testing.T) {
 
 	// Create sample request
-	req := &domain.BaseRequest{}
+	req := &domain.OrderRequest{}
 
 	// Define mock response
 	mockResp := []domain.OrderResponse{}

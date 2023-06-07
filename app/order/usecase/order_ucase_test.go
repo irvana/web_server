@@ -11,7 +11,7 @@ import (
 
 func TestOrderUsecase_Amend(t *testing.T) {
 	// Set up sample request
-	req := &domain.BaseRequest{}
+	req := &domain.OrderRequest{}
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OrderRepository)
@@ -29,7 +29,7 @@ func TestOrderUsecase_Amend(t *testing.T) {
 
 func TestOrderUsecase_Cancel(t *testing.T) {
 	// Set up sample request
-	req := &domain.BaseRequest{}
+	req := &domain.OrderRequest{}
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OrderRepository)
@@ -46,7 +46,7 @@ func TestOrderUsecase_Cancel(t *testing.T) {
 }
 func TestOrderUsecase_Create(t *testing.T) {
 	// Set up sample request
-	req := &domain.BaseRequest{}
+	req := &domain.OrderRequest{}
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OrderRepository)
@@ -63,7 +63,7 @@ func TestOrderUsecase_Create(t *testing.T) {
 }
 func TestOrderUsecase_GetDetail(t *testing.T) {
 	// Set up sample request
-	req := &domain.BaseRequest{}
+	req := &domain.OrderRequest{}
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OrderRepository)
@@ -80,7 +80,7 @@ func TestOrderUsecase_GetDetail(t *testing.T) {
 }
 func TestOrderUsecase_GetStatus(t *testing.T) {
 	// Set up sample request
-	req := &domain.BaseRequest{}
+	req := &domain.OrderRequest{}
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OrderRepository)
@@ -98,7 +98,7 @@ func TestOrderUsecase_GetStatus(t *testing.T) {
 
 func Test_onboardingUsecase_GetStatementList(t *testing.T) {
 	// Set up sample request
-	req := &domain.BaseRequest{}
+	req := &domain.StatementRequest{}
 
 	// Create onboarding usecase with mocked repository
 	stmRepo := new(mocks.StatementRepository)
@@ -115,7 +115,7 @@ func Test_onboardingUsecase_GetStatementList(t *testing.T) {
 }
 
 func Test_onboardingUsecase_GetTransactionDetail(t *testing.T) {
-	req := &domain.BaseRequest{}
+	req := &domain.TransactionRequest{}
 
 	// Create onboarding usecase with mocked repository
 	trxRepo := new(mocks.TransactionRepository)
@@ -132,7 +132,7 @@ func Test_onboardingUsecase_GetTransactionDetail(t *testing.T) {
 }
 
 func Test_onboardingUsecase_Deal(t *testing.T) {
-	req := &domain.BaseRequest{}
+	req := &domain.TransactionRequest{}
 
 	// Create onboarding usecase with mocked repository
 	trxRepo := new(mocks.TransactionRepository)

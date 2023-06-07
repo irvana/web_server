@@ -15,11 +15,11 @@ type OrderRepository struct {
 }
 
 // Amend provides a mock function with given fields: ctx, req
-func (_m *OrderRepository) Amend(ctx context.Context, req *domain.BaseRequest) (*domain.OrderResponse, error) {
+func (_m *OrderRepository) Amend(ctx context.Context, req *domain.OrderRequest) (*domain.OrderResponse, error) {
 	ret := _m.Called(ctx, req)
 
 	var r0 *domain.OrderResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) *domain.OrderResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.OrderRequest) *domain.OrderResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
 		if ret.Get(0) != nil {
@@ -28,7 +28,7 @@ func (_m *OrderRepository) Amend(ctx context.Context, req *domain.BaseRequest) (
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *domain.BaseRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.OrderRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)
@@ -38,11 +38,11 @@ func (_m *OrderRepository) Amend(ctx context.Context, req *domain.BaseRequest) (
 }
 
 // Cancel provides a mock function with given fields: ctx, req
-func (_m *OrderRepository) Cancel(ctx context.Context, req *domain.BaseRequest) (*domain.OrderResponse, error) {
+func (_m *OrderRepository) Cancel(ctx context.Context, req *domain.OrderRequest) (*domain.OrderResponse, error) {
 	ret := _m.Called(ctx, req)
 
 	var r0 *domain.OrderResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) *domain.OrderResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.OrderRequest) *domain.OrderResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
 		if ret.Get(0) != nil {
@@ -51,7 +51,7 @@ func (_m *OrderRepository) Cancel(ctx context.Context, req *domain.BaseRequest) 
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *domain.BaseRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.OrderRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)
@@ -61,11 +61,11 @@ func (_m *OrderRepository) Cancel(ctx context.Context, req *domain.BaseRequest) 
 }
 
 // Create provides a mock function with given fields: ctx, req
-func (_m *OrderRepository) Create(ctx context.Context, req *domain.BaseRequest) (*domain.OrderResponse, error) {
+func (_m *OrderRepository) Create(ctx context.Context, req *domain.OrderRequest) (*domain.OrderResponse, error) {
 	ret := _m.Called(ctx, req)
 
 	var r0 *domain.OrderResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) *domain.OrderResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.OrderRequest) *domain.OrderResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
 		if ret.Get(0) != nil {
@@ -74,7 +74,7 @@ func (_m *OrderRepository) Create(ctx context.Context, req *domain.BaseRequest) 
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *domain.BaseRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.OrderRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)
@@ -84,11 +84,11 @@ func (_m *OrderRepository) Create(ctx context.Context, req *domain.BaseRequest) 
 }
 
 // GetDetail provides a mock function with given fields: ctx, req
-func (_m *OrderRepository) GetDetail(ctx context.Context, req *domain.BaseRequest) (*domain.OrderResponse, error) {
+func (_m *OrderRepository) GetDetail(ctx context.Context, req *domain.OrderRequest) (*domain.OrderResponse, error) {
 	ret := _m.Called(ctx, req)
 
 	var r0 *domain.OrderResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) *domain.OrderResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.OrderRequest) *domain.OrderResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
 		if ret.Get(0) != nil {
@@ -97,7 +97,7 @@ func (_m *OrderRepository) GetDetail(ctx context.Context, req *domain.BaseReques
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *domain.BaseRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.OrderRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)
@@ -107,11 +107,11 @@ func (_m *OrderRepository) GetDetail(ctx context.Context, req *domain.BaseReques
 }
 
 // GetStatus provides a mock function with given fields: ctx, req
-func (_m *OrderRepository) GetStatus(ctx context.Context, req *domain.BaseRequest) ([]domain.OrderResponse, error) {
+func (_m *OrderRepository) GetStatus(ctx context.Context, req *domain.OrderRequest) ([]domain.OrderResponse, error) {
 	ret := _m.Called(ctx, req)
 
 	var r0 []domain.OrderResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.BaseRequest) []domain.OrderResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.OrderRequest) []domain.OrderResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
 		if ret.Get(0) != nil {
@@ -120,7 +120,7 @@ func (_m *OrderRepository) GetStatus(ctx context.Context, req *domain.BaseReques
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *domain.BaseRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.OrderRequest) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)

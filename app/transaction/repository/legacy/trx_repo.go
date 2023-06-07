@@ -7,6 +7,9 @@ import (
 	"io"
 	"net/http"
 	"web_server/domain"
+
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 const (
@@ -22,7 +25,7 @@ type trxLegacyRepo struct {
 func NewTrxRepository(client *http.Client, baseURL string) domain.TransactionRepository {
 	return &trxLegacyRepo{client: client, baseURL: baseURL}
 }
-func (s *trxLegacyRepo) GetDetail(ctx context.Context, req *domain.BaseRequest) (*domain.TransactionResponse, error) {
+func (s *trxLegacyRepo) GetDetail(ctx context.Context, req *domain.TransactionRequest) (*domain.TransactionResponse, error) {
 	body, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
@@ -32,6 +35,9 @@ func (s *trxLegacyRepo) GetDetail(ctx context.Context, req *domain.BaseRequest) 
 	if err != nil {
 		return nil, err
 	}
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 
 	resp, err := s.client.Do(httpReq)
 	if err != nil {
@@ -47,13 +53,14 @@ func (s *trxLegacyRepo) GetDetail(ctx context.Context, req *domain.BaseRequest) 
 	var result domain.TransactionResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
 	return &result, nil
 }
 
-func (s *trxLegacyRepo) Deal(ctx context.Context, req *domain.BaseRequest) (*domain.TransactionResponse, error) {
+func (s *trxLegacyRepo) Deal(ctx context.Context, req *domain.TransactionRequest) (*domain.TransactionResponse, error) {
 	body, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
@@ -63,6 +70,9 @@ func (s *trxLegacyRepo) Deal(ctx context.Context, req *domain.BaseRequest) (*dom
 	if err != nil {
 		return nil, err
 	}
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 
 	resp, err := s.client.Do(httpReq)
 	if err != nil {
@@ -78,6 +88,7 @@ func (s *trxLegacyRepo) Deal(ctx context.Context, req *domain.BaseRequest) (*dom
 	var result domain.TransactionResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 

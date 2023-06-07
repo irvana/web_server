@@ -13,5 +13,5 @@ type StatementResponse struct {
 }
 
 type StatementRepository interface {
-	List(ctx context.Context, req *BaseRequest) ([]StatementResponse, error)
+	List(ctx context.Context, req *StatementRequest) ([]StatementResponse, error)
 }

@@ -7,6 +7,9 @@ import (
 	"io"
 	"net/http"
 	"web_server/domain"
+
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 type statementLegacyRepo struct {
@@ -22,7 +25,7 @@ func NewStatementRepository(client *http.Client, baseURL string) domain.Statemen
 	return &statementLegacyRepo{client: client, baseURL: baseURL}
 }
 
-func (s *statementLegacyRepo) List(ctx context.Context, req *domain.BaseRequest) ([]domain.StatementResponse, error) {
+func (s *statementLegacyRepo) List(ctx context.Context, req *domain.StatementRequest) ([]domain.StatementResponse, error) {
 	body, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
@@ -33,6 +36,9 @@ func (s *statementLegacyRepo) List(ctx context.Context, req *domain.BaseRequest)
 		return nil, err
 	}
 
+	if reqCtx, ok := ctx.(*gin.Context); ok {
+		httpReq.Header = reqCtx.Request.Header
+	}
 	resp, err := s.client.Do(httpReq)
 	if err != nil {
 		return nil, err
@@ -47,6 +53,7 @@ func (s *statementLegacyRepo) List(ctx context.Context, req *domain.BaseRequest)
 	var result []domain.StatementResponse
 	err = json.Unmarshal(respByte, &result)
 	if err != nil {
+		logrus.WithError(err).WithField("resp", string(respByte)).Error("failed unmarshal response")
 		return nil, err
 	}
 
