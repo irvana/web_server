@@ -44,7 +44,7 @@ type BaseRequest struct {
 	Token       string `json:"token,omitempty"`
 	Name        string `json:"name,omitempty"`
 	AccountType string `json:"accountType,omitempty"`
-	Currency    string `json:"currency,omitempty"`
+	Currency    string `json:"ccy,omitempty"`
 }
 
 type (
