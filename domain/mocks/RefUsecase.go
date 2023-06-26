@@ -38,15 +38,15 @@ func (_m *RefUsecase) GetAll(ctx context.Context, req *domain.RefRequest) ([]dom
 }
 
 // GetConfig provides a mock function with given fields: ctx, req
-func (_m *RefUsecase) GetConfig(ctx context.Context, req *domain.RefRequest) (*domain.Config, error) {
+func (_m *RefUsecase) GetConfig(ctx context.Context, req *domain.RefRequest) ([]domain.Config, error) {
 	ret := _m.Called(ctx, req)
 
-	var r0 *domain.Config
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.RefRequest) *domain.Config); ok {
+	var r0 []domain.Config
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.RefRequest) []domain.Config); ok {
 		r0 = rf(ctx, req)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*domain.Config)
+			r0 = ret.Get(0).([]domain.Config)
 		}
 	}
 

@@ -107,16 +107,17 @@ func (r *refUsecase) GetNews(ctx context.Context, req *domain.RefRequest) ([]dom
 	return nil, nil
 }
 
-func (r *refUsecase) GetConfig(ctx context.Context, req *domain.RefRequest) (*domain.Config, error) {
+func (r *refUsecase) GetConfig(ctx context.Context, req *domain.RefRequest) ([]domain.Config, error) {
 	for _, v := range r.config {
 		if v.Type == "config" {
-			if len(v.Results) > 0 {
-				n := v.Results[0]
-				return &domain.Config{
-					ID:         n.ID,
-					AutoLocked: n.AutoLocked,
-				}, nil
+			var result []domain.Config
+			for _, resp := range v.Results {
+				result = append(result, domain.Config{
+					ID:         resp.ID,
+					AutoLocked: resp.AutoLocked,
+				})
 			}
+			return result, nil
 		}
 	}
 	log.Debug("news config not found")

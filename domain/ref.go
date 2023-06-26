@@ -70,7 +70,7 @@ type RefUsecase interface {
 	GetCurrency(ctx context.Context, req *RefRequest) ([]Currency, error)
 	GetPair(ctx context.Context, req *RefRequest) ([]Pair, error)
 	GetNews(ctx context.Context, req *RefRequest) ([]News, error)
-	GetConfig(ctx context.Context, req *RefRequest) (*Config, error)
+	GetConfig(ctx context.Context, req *RefRequest) ([]Config, error)
 	UpdateConfig()
 }
 
