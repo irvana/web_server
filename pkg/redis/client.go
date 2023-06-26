@@ -8,22 +8,21 @@ import (
 
 type (
 	Config struct {
-		Address      string `mapstructure:"address"`
-		DialTimeout  int    `mapstructure:"timeout"`
-		RatesChannel string `mapstructure:"ratesChannel"`
-		MiscChannel  string `mapstructure:"miscChannel"`
-		ConfigKey    string `mapstructure:"configKey"`
-		PairKey      string `mapstructure:"refPair"`
-		CcyKey       string `mapstructure:"refCcy"`
-		CfgKey       string `mapstructure:"refCfg"`
-		NewsKey      string `mapstructure:"refNews"`
+		Address         string            `mapstructure:"address"`
+		DialTimeout     int               `mapstructure:"timeout"`
+		MiscChannel     string            `mapstructure:"miscChannel"`
+		RateChannel     string            `mapstructure:"offRatesChannel"`
+		AuthRateChannel string            `mapstructure:"onRatesChannel"`
+		ConfigKey       string            `mapstructure:"configKey"`
+		RefsMap         map[string]string `mapstructure:"refsMap"`
 	}
 
 	// Client do we need this?
 	Client struct {
-		Client      *redis.Client
-		RatesPubSub *redis.PubSub
-		MiscPubSub  *redis.PubSub
+		Client          *redis.Client
+		RatesPubSub     *redis.PubSub
+		AuthRatesPubSub *redis.PubSub
+		MiscPubSub      *redis.PubSub
 	}
 )
 
@@ -32,9 +31,9 @@ func InitClient(cfg Config) *Client {
 	client := redis.NewClient(&redis.Options{
 		Addr:        cfg.Address,
 		DialTimeout: time.Duration(cfg.DialTimeout) * time.Second,
-		DB:          1,
 	})
-	ratesPb := client.Subscribe(cfg.RatesChannel)
+	ratesPb := client.Subscribe(cfg.RateChannel)
+	authRatesPb := client.Subscribe(cfg.AuthRateChannel)
 	miscPb := client.Subscribe(cfg.MiscChannel)
-	return &Client{client, ratesPb, miscPb}
+	return &Client{client, ratesPb, authRatesPb, miscPb}
 }

@@ -58,6 +58,7 @@ type RefDetails struct {
 	StartDate  string `json:"startDate,omitempty"`
 	EndDate    string `json:"endDate,omitempty"`
 	AutoLocked string `json:"autoLocked,omitempty"`
+	Channel    string `json:"channel,omitempty"`
 }
 type Config struct {
 	ID         string `json:"id,omitempty"`
@@ -82,6 +83,6 @@ type RefRepository interface {
 }
 
 type RefSubscriberRepository interface {
-	Consume(channel string) <-chan *redis.Message
+	Consume() <-chan *redis.Message
 	GetAll() ([]RefResponse, error)
 }

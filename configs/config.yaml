@@ -33,12 +33,20 @@ client:
 redis:
   address: localhost:6381
   timeout: 30
-  ratesChannel: rates
-  miscChannel: misc
-  refPair: refs:pair
-  refCcy: refs:currency
-  refCfg: refs:configuration
-  refNews: refs:mobilenewsitem
+  offRatesChannel: OFF_RATE
+  onRatesChannel: ON_RATE
+  miscChannel: MISC
+  refsMap:
+    refs:pair: pair
+    refs:currency: currency
+    refs:configuration: configuration
+    refs:mobilenewsitem: mobilenewsitem
+
+historic:
+  mapKey:
+    604800000: tsHourlyRate:%s:%s
+    7884000000: tsDailyRate:%s:%s
+    157700000000: tsMonthlyRate:%s:%s
 
 log:
   level: DEBUG

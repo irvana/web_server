@@ -19,6 +19,7 @@ import (
 	orusecase "web_server/app/order/usecase"
 	ratehandler "web_server/app/rate/handler"
 	"web_server/app/rate/repository"
+	"web_server/app/rate/repository/historic"
 	rateusecase "web_server/app/rate/usecase"
 	refhandler "web_server/app/ref/handler"
 	refrepo "web_server/app/ref/repository/legacy"
@@ -42,11 +43,12 @@ import (
 var cfg Config
 
 type Config struct {
-	Redis      redis.Config          `mapstructure:"redis"`
-	Auth       authentication.Config `mapstructure:"authentication"`
-	WampCfg    wamp.Config           `mapstructure:"wamp"`
-	Server     configs.Config        `mapstructure:"server"`
-	HttpClient client.Config         `mapstructure:"client"`
+	Redis      redis.Config               `mapstructure:"redis"`
+	Auth       authentication.Config      `mapstructure:"authentication"`
+	WampCfg    wamp.Config                `mapstructure:"wamp"`
+	Server     configs.Config             `mapstructure:"server"`
+	HttpClient client.Config              `mapstructure:"client"`
+	Historic   rateusecase.HistoricConfig `mapstructure:"historic"`
 }
 
 func init() {
@@ -131,7 +133,7 @@ func initHandlers(router *gin.Engine, redisCli *redis.Client, redisTsCli rueidis
 	orhandler.NewOrderHandler(orUsecase, router)
 
 	refRepo := refrepo.NewRefRepository(httpClient.Client, httpClient.BaseURL)
-	refRedisRepo := redis_repo.NewRefRedisRepository(redisCli.Client, cfg.Redis)
+	refRedisRepo := redis_repo.NewRefRedisRepository(redisCli, cfg.Redis)
 	refUsecase, err := usecase.NewRefUsecase(refRepo, refRedisRepo)
 	if err != nil {
 		log.WithError(err).Panic("error initiating ref usecase config")
@@ -139,9 +141,9 @@ func initHandlers(router *gin.Engine, redisCli *redis.Client, redisTsCli rueidis
 	refhandler.NewRefHandler(refUsecase, router)
 
 	rateRepo := repository.NewRateRepository(redisCli.Client, wampWss.Client, redisTsCli)
-
-	rateUsecase := rateusecase.NewRateUsecase(rateRepo)
-	ratehandler.RunRateHandlers(rateUsecase)
+	histRepo := historic.NewRedistsRepository(redisTsCli)
+	rateUsecase := rateusecase.NewRateUsecase(rateRepo, histRepo, cfg.Historic)
+	ratehandler.RunRateHandlers(rateUsecase, router)
 }
 
 func runServer(router *gin.Engine) {

@@ -14,13 +14,13 @@ type RefSubscriberRepository struct {
 	mock.Mock
 }
 
-// Consume provides a mock function with given fields: channel
-func (_m *RefSubscriberRepository) Consume(channel string) <-chan *redis.Message {
-	ret := _m.Called(channel)
+// Consume provides a mock function with given fields:
+func (_m *RefSubscriberRepository) Consume() <-chan *redis.Message {
+	ret := _m.Called()
 
 	var r0 <-chan *redis.Message
-	if rf, ok := ret.Get(0).(func(string) <-chan *redis.Message); ok {
-		r0 = rf(channel)
+	if rf, ok := ret.Get(0).(func() <-chan *redis.Message); ok {
+		r0 = rf()
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(<-chan *redis.Message)

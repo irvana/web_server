@@ -20,6 +20,7 @@ type (
 var (
 	ref     refUsecase
 	onceCfg sync.Once
+	mtx     sync.RWMutex
 )
 
 func NewRefUsecase(refRepo domain.RefRepository, refCf domain.RefSubscriberRepository) (domain.RefUsecase, error) {
@@ -27,6 +28,7 @@ func NewRefUsecase(refRepo domain.RefRepository, refCf domain.RefSubscriberRepos
 		ref.ref = refRepo
 		ref.refCfg = refCf
 
+		log.Info("initiating REF configuration")
 		cfg, err := ref.refCfg.GetAll()
 		if err != nil {
 			log.WithError(err).Errorln("error initiating new config")
@@ -120,12 +122,21 @@ func (r *refUsecase) GetConfig(ctx context.Context, req *domain.RefRequest) (*do
 
 func (r *refUsecase) UpdateConfig() {
 	log.Info("setting up go routine for config")
-	for rr := range r.refCfg.Consume("channel") {
-		var n []domain.RefResponse
+	for rr := range r.refCfg.Consume() {
+		log.WithField("message", rr.Payload).Info("getting incoming ref")
+		var n domain.RefResponse
 		err := json.Unmarshal([]byte(rr.Payload), &n)
 		if err != nil {
 			log.WithError(err).WithField("payload", rr.Payload).Errorln("error updating new config with value ")
+			continue
 		}
-		r.config = n
+
+		for i, cfg := range r.config {
+			if cfg.Type == n.Type {
+				mtx.Lock()
+				r.config[i] = n
+				mtx.Unlock()
+			}
+		}
 	}
 }

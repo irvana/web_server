@@ -15,15 +15,15 @@ type RateUsecase struct {
 }
 
 // GetChart provides a mock function with given fields: ctx, req
-func (_m *RateUsecase) GetChart(ctx context.Context, req *domain.HistoricRateRequest) ([]domain.RateResponse, error) {
+func (_m *RateUsecase) GetChart(ctx context.Context, req *domain.HistoricRateRequest) (*domain.HistoricRateResponse, error) {
 	ret := _m.Called(ctx, req)
 
-	var r0 []domain.RateResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.HistoricRateRequest) []domain.RateResponse); ok {
+	var r0 *domain.HistoricRateResponse
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.HistoricRateRequest) *domain.HistoricRateResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]domain.RateResponse)
+			r0 = ret.Get(0).(*domain.HistoricRateResponse)
 		}
 	}
 

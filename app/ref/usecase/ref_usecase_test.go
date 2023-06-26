@@ -15,7 +15,9 @@ func Test_refUsecase_GetAll(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	stmRepo := new(mocks.RefRepository)
-	u := NewRefUsecase(stmRepo)
+	subRepo := new(mocks.RefSubscriberRepository)
+	u, err := NewRefUsecase(stmRepo, subRepo)
+	assert.NoError(t, err)
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := []domain.RefResponse{}
@@ -33,7 +35,9 @@ func Test_refUsecase_GetCurrency(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	stmRepo := new(mocks.RefRepository)
-	u := NewRefUsecase(stmRepo)
+	subRepo := new(mocks.RefSubscriberRepository)
+	u, err := NewRefUsecase(stmRepo, subRepo)
+	assert.NoError(t, err)
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := []domain.Currency{}
@@ -51,7 +55,9 @@ func Test_refUsecase_GetPair(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	stmRepo := new(mocks.RefRepository)
-	u := NewRefUsecase(stmRepo)
+	subRepo := new(mocks.RefSubscriberRepository)
+	u, err := NewRefUsecase(stmRepo, subRepo)
+	assert.NoError(t, err)
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := []domain.Pair{}
@@ -69,7 +75,9 @@ func Test_refUsecase_GetNews(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	stmRepo := new(mocks.RefRepository)
-	u := NewRefUsecase(stmRepo)
+	subRepo := new(mocks.RefSubscriberRepository)
+	u, err := NewRefUsecase(stmRepo, subRepo)
+	assert.NoError(t, err)
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := []domain.News{}
@@ -87,7 +95,9 @@ func Test_refUsecase_GetConfig(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	stmRepo := new(mocks.RefRepository)
-	u := NewRefUsecase(stmRepo)
+	subRepo := new(mocks.RefSubscriberRepository)
+	u, err := NewRefUsecase(stmRepo, subRepo)
+	assert.NoError(t, err)
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.Config{}

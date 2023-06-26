@@ -15,20 +15,20 @@ type HistoricRates struct {
 }
 
 // GetChart provides a mock function with given fields: ctx, req
-func (_m *HistoricRates) GetChart(ctx context.Context, req *domain.HistoricRateRequest) ([]domain.RateResponse, error) {
+func (_m *HistoricRates) GetChart(ctx context.Context, req *domain.HistoricParam) (*domain.HistoricRateResponse, error) {
 	ret := _m.Called(ctx, req)
 
-	var r0 []domain.RateResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.HistoricRateRequest) []domain.RateResponse); ok {
+	var r0 *domain.HistoricRateResponse
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.HistoricParam) *domain.HistoricRateResponse); ok {
 		r0 = rf(ctx, req)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]domain.RateResponse)
+			r0 = ret.Get(0).(*domain.HistoricRateResponse)
 		}
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *domain.HistoricRateRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.HistoricParam) error); ok {
 		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)

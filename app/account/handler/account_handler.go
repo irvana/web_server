@@ -21,13 +21,14 @@ func NewAccountHandler(ac domain.AccountUsecase, g *gin.Engine) {
 func (ah *AccountHandler) GetList(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.AbortWithStatus(http.StatusBadRequest)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	res, err := ah.ac.GetList(ctx, &req)
 	if err != nil {
-		ctx.AbortWithStatus(http.StatusInternalServerError)
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 	ctx.JSON(http.StatusOK, res)
 }
@@ -35,13 +36,14 @@ func (ah *AccountHandler) GetList(ctx *gin.Context) {
 func (ah *AccountHandler) Open(ctx *gin.Context) {
 	var req domain.BaseRequest
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.AbortWithStatus(http.StatusBadRequest)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	res, err := ah.ac.Open(ctx, &req)
 	if err != nil {
-		ctx.AbortWithStatus(http.StatusInternalServerError)
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 	ctx.JSON(http.StatusOK, res)
 
