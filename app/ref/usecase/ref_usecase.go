@@ -120,7 +120,7 @@ func (r *refUsecase) GetConfig(ctx context.Context, req *domain.RefRequest) ([]d
 			return result, nil
 		}
 	}
-	log.Debug("news config not found")
+	log.Debug("config not found")
 	return nil, nil
 }
 
