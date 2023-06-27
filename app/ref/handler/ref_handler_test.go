@@ -138,7 +138,7 @@ func TestRefHandler_GetPair(t *testing.T) {
 }
 
 func TestRefHandler_GetConfig(t *testing.T) {
-	var resp domain.Config
+	var resp []domain.Config
 	faker.FakeData(&resp)
 	var bodyObj domain.RefRequest
 	faker.FakeData(&bodyObj)
@@ -147,7 +147,7 @@ func TestRefHandler_GetConfig(t *testing.T) {
 	assert.NoError(t, err)
 
 	refUc := new(mocks.RefUsecase)
-	refUc.On("GetConfig", mock.Anything, &bodyObj).Return(&resp, nil)
+	refUc.On("GetConfig", mock.Anything, &bodyObj).Return(resp, nil)
 
 	req, err := http.NewRequestWithContext(context.TODO(), http.MethodPost, REF_CFG, bytes.NewBuffer(body))
 	assert.NoError(t, err)

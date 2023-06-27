@@ -21,7 +21,7 @@ func Test_refUsecase_GetAll(t *testing.T) {
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := []domain.RefResponse{}
-	stmRepo.On("GetAll", context.Background(), req).Return(expectedResult, nil)
+	subRepo.On("GetAll", context.Background(), req).Return(expectedResult, nil)
 
 	// Call function and assert result matches expected value
 	result, err := u.GetAll(context.Background(), req)

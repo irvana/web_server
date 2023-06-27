@@ -20,7 +20,7 @@ import (
 func TestOrderHandler_GetStatus(t *testing.T) {
 	var resp []domain.OrderResponse
 	faker.FakeData(&resp)
-	var bodyObj domain.BaseRequest
+	var bodyObj domain.OrderRequest
 	faker.FakeData(&bodyObj)
 
 	body, err := json.Marshal(bodyObj)
@@ -29,7 +29,7 @@ func TestOrderHandler_GetStatus(t *testing.T) {
 	orderUc := new(mocks.OrderUsecase)
 	orderUc.On("GetStatus", mock.Anything, &bodyObj).Return(resp, nil)
 
-	req, err := http.NewRequestWithContext(context.TODO(), http.MethodPost, ORDER_STATUS, bytes.NewBuffer(body))
+	req, err := http.NewRequestWithContext(context.Background(), http.MethodPost, ORDER_STATUS, bytes.NewBuffer(body))
 	assert.NoError(t, err)
 
 	e := gin.Default()
@@ -50,7 +50,7 @@ func TestOrderHandler_GetStatus(t *testing.T) {
 func TestOrderHandler_Cancel(t *testing.T) {
 	var resp domain.OrderResponse
 	faker.FakeData(&resp)
-	var bodyObj domain.BaseRequest
+	var bodyObj domain.OrderRequest
 	faker.FakeData(&bodyObj)
 
 	body, err := json.Marshal(bodyObj)
@@ -80,7 +80,7 @@ func TestOrderHandler_Cancel(t *testing.T) {
 func TestOrderHandler_Amend(t *testing.T) {
 	var resp domain.OrderResponse
 	faker.FakeData(&resp)
-	var bodyObj domain.BaseRequest
+	var bodyObj domain.OrderRequest
 	faker.FakeData(&bodyObj)
 
 	body, err := json.Marshal(bodyObj)
@@ -110,7 +110,7 @@ func TestOrderHandler_Amend(t *testing.T) {
 func TestOrderHandler_GetDetail(t *testing.T) {
 	var resp domain.OrderResponse
 	faker.FakeData(&resp)
-	var bodyObj domain.BaseRequest
+	var bodyObj domain.OrderRequest
 	faker.FakeData(&bodyObj)
 
 	body, err := json.Marshal(bodyObj)
@@ -140,7 +140,7 @@ func TestOrderHandler_GetDetail(t *testing.T) {
 func TestOrderHandler_Create(t *testing.T) {
 	var resp domain.OrderResponse
 	faker.FakeData(&resp)
-	var bodyObj domain.BaseRequest
+	var bodyObj domain.OrderRequest
 	faker.FakeData(&bodyObj)
 
 	body, err := json.Marshal(bodyObj)
