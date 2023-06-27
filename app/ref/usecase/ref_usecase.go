@@ -109,7 +109,7 @@ func (r *refUsecase) GetNews(ctx context.Context, req *domain.RefRequest) ([]dom
 
 func (r *refUsecase) GetConfig(ctx context.Context, req *domain.RefRequest) ([]domain.Config, error) {
 	for _, v := range r.config {
-		if v.Type == "config" {
+		if v.Type == "configuration" {
 			var result []domain.Config
 			for _, resp := range v.Results {
 				result = append(result, domain.Config{
