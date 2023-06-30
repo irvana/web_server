@@ -78,8 +78,6 @@ func main() {
 		log.WithError(err).Panic("error initiating authentication module")
 	}
 
-	// TODO: data ref from redis usecase
-
 	// init auth module
 	// TODO move auth to usecase
 	log.Info("initializing authentication module data")
