@@ -53,17 +53,19 @@ func InitWamp(cfg Config, authentication *auth.Authentication, redisCli *redis.C
 
 func initModules(authentication *auth.Authentication, redisCli *redis.Client, withAuth bool, realm string) (*router.WebsocketServer, *client.Client, error) {
 	var authenticators []wampauth.Authenticator
+	anonymousAuth := true
 	if withAuth {
 		keystore := NewKeyStore(redisCli.Client)
 		authenticator := InitAuthenticator(keystore, 1*time.Second, authentication)
 		authenticators = append(authenticators, authenticator)
+		anonymousAuth = false
 	}
 
 	nxr, err := router.NewRouter(&router.Config{
 		RealmConfigs: []*router.RealmConfig{
 			{
 				URI:            wamp.URI(realm),
-				AnonymousAuth:  true,
+				AnonymousAuth:  anonymousAuth,
 				EnableMetaKill: true,
 				Authenticators: authenticators,
 			},
