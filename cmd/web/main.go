@@ -138,7 +138,7 @@ func initHandlers(router *gin.Engine, redisCli *redis.Client, redisTsCli rueidis
 	}
 	refhandler.NewRefHandler(refUsecase, router)
 
-	rateRepo := repository.NewRateRepository(redisCli.Client, wampWss.Client, redisTsCli)
+	rateRepo := repository.NewRateRepository(redisCli, wampWss)
 	histRepo := historic.NewRedistsRepository(redisTsCli)
 	rateUsecase := rateusecase.NewRateUsecase(rateRepo, histRepo, cfg.Historic)
 	ratehandler.RunRateHandlers(rateUsecase, router)

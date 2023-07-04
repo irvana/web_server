@@ -30,33 +30,14 @@ func NewRateUsecase(rateRepo domain.RateRepository, histRepo domain.HistoricRate
 
 // PublishRate implements domain.RateUsecase
 func (r *rateUsecase) ProcessBackgroundRate(ctx context.Context) {
-	log.WithField("foo", ctx.Value("foo")).Info("running rate publisher")
-	for {
-		resp, err := r.rateRepo.ConsumeRate(ctx)
-		if err != nil {
-			log.WithError(err).Errorln("error consuming rate")
-		}
+	log.WithField("channel", ctx.Value("channel")).Info("running rate publisher")
+	resp := make(chan domain.RateResponse)
+	go r.rateRepo.ConsumeRate(ctx, resp)
 
-		err = r.rateRepo.PublishRate(ctx, resp)
+	for msg := range resp {
+		err := r.rateRepo.PublishRate(ctx, msg)
 		if err != nil {
 			log.WithError(err).Errorln("error publishing rate")
-		}
-	}
-
-}
-
-// PublishReference implements domain.RateUsecase
-func (r *rateUsecase) ProcessBackgroundRef(ctx context.Context) {
-	log.WithField("foo", ctx.Value("foo")).Info("running ref publisher")
-	for {
-		resp, err := r.rateRepo.ConsumeRate(ctx)
-		if err != nil {
-			log.WithError(err).Errorln("error consuming ref")
-		}
-
-		err = r.rateRepo.PublishRate(ctx, resp)
-		if err != nil {
-			log.WithError(err).Errorln("error publishing ref")
 		}
 	}
 }

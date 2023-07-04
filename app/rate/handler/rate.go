@@ -16,8 +16,8 @@ type rateHandler struct {
 func RunRateHandlers(rateUc domain.RateUsecase, g *gin.Engine) {
 	rateHandler := &rateHandler{rateUc}
 
-	go rateUc.ProcessBackgroundRate(context.WithValue(context.Background(), "rate", "ref"))
-	go rateUc.ProcessBackgroundRef(context.WithValue(context.Background(), "ref", "ref"))
+	go rateUc.ProcessBackgroundRate(context.WithValue(context.Background(), "channel", "OFF_RATE"))
+	go rateUc.ProcessBackgroundRate(context.WithValue(context.Background(), "channel", "ON_RATE"))
 
 	g.POST("/chart", rateHandler.GetChart)
 }

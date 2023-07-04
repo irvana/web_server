@@ -42,11 +42,6 @@ func (_m *RateUsecase) ProcessBackgroundRate(ctx context.Context) {
 	_m.Called(ctx)
 }
 
-// ProcessBackgroundRef provides a mock function with given fields: ctx
-func (_m *RateUsecase) ProcessBackgroundRef(ctx context.Context) {
-	_m.Called(ctx)
-}
-
 type mockConstructorTestingTNewRateUsecase interface {
 	mock.TestingT
 	Cleanup(func())

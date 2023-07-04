@@ -1,9 +1,20 @@
 package domain
 
-import "context"
+import (
+	"context"
+)
 
 type (
-	RateResponse struct{}
+	RateResponse struct {
+		Stamp   string   `json:"stamp"`
+		Results []Result `json:"results"`
+	}
+
+	Result struct {
+		PairID int64  `json:"pairId"`
+		Bid    string `json:"bid"`
+		Ask    string `json:"ask"`
+	}
 
 	HistoricRateResponse struct {
 		PairID string     `json:"pairId"`
@@ -30,12 +41,11 @@ type (
 
 type RateUsecase interface {
 	ProcessBackgroundRate(ctx context.Context)
-	ProcessBackgroundRef(ctx context.Context)
 	GetChart(ctx context.Context, req *HistoricRateRequest) (*HistoricRateResponse, error)
 }
 
 type RateRepository interface {
-	ConsumeRate(ctx context.Context) (RateResponse, error)
+	ConsumeRate(ctx context.Context, chn chan<- RateResponse)
 	PublishRate(ctx context.Context, rate RateResponse) error
 }
 
