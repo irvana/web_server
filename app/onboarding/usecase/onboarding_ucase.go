@@ -3,14 +3,16 @@ package usecase
 import (
 	"context"
 	"web_server/domain"
+	"web_server/pkg/authentication"
 )
 
 type onboardingUsecase struct {
 	obRepo domain.OnboardingRepository
+	auth   *authentication.Authentication
 }
 
-func NewOnboardingUsecase(obRepo domain.OnboardingRepository) domain.OnboardingUsecase {
-	return &onboardingUsecase{obRepo}
+func NewOnboardingUsecase(obRepo domain.OnboardingRepository, auth *authentication.Authentication) domain.OnboardingUsecase {
+	return &onboardingUsecase{obRepo, auth}
 }
 
 // AtmGetInfo implements domain.OnboardingUsecase
@@ -50,8 +52,17 @@ func (o *onboardingUsecase) FreshVerifyPhone(ctx context.Context, req *domain.Ba
 
 // LoginVerifyPassword implements domain.OnboardingUsecase
 func (o *onboardingUsecase) LoginVerifyPassword(ctx context.Context, req *domain.BaseRequest) (*domain.VerifyPassword, error) {
-	// TODO reassign websocket client (change topic or role for connected client)
-	return o.obRepo.LoginVerifyPassword(ctx, req)
+	verifyingResult, err := o.obRepo.LoginVerifyPassword(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	token, err := o.auth.GenerateNewTokens(verifyingResult.UUID)
+	if err != nil {
+		return nil, err
+	}
+
+	verifyingResult.Token = token.AuthToken
+	return verifyingResult, nil
 }
 
 // NoAtmEmail implements domain.OnboardingUsecase

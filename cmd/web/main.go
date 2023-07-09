@@ -110,14 +110,14 @@ func main() {
 		wampWss.AuthWss.ServeHTTP(ctx.Writer, ctx.Request)
 	})
 
-	initHandlers(router, redisCli, redisTsCli, *wampWss)
+	initHandlers(router, redisCli, redisTsCli, *wampWss, auth)
 	runServer(router)
 }
 
-func initHandlers(router *gin.Engine, redisCli *redis.Client, redisTsCli rueidis.Client, wampWss wamp.Wamp) {
+func initHandlers(router *gin.Engine, redisCli *redis.Client, redisTsCli rueidis.Client, wampWss wamp.Wamp, auth *authentication.Authentication) {
 	httpClient := client.InitHttpClient(cfg.HttpClient)
 	obRepository := obRepo.NewOnboardingRepository(httpClient.Client, httpClient.BaseURL)
-	obUsecase := obusecase.NewOnboardingUsecase(obRepository)
+	obUsecase := obusecase.NewOnboardingUsecase(obRepository, auth)
 	obhandler.NewOnboardingHandler(obUsecase, router)
 
 	accRepository := accRepo.NewOnboardingRepository(httpClient.Client, httpClient.BaseURL)

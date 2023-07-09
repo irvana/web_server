@@ -2,11 +2,9 @@ package authentication
 
 import (
 	"crypto/rand"
-	"crypto/rsa"
 	"encoding/base64"
 	"errors"
 	"fmt"
-	"os"
 	"time"
 
 	"github.com/go-redis/redis"
@@ -23,10 +21,9 @@ type (
 	}
 
 	Authentication struct {
-		SignKey   *rsa.PrivateKey
-		VerifyKey *rsa.PublicKey
-		cfg       Config
-		redisCli  *redis.Client
+		cfg      Config
+		redisCli *redis.Client
+		Secret   []byte
 	}
 
 	Config struct {
@@ -53,27 +50,7 @@ type (
 var Jwt *Authentication
 
 func InitAuthModule(cfg Config, redisCli *redis.Client) (*Authentication, error) {
-	priv, err := os.ReadFile(cfg.PrivKeyPath)
-	if err != nil {
-		return nil, err
-	}
-
-	SignKey, err := jwt.ParseRSAPrivateKeyFromPEM(priv)
-	if err != nil {
-		return nil, err
-	}
-
-	pub, err := os.ReadFile(cfg.PubKeyPath)
-	if err != nil {
-		return nil, err
-	}
-
-	VerifyKey, err := jwt.ParseRSAPublicKeyFromPEM(pub)
-	if err != nil {
-		return nil, err
-	}
-
-	Jwt = &Authentication{SignKey: SignKey, VerifyKey: VerifyKey, cfg: cfg, redisCli: redisCli}
+	Jwt = &Authentication{cfg: cfg, redisCli: redisCli, Secret: []byte(cfg.Secret)}
 	return Jwt, nil
 }
 
@@ -113,7 +90,7 @@ func (j *Authentication) CheckAndRefreshTokens(oldAuthTokenString string, oldRef
 	}
 	// now, check that it matches what's in the auth token claims
 	authToken, err := jwt.ParseWithClaims(oldAuthTokenString, &JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return j.VerifyKey, nil
+		return j.Secret, nil
 	})
 	authTokenClaims, ok := authToken.Claims.(*JWTClaims)
 	if !ok {
@@ -163,7 +140,7 @@ func (j *Authentication) CheckAndRefreshTokens(oldAuthTokenString string, oldRef
 // RevokeRefreshToken revoking refresh token
 func (j *Authentication) RevokeRefreshToken(refreshTokenString string) error {
 	refreshToken, err := jwt.ParseWithClaims(refreshTokenString, &JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return j.VerifyKey, nil
+		return j.Secret, nil
 	})
 	if err != nil {
 		return fmt.Errorf("%w Could not parse refresh token with claims", err)
@@ -191,7 +168,7 @@ func (j *Authentication) CheckSimpleAuthToken(oldAuthTokenString string, oldCsrf
 	}
 	// now, check that it matches what's in the auth token claims
 	authToken, err := jwt.ParseWithClaims(oldAuthTokenString, &JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return j.VerifyKey, nil
+		return j.Secret, nil
 	})
 	authTokenClaims, ok := authToken.Claims.(*JWTClaims)
 	if !ok {
@@ -230,8 +207,8 @@ func (j *Authentication) generateAuthToken(uuid, csrfSecret string) (authTokenSt
 			Issuer:    j.cfg.FxIssuer,
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(j.cfg.AuthExp)),
 		}}
-	token := jwt.NewWithClaims(jwt.GetSigningMethod("RS256"), claims)
-	authTokenStr, err = token.SignedString(j.SignKey)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	authTokenStr, err = token.SignedString(j.Secret)
 
 	ttl := j.cfg.AuthExp
 	if j.cfg.IsPersistent {
@@ -260,8 +237,8 @@ func (j *Authentication) generateRefreshToken(uuid, csrfSecret string) (refreshT
 			Subject:   uuid,
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(j.cfg.RefreshExp)),
 		}}
-	token := jwt.NewWithClaims(jwt.GetSigningMethod("RS256"), claims)
-	refreshTokenStr, err = token.SignedString(j.SignKey)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	refreshTokenStr, err = token.SignedString(j.Secret)
 	return
 }
 
@@ -279,7 +256,7 @@ func (j *Authentication) generateRandomString() (csrfStr string, err error) {
 
 func (j *Authentication) updateAuthTokenString(refreshTokenString string, oldAuthTokenString string) (newAuthTokenString, csrfSecret string, err error) {
 	refreshToken, err := jwt.ParseWithClaims(refreshTokenString, &JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return j.VerifyKey, nil
+		return j.Secret, nil
 	})
 	refreshTokenClaims, ok := refreshToken.Claims.(*JWTClaims)
 	if !ok {
@@ -297,7 +274,7 @@ func (j *Authentication) updateAuthTokenString(refreshTokenString string, oldAut
 			// nope, the refresh token has not expired
 			// issue a new auth token
 			authToken, _ := jwt.ParseWithClaims(oldAuthTokenString, &JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
-				return j.VerifyKey, nil
+				return j.Secret, nil
 			})
 
 			oldAuthTokenClaims, ok := authToken.Claims.(*JWTClaims)
@@ -331,7 +308,7 @@ func (j *Authentication) updateAuthTokenString(refreshTokenString string, oldAut
 
 func (j *Authentication) updateRefreshTokenExp(oldRefreshTokenString string) (newRefreshTokenString string, err error) {
 	refreshToken, err := jwt.ParseWithClaims(oldRefreshTokenString, &JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return j.VerifyKey, nil
+		return j.Secret, nil
 	})
 
 	oldRefreshTokenClaims, ok := refreshToken.Claims.(*JWTClaims)
@@ -350,16 +327,16 @@ func (j *Authentication) updateRefreshTokenExp(oldRefreshTokenString string) (ne
 	}
 
 	// create a signer for rsa 256
-	refreshJwt := jwt.NewWithClaims(jwt.GetSigningMethod("RS256"), refreshClaims)
+	refreshJwt := jwt.NewWithClaims(jwt.SigningMethodHS256, refreshClaims)
 
 	// generate the refresh token string
-	newRefreshTokenString, err = refreshJwt.SignedString(j.SignKey)
+	newRefreshTokenString, err = refreshJwt.SignedString(j.Secret)
 	return
 }
 
 func (j *Authentication) updateRefreshTokenCsrf(oldRefreshTokenString string, newCsrfString string) (newRefreshTokenString string, err error) {
 	refreshToken, err := jwt.ParseWithClaims(oldRefreshTokenString, &JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return j.VerifyKey, nil
+		return j.Secret, nil
 	})
 
 	oldRefreshTokenClaims, ok := refreshToken.Claims.(*JWTClaims)
@@ -378,9 +355,9 @@ func (j *Authentication) updateRefreshTokenCsrf(oldRefreshTokenString string, ne
 	}
 
 	// create a signer for rsa 256
-	refreshJwt := jwt.NewWithClaims(jwt.GetSigningMethod("RS256"), refreshClaims)
+	refreshJwt := jwt.NewWithClaims(jwt.SigningMethodHS256, refreshClaims)
 
 	// generate the refresh token string
-	newRefreshTokenString, err = refreshJwt.SignedString(j.SignKey)
+	newRefreshTokenString, err = refreshJwt.SignedString(j.Secret)
 	return
 }

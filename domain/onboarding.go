@@ -27,6 +27,7 @@ type BaseResponse struct {
 	UUID        string `json:"uuid,omitempty"`
 	Mail        string `json:"mail,omitempty"`
 	IsUserExist string `json:"isUserExist,omitempty"`
+	Token       string `json:"token,omitempty"`
 }
 
 type BaseRequest struct {

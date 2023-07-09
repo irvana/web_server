@@ -6,7 +6,10 @@ import (
 
 	"web_server/domain"
 	"web_server/domain/mocks"
+	"web_server/pkg/authentication"
 
+	"github.com/alicebob/miniredis"
+	goredis "github.com/go-redis/redis"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -16,7 +19,7 @@ func TestOnboardingUsecase_AtmsGetInfo(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OnboardingRepository)
-	u := NewOnboardingUsecase(obRepo)
+	u := NewOnboardingUsecase(obRepo, &authentication.Authentication{})
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.BaseResponse{}
@@ -35,7 +38,7 @@ func TestOnboardingUsecase_AtmOTP(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OnboardingRepository)
-	u := NewOnboardingUsecase(obRepo)
+	u := NewOnboardingUsecase(obRepo, &authentication.Authentication{})
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.BaseResponse{}
@@ -54,7 +57,7 @@ func TestOnboardingUsecase_AtmPIN(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OnboardingRepository)
-	u := NewOnboardingUsecase(obRepo)
+	u := NewOnboardingUsecase(obRepo, &authentication.Authentication{})
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.BaseResponse{}
@@ -73,7 +76,7 @@ func TestOnboardingUsecase_AtmRegister(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OnboardingRepository)
-	u := NewOnboardingUsecase(obRepo)
+	u := NewOnboardingUsecase(obRepo, &authentication.Authentication{})
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.BaseResponse{}
@@ -92,7 +95,7 @@ func TestOnboardingUsecase_FreshOTP(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OnboardingRepository)
-	u := NewOnboardingUsecase(obRepo)
+	u := NewOnboardingUsecase(obRepo, &authentication.Authentication{})
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.BaseResponse{}
@@ -111,7 +114,7 @@ func TestOnboardingUsecase_FreshPassword(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OnboardingRepository)
-	u := NewOnboardingUsecase(obRepo)
+	u := NewOnboardingUsecase(obRepo, &authentication.Authentication{})
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.BaseResponse{}
@@ -130,7 +133,7 @@ func TestOnboardingUsecase_FreshVerifyPhone(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OnboardingRepository)
-	u := NewOnboardingUsecase(obRepo)
+	u := NewOnboardingUsecase(obRepo, &authentication.Authentication{})
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.BaseResponse{}
@@ -149,7 +152,21 @@ func TestOnboardingUsecase_LoginVerifyPassword(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OnboardingRepository)
-	u := NewOnboardingUsecase(obRepo)
+	mr, err := miniredis.Run()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	defer mr.Close()
+	cli := goredis.NewClient(&goredis.Options{
+		Addr: mr.Addr(),
+	})
+
+	auth, err := authentication.InitAuthModule(authentication.Config{Secret: "secret"}, cli)
+	if err != nil {
+		t.Error(err)
+	}
+	u := NewOnboardingUsecase(obRepo, auth)
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.VerifyPassword{}
@@ -168,7 +185,7 @@ func TestOnboardingUsecase_NoAtmEmail(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OnboardingRepository)
-	u := NewOnboardingUsecase(obRepo)
+	u := NewOnboardingUsecase(obRepo, &authentication.Authentication{})
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.BaseResponse{}
@@ -187,7 +204,7 @@ func TestOnboardingUsecase_NoAtmOTP(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OnboardingRepository)
-	u := NewOnboardingUsecase(obRepo)
+	u := NewOnboardingUsecase(obRepo, &authentication.Authentication{})
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.BaseResponse{}
@@ -206,7 +223,7 @@ func TestOnboardingUsecase_NoAtmRegister(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OnboardingRepository)
-	u := NewOnboardingUsecase(obRepo)
+	u := NewOnboardingUsecase(obRepo, &authentication.Authentication{})
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.BaseResponse{}
@@ -224,7 +241,7 @@ func TestOnboardingUsecase_NoAtmVerifyUser(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OnboardingRepository)
-	u := NewOnboardingUsecase(obRepo)
+	u := NewOnboardingUsecase(obRepo, &authentication.Authentication{})
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.BaseResponse{}
@@ -242,7 +259,7 @@ func TestOnboardingUsecase_ResetOTP(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OnboardingRepository)
-	u := NewOnboardingUsecase(obRepo)
+	u := NewOnboardingUsecase(obRepo, &authentication.Authentication{})
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.BaseResponse{}
@@ -260,7 +277,7 @@ func TestOnboardingUsecase_ResetPassword(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OnboardingRepository)
-	u := NewOnboardingUsecase(obRepo)
+	u := NewOnboardingUsecase(obRepo, &authentication.Authentication{})
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.BaseResponse{}
@@ -278,7 +295,7 @@ func TestOnboardingUsecase_ResetVerifyPhone(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OnboardingRepository)
-	u := NewOnboardingUsecase(obRepo)
+	u := NewOnboardingUsecase(obRepo, &authentication.Authentication{})
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.BaseResponse{}
@@ -296,7 +313,7 @@ func TestOnboardingUsecase_SimobiOTP(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OnboardingRepository)
-	u := NewOnboardingUsecase(obRepo)
+	u := NewOnboardingUsecase(obRepo, &authentication.Authentication{})
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.BaseResponse{}
@@ -314,7 +331,7 @@ func TestOnboardingUsecase_SimobiRegister(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OnboardingRepository)
-	u := NewOnboardingUsecase(obRepo)
+	u := NewOnboardingUsecase(obRepo, &authentication.Authentication{})
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.BaseResponse{}
@@ -332,7 +349,7 @@ func TestOnboardingUsecase_SimobiVerifyPhone(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OnboardingRepository)
-	u := NewOnboardingUsecase(obRepo)
+	u := NewOnboardingUsecase(obRepo, &authentication.Authentication{})
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.BaseResponse{}
@@ -350,7 +367,7 @@ func TestOnboardingUsecase_SimobiVerifyUser(t *testing.T) {
 
 	// Create onboarding usecase with mocked repository
 	obRepo := new(mocks.OnboardingRepository)
-	u := NewOnboardingUsecase(obRepo)
+	u := NewOnboardingUsecase(obRepo, &authentication.Authentication{})
 
 	// Mock ATM Get Info method to return expected result
 	expectedResult := &domain.BaseResponse{}

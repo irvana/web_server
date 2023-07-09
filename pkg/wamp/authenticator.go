@@ -110,7 +110,7 @@ func (t *JWTAuthenticator) AuthMethod() string {
 
 func (t *JWTAuthenticator) verifyTicket(tokenStr string) error {
 	authToken, err := jwt.ParseWithClaims(tokenStr, &authentication.JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return t.auth.VerifyKey, nil
+		return t.auth.Secret, nil
 	})
 
 	if authToken != nil && authToken.Valid {
