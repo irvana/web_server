@@ -109,6 +109,7 @@ func (t *JWTAuthenticator) AuthMethod() string {
 }
 
 func (t *JWTAuthenticator) verifyTicket(tokenStr string) error {
+	log.WithField("token", tokenStr).Debug("verifying token")
 	authToken, err := jwt.ParseWithClaims(tokenStr, &authentication.JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return t.auth.Secret, nil
 	})
@@ -116,15 +117,14 @@ func (t *JWTAuthenticator) verifyTicket(tokenStr string) error {
 	if authToken != nil && authToken.Valid {
 		return nil
 	} else if ve, ok := err.(*jwt.ValidationError); ok {
-		log.Error("Auth token is not valid")
 		if ve.Errors&(jwt.ValidationErrorExpired) != 0 {
 			log.Error("Auth token is expired")
-			return errors.New("Token expired")
+			return errors.New("token expired")
 		}
 		log.WithError(err)
-		return errors.New("Error in auth token")
+		return errors.New("error in auth token")
 	}
 
 	log.WithError(err)
-	return errors.New("Error in auth token")
+	return errors.New("error in auth token")
 }

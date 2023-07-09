@@ -3,7 +3,9 @@ package wamp
 import (
 	"fmt"
 
+	"github.com/gammazero/nexus/v3/router/auth"
 	"github.com/go-redis/redis"
+	"github.com/sirupsen/logrus"
 )
 
 type sKeyStore struct {
@@ -11,11 +13,12 @@ type sKeyStore struct {
 	redisStorage *redis.Client
 }
 
-func NewKeyStore(storage *redis.Client) *sKeyStore {
-	return &sKeyStore{redisStorage: storage, ticket: "ticket"}
+func NewKeyStore(storage *redis.Client) auth.KeyStore {
+	return &sKeyStore{redisStorage: storage, ticket: "jwt_ticket"}
 }
 
 func (s *sKeyStore) AuthKey(authid string, authmethod string) ([]byte, error) {
+	logrus.WithField("authid", authid).WithField("authmethod ", authmethod).Info("authkey")
 	switch authmethod {
 	case "ticket":
 		val, err := s.redisStorage.Get(fmt.Sprintf("REFRESH-%s", authid)).Result()
